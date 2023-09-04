@@ -1,0 +1,86 @@
+AdminController
+...................
+* getAdminDetails
+* getAdminAttendance_Yes_Or_No
+* getDailyRegister
+* getClassRoomDetails
+* getUserDetails
+* searchUser
+* getGradeDetails
+* getRoleDetails
+* assignOrChangeRole
+* getSectionDetails
+* getSecurityDetails
+* getStudentDetails
+* searchStudent
+* getSubjectDetails
+* getTeacherAttendance
+* getTeacherAbsent
+* getStudentAbsentDetails
+
+AttendenceController
+......................
+* getTeacherAttendenceDetails
+* getStudentAttendenceDetails
+* getStrengthOfAClass
+
+
+ClassRoomController
+....................
+* getClassTeacherDetails
+* getClassAbsentees
+* getStudentDetails
+* getClassMarkDetails
+
+DailyRegisterController
+..........................
+* getAbsentees
+* getLateComerDetails
+* getSubstituteTeacherDetails
+
+DetailController
+..................
+* getTeacherDetails
+* getStudentDetails
+* getAdminDetails
+
+GradeController
+................
+* getGradeClasses
+* getGradeDailyRegisterDetails
+* getGradePassPercentage
+
+RoleController
+...............
+* getUserRole
+
+SectionController
+....................
+* getNumberOfSections
+* getSectionGradeDetails
+
+SecurityFacilityController
+............................
+* getSecurityDetalis1
+* getSecurityDetails2
+* getSecurityDetails3
+
+StudentController
+..................
+* getStudentDetails
+* getStudentRollNumber
+* getStudentMarks
+* getStudentPercentage
+* getStudentAbsentDetails
+
+SubjectController
+...................
+* getSubjectDetails
+* getSubjectGradeTeacherDetails
+* getSubjectNotAssinedDetails
+
+TeacherController
+......................
+* getTeacherDetails
+* getTeacherDailyRegister
+* getTeacherClassesDetails
