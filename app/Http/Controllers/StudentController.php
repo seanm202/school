@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\detail;
 use App\Models\role;
 use App\Models\student;
+use App\Models\batch;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -16,15 +18,19 @@ class StudentController extends Controller
      */
     public function index()
     {
-
     }
 
     public function assignClassRoomForStudent(Request $request)
     {
       //Store or add admin
+                     $validated = $request->validate([
+                       'studentClassroom' => ['required'],
+                   [
+                   'studentClassroom.required'=> 'A classroom must be selected for the student.',
+                   ]
+                   ]);
       $student = students::where('studentId','=',$studentId);
 
-     $details->userId = $request->userId;
      $details->userId = $request->userId;
      $details->studentDetailsId = $request->studentDetailsId;
      $details->studentClassroom = $request->studentClassroom;
@@ -56,7 +62,41 @@ class StudentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {  $validated = $request->validate([
+
+        'firstName' => ['required', 'confirmed'],
+        'lastName' => ['required', 'confirmed'],
+        'age' => ['required', 'numeric', 'confirmed'],
+        'dob' => ['required', 'date', 'confirmed'],
+        'contactNumber' => ['required', 'numeric', 'confirmed'],
+        'alternateContactNumber' => ['required','numeric', 'confirmed'],
+        'address' => ['required',  'confirmed'],
+        'bloodGroup' => ['required',  'confirmed'],
+        'identificationMark' => ['required', Password::defaults(), 'confirmed'],
+        'parentNumber' => ['required', 'numeric', 'confirmed'],
+        'homePhoneNumber' => ['required', 'numeric', 'confirmed'],
+        'fatherSpouseName' => ['required', 'confirmed'],
+        'motherName' => ['required',  'confirmed'],
+        'guardianName' => ['required', 'confirmed'],
+   [
+    'firstName.required'=> 'Your First Name is Required',
+    'lastName.required'=> 'Your Last Name is Required',
+    'age.numeric'=> 'Age should be numeric',
+    'dob.required'=> 'Your date of birth is Required',
+    'contactNumber.required'=> 'Your Contact Number is Required',
+    'contactNumber.numeric'=> 'Contact Number Should be numeric',
+    'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+    'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+    'address.required'=> 'Address is required',
+    'bloodGroup.required'=> 'Your blood group is Required',
+    'identificationMark.required'=> 'Please provide an identification mark',
+    'parentNumber.required'=> 'Parent\'s contact number is required',
+    'homePhoneNumber.required'=> 'Home phone number is required',
+    'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+    'motherName.required'=> 'Your Mother\'s name is Required',
+    'guardianName.required'=> 'Your Guardian\'s name is Required',
+   ]
+    ]);
       //Store or add admin
       $details = new detail;
 
@@ -76,6 +116,7 @@ class StudentController extends Controller
      $details->fatherSpouseName = $request->fatherSpouseName;
      $details->motherName = $request->motherName;
      $details->guardianName = $request->guardianName;
+     $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
      $details->save();
 
             return 1;
@@ -117,7 +158,42 @@ class StudentController extends Controller
      */
     public function update(Request $request, student $student)
     {
-      //Update admin details
+      //Update admin details  $validated = $request->validate([
+      $validated = $request->validate([
+
+         'firstName' => ['required', 'confirmed'],
+         'lastName' => ['required', 'confirmed'],
+         'age' => ['required', 'numeric', 'confirmed'],
+         'dob' => ['required', 'date', 'confirmed'],
+         'contactNumber' => ['required', 'numeric', 'confirmed'],
+         'alternateContactNumber' => ['required','numeric', 'confirmed'],
+         'address' => ['required',  'confirmed'],
+         'bloodGroup' => ['required',  'confirmed'],
+         'identificationMark' => ['required', 'confirmed'],
+         'parentNumber' => ['required', 'numeric', 'confirmed'],
+         'homePhoneNumber' => ['required', 'numeric', 'confirmed'],
+         'fatherSpouseName' => ['required', 'confirmed'],
+         'motherName' => ['required',  'confirmed'],
+         'guardianName' => ['required', 'confirmed'],
+     [
+     'firstName.required'=> 'Your First Name is Required',
+     'lastName.required'=> 'Your Last Name is Required',
+     'age.numeric'=> 'Age should be numeric',
+     'dob.required'=> 'Your date of birth is Required',
+     'contactNumber.required'=> 'Your Contact Number is Required',
+     'contactNumber.numeric'=> 'Contact Number Should be numeric',
+     'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+     'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+     'address.required'=> 'Address is required',
+     'bloodGroup.required'=> 'Your blood group is Required',
+     'identificationMark.required'=> 'Please provide an identification mark',
+     'parentNumber.required'=> 'Parent\'s contact number is required',
+     'homePhoneNumber.required'=> 'Home phone number is required',
+     'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+     'motherName.required'=> 'Your Mother\'s name is Required',
+     'guardianName.required'=> 'Your Guardian\'s name is Required',
+     ]
+     ]);
             $detail = detail::where('userId'=>$student->userId);
             $detail = detail::updateOrCreate(
         ['firstname' => $request->, 'lastname' => $request->,

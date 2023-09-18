@@ -15,16 +15,17 @@ return new class extends Migration
     {
         Schema::create('class_rooms', function (Blueprint $table) {
             $table->id('classroomDetailId');
-            $table->string('grade');
-            $table->string('roomNo');
+            $table->string('grade')->default(NULL);
+            $table->string('roomNo')->default(NULL);
             $table->string('section')->default(0);
             $table->integer('departmentId')->default(NULL);
             $table->integer('semester')->default(NULL);
             $table->string('classTeacher')->default(0);
-            $table->string('description');
+            $table->string('description')->default(NULL);
             $table->integer('capacity')->default(0);
             $table->integer('classTimeTableId')->default(0);
-            $table->integer('status');
+            $table->integer('status')->default(1);
+            $table->integer('batchId')->default(0);
             $table->timestamps();
         });
     }

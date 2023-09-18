@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\ConstantController;
+use App\Models\batch;
 use Illuminate\Http\Request;
 
 class ConstantControllerController extends Controller

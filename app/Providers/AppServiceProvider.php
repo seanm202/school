@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use App\Models\batch;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+      $currentBatchId=batch::where('batches.status','=',1)->select('batchId')->first();
+      $currentBatchIdNow=$currentBatchId->batchId;
+      view()->share('currentBatchId', $currentBatchIdNow);
     }
 }

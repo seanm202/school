@@ -14,7 +14,6 @@ return [
     */
 
     'accepted' => 'The :attribute must be accepted.',
-    'teacherId' => 'The :attribute must be accepted.',
     'accepted_if' => 'The :attribute must be accepted when :other is :value.',
     'active_url' => 'The :attribute is not a valid URL.',
     'after' => 'The :attribute must be a date after :date.',

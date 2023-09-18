@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('departmentId');
             $table->string('departmentName');
             $table->integer('status');
+            $table->integer('batchId');
             $table->timestamps();
         });
     }

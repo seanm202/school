@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\Models\batch;
 use App\Models\securityFacility;
 use Illuminate\Http\Request;
 

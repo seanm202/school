@@ -15,23 +15,24 @@ return new class extends Migration
     {
         Schema::create('details', function (Blueprint $table) {
             $table->id('detailId');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->integer('age');
-            $table->date('dob');
+            $table->string('firstname')->default(NULL);
+            $table->string('lastname')->default(NULL);
+            $table->integer('age')->default(NULL);
+            $table->date('dob')->default(NULL);
             $table->integer('contactNumber')->default(0);
             $table->integer('alternateContactNumber')->default(0);
             $table->integer('roleId');
             $table->integer('userId');
             $table->string('address')->default(0);
             $table->string('bloodGroup')->default(0);
-            $table->string('identificationMark');
-            $table->integer('parentNumber');
+            $table->string('identificationMark')->default(NULL);
+            $table->integer('parentNumber')->default(NULL);
             $table->integer('homePhoneNumber')->default(0);
             $table->string('fatherSpouseName')->default(0);
-            $table->string('motherName');
-            $table->string('guardianName');
-            $table->integer('status');
+            $table->string('motherName')->default(NULL);
+            $table->string('guardianName')->default(NULL);
+            $table->integer('status')->default(1);
+            $table->integer('batchId')->default(0);
             $table->timestamps();
         });
     }

@@ -25,6 +25,8 @@ class studentSubjectAttendance extends Model
         'hourId' => 0,
         'presentOrAbsent' => 0,
         'submitted' => 0,
+        'dailyTeacherAllocationId' => 0,
+        'status' => 0,
+          'batchId'=>0,
     ];
-}
 }

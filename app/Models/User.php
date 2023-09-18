@@ -24,12 +24,15 @@ class User extends Authenticatable
 
     protected $table = 'users';
     protected $primaryKey = 'userId';
-    protected $attributes = ['name',
-        'email',
-        'role',
-        'phone',
-        'password',
-        'detailsId',
+    protected $attributes = [
+        'name' => '',
+        'email'=>'',
+        'password'=>'',
+        'phone'=>0,
+        'detailsId'=>0,
+        'role'=>1,
+        'batchId'=> 0,
+        'remember_token'=> ''
     ];
 
 
@@ -45,7 +48,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'userPassword',
+        'password',
         'remember_token',
     ];
 

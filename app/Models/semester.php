@@ -13,5 +13,6 @@ class semester extends Model
    protected $attributes = [
    'semesterId' => 0,
    'semesterName' => '',
+     'batchId'=>0,
    ];
 }

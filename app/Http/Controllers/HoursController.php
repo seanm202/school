@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\Models\batch;
 use App\Models\hours;
 use Illuminate\Http\Request;
 
@@ -24,6 +26,12 @@ class HoursController extends Controller
      */
     public function create()
     {
+            $validated = $request->validate([
+              'hourName' => ['required'],
+          [
+          'hourName.required'=> 'A name must be specified for the hour.',
+          ]
+          ]);
       $hours = new hours;
 
      $hours->hourName = $request->hourName;
@@ -75,6 +83,12 @@ class HoursController extends Controller
      */
      public function update(Request $request, hours $hours)
      {
+             $validated = $request->validate([
+               'hourName' => ['required'],
+           [
+           'hourName.required'=> 'A name must be specified for the hour.',
+           ]
+           ]);
        $hour=\App\Models\hours::where('hourId','=',$request->dayId)->first();
        $hour->hourName=$request->hourName;
        $hour->save();

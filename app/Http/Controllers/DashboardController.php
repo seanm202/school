@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use Illuminate\Http\Request;
+use App\Models\batch;
 use Auth;
 use DB;
 
@@ -11,29 +13,29 @@ class DashboardController extends Controller
 
   public function logout(Request $request) {
     Auth::logout();
-    return redirect('/login');
+    return redirect()->route('logout');
   }
 
   public function chooseDashboard()
   {
-    $role =  DB::table('users')
+    $roles =  DB::table('users')
     ->select('role')
-    ->where('userId','=',1)
+    ->where('userId','=',Auth::user()->userId)
     ->first();
-    if($role->role==4)
+    if($roles->role==4)
     {
       return redirect()->route('Studentdashboard');
     }
-    else if($role->role==3)
+    else if($roles->role==3)
     {
       return redirect()->route('Admindashboard');
     }
-    else if($role->role==2)
+    else if($roles->role==2)
     {
       return redirect()->route('Teacherdashboard');
     }
     else {
-    return redirect()->route('logout');
+    return redirect()->route('dashboard');
   }
   }
 }

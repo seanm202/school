@@ -15,22 +15,23 @@ class detail extends Model
      */
     protected $table = 'details';
     protected $primaryKey = 'detailId';
-    protected $attributes = [
-    'firstname' => '',
-    'lastname' => '',
-        'age' => 0,
-        'dob' => '',
-        'contactNumber' => 0,
-        'alternateContactNumber' => 0,
-        'roleId' => 0,
-        'userId' => 0,
-        'address'=>'',
-        'bloodGroup'=>'',
-        'identificationMark'=>'',
-        'parentNumber'=>0,
-        'homePhoneNumber'=>0,
-        'fatherSpouseName'=>'',
-        'motherName'=>'',
-        'guardianName'=>'',
+    protected $fillable = [
+    'firstname',
+    'lastname',
+        'age',
+        'dob',
+        'contactNumber',
+        'alternateContactNumber',
+        'roleId' ,
+        'userId',
+        'address',
+        'bloodGroup',
+        'identificationMark',
+        'parentNumber',
+        'homePhoneNumber',
+        'fatherSpouseName',
+        'motherName',
+        'guardianName',
+          'batchId',
     ];
 }

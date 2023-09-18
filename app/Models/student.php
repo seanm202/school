@@ -17,6 +17,7 @@ class student extends Model
     protected $primaryKey = 'studentId';
     protected $attributes = [
       'userId'=>'',
-      'studentDetailsId'=>''
+      'studentDetailsId'=>'',
+        'batchId'=>0,
     ];
 }

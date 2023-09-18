@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
             $table->id('roleId');
-            $table->string('roleName');
-            $table->integer('status');
+            $table->string('roleName')->default(NULL);
+            $table->integer('status')->default(1);
+            $table->integer('batchId')->default(0);
             $table->timestamps();
         });
     }

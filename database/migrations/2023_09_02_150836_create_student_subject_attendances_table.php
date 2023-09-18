@@ -22,8 +22,9 @@ return new class extends Migration
             $table->integer('dayId');
             $table->integer('hourId');
             $table->integer('presentOrAbsent');
-            $table->integer('submitted');
+            $table->integer('daily_Teacher_AllocationId');
             $table->integer('status');
+            $table->integer('batchId');
             $table->timestamps();
         });
     }

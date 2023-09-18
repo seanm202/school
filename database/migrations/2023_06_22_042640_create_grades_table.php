@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id('gradeId');
-            $table->string('grade');
-            $table->integer('status');
+            $table->string('grade')->default(NULL);
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

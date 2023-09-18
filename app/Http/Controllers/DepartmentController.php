@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\Department;
+use App\Models\batch;
 use Illuminate\Http\Request;
+use Redirect;
 
 class DepartmentController extends Controller
 {
@@ -35,12 +38,22 @@ class DepartmentController extends Controller
      */
      public function store(Request $request)
      {
+             $validated = $request->validate([
+               'departmentName' => ['required'],
+           [
+           'departmentName.required'=> 'A name must be specified for the department.',
+           ]
+           ]);
        //Add A Subject
+          $batchh=batch::where('status',1)->select('batchId')->first();
           $department = new Department;
           $department->departmentName = $request->departmentName;
+          $department->status = 1;
+          $department->batchId = $batchh->batchId;
           $department->save();
 
-                     return redirect()->route('Admin');
+                return redirect()->route('Admin',['id'=>'addTheDepartments'])
+->with('success', 'Created successfully.');
      }
 
     /**
@@ -62,10 +75,17 @@ class DepartmentController extends Controller
      */
     public function edit(Request $request)
     {
+            $validated = $request->validate([
+              'departmentName' => ['required'],
+          [
+          'departmentName.required'=> 'A name must be specified for the department.',
+          ]
+          ]);
       $department = Department::where('departmentId','=',$request->departmentId)->first();
       $department->departmentName = $request->departmentName;
       $department->save();
-                 return redirect()->route('Admin');
+                 return redirect()->route('Admin',['id'=>'deleteTheDepartments'])
+->with('success', 'Updated successfully.');
 
     }
 
@@ -92,6 +112,6 @@ class DepartmentController extends Controller
         //
         $department = Department::where('departmentId', $request->departmentId)->first();
          $department->delete();
-                    return redirect()->route('Admin');
+                    return redirect()->route('Admin',['id'=>'deleteTheDepartments'])->with('success', 'Deleted successfully.');
     }
 }

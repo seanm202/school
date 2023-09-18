@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id('subjectId');
-                $table->integer('semesterId');
-                $table->integer('departmentId');
-            $table->string('subjectName');
-            $table->string('subjectGrade');
-            $table->string('subjectMaxMarks');
-            $table->string('subjectTextName');
-            $table->integer('status');
+                $table->integer('semesterId')->default(NULL);
+                $table->integer('departmentId')->default(NULL);
+            $table->string('subjectName')->default(NULL);
+            $table->string('subjectGrade')->default(NULL);
+            $table->string('subjectMaxMarks')->default(NULL);
+            $table->string('subjectTextName')->default(NULL);
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

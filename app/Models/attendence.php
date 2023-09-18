@@ -15,5 +15,15 @@ class attendence extends Model
      */
     protected $table = 'attendences';
     protected $primaryKey = 'attendanceDataId';
-  
+    protected $fillable = [
+    'yes_or_no',
+    'userId',
+        'userRole',
+        'todaysDate',
+        'status',
+        'batchId'
+    ];
+    protected $attributes = [
+      'batchId'=>0
+];
 }

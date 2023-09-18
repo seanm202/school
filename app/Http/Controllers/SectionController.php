@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\Models\batch;
 use App\Models\section;
 use Illuminate\Http\Request;
 
@@ -25,10 +27,21 @@ class SectionController extends Controller
      public function create(Request $request)
      {
 
+               $validated = $request->validate([
+                 'sectionName' => ['required'],
+             [
+             'sectionName.required'=> 'A name must be specified for the section/division.',
+             ]
+             ]);
            //Add An Entity
-         $sectionNameNew=$request->sectionName;
-          section::updateOrCreate(['sectionName'=> $sectionNameNew]);
-          return view("/Admin/section");
+           $batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+           $section=new section;
+         $section->sectionName=$request->sectionName;
+       $section->status=1;
+     $section->batchId=$batchId;
+   $section->save();
+
+          return redirect()->route('AdminSection',['id'=>'createSectionByAdmin']);
      }
 
 
@@ -41,8 +54,14 @@ class SectionController extends Controller
     public function store(Request $request)
     {
         //Add An Entity
+                       $validated = $request->validate([
+                         'sectionName' => ['required'],
+                     [
+                     'sectionName.required'=> 'A name must be specified for the section/division.',
+                     ]
+                     ]);
         $sections = new section;
-
+        $sections->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
        $sections->secionName = $request->secionName;
        $details->save();
 
@@ -82,9 +101,16 @@ class SectionController extends Controller
      */
     public function update(Request $request, section $section)
     {  //Updating classroom details
-      section::where('sectionId', $request->sectionId)->update(['sectionName' => $request->sectionName]);
-
-    return view("/Admin/section");
+                   $validated = $request->validate([
+                     'sectionName' => ['required'],
+                 [
+                 'sectionName.required'=> 'A name must be specified for the section/division.',
+                 ]
+                 ]);
+      $section=section::where('sectionId', $request->sectionId)->first();
+      $section->sectionName=$request->sectionName;
+      $section->save();
+    return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
     }
 
     /**
@@ -98,6 +124,6 @@ class SectionController extends Controller
       //Delete self - details
       $section = section::where('sectionId','=',$request->sectionId)->delete();
 
-      return view("/Admin/section");
+      return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
     }
 }

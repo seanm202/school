@@ -22,5 +22,6 @@ class SubjectTeacherForEachSections extends Model
       'departmentId' => 0,
       'semesterId' => 0,
       'status' => 0,
+        'batchId'=>0,
   ];
 }

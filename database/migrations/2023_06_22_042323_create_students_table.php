@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id('studentId');
             $table->integer('userId');
-            $table->integer('studentDetailsId');
-            $table->integer('studentClassroom');
-            $table->integer('studentGrade');
-            $table->integer('studentSection');
-            $table->integer('studentSemester');
-            $table->integer('studentDepartmentId');
-            $table->integer('status');
+            $table->integer('studentDetailsId')->default(NULL);
+            $table->integer('studentClassroom')->default(NULL);
+            $table->integer('studentGrade')->default(NULL);
+            $table->integer('studentSection')->default(NULL);
+            $table->integer('studentSemester')->default(NULL);
+            $table->integer('studentDepartmentId')->default(NULL);
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

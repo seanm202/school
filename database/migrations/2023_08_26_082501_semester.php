@@ -18,6 +18,7 @@ return new class extends Migration
             $table->id('semesterId');
             $table->string('semesterName');
             $table->integer('status');
+            $table->integer('batchId');
             $table->timestamps();
         });
     }

@@ -129,12 +129,6 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('TeacherStudent')" :active="request()->routeIs('TeacherStudent')">
-                        {{ __('Student') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherSubject')" :active="request()->routeIs('TeacherSubject')">
                         {{ __('Subject') }}
                     </x-nav-link>
@@ -147,8 +141,8 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('StudentAssignment')" :active="request()->routeIs('StudentAssignment')">
-                        {{ __('Assignment') }}
+                    <x-nav-link :href="route('StudentTeachersDetails')" :active="request()->routeIs('StudentTeachersDetails')">
+                        {{ __('Contact Us') }}
                     </x-nav-link>
                 </div>
 
@@ -222,7 +216,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('selectDashboard')" :active="request()->routeIs('selectDashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\role;
+use App\Models\batch;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -14,7 +16,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-       
+
 
     }
 
@@ -80,7 +82,7 @@ class RoleController extends Controller
     {
         //Updating classroom details
             role::where('roleId', $request->roleId)->update(['roleName' => $request->roleName]);
-          return view("/Admin/role");
+          return view("/AdminRole",['id'=>'updateRoleByAdmin']));
     }
 
     /**

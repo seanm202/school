@@ -1,25 +1,98 @@
-<x-app-layout>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin = "anonymous">
+  </script>
+  <script src =
+"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+      integrity =
+"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+      crossorigin = "anonymous">
+  </script>
+  <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Roles') }}
+            {{ __('Roles') }}    @if(Session::has('success'))
+        <div class="alert alert-success" style="position: fixed;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ Session::get('success') }}
+            @php
+                Session::forget('success');
+            @endphp
+        </div>
+        @endif
         </h2>
+        @if ($errors->any())
+           <div class="alert alert-danger">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               <ul>
+                   @foreach ($errors->all() as $error)
+                       <li>{{ $error }}</li>
+                   @endforeach
+               </ul>
+           </div>
+        @endif
     </x-slot>
 
-    <div class="py-12">
+
+    @if ( Auth::user()->role != 3)
+
+      <script type="text/javascript">
+      window.location = "{{url('logout')}}";//here double curly bracket
+      </script>
+    @endif
+
+
+    <!-- <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Create roles
-                    {{Form::open(array('route' => 'createRoleByAdmin')) }}
+                    <form action="{{route('createRoleByAdmin')}}" method="POST" name="createRoleByAdmin" id="createRoleByAdmin">
+                    {{ csrf_field() }}{{ method_field('POST') }}
+
                     {{Form::label('roleName', 'Enter role name :')}}
                     {{Form::text('roleName',NULL,array('placeholder'=>'Name of the role'))}}
-                    {{Form::submit('Create Role')}}
+
+                    <button class="btn btn-success btn-createRoleByAdmin">Create</button>
                     {{ Form::close() }}
                 </div>
             </div>
         </div>
-    </div>
-    <div class="py-12">
+    </div> -->
+    <!--
+
+   -->
+   <script type="text/javascript">
+
+       $.ajaxSetup({
+           headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+           }
+       });
+
+       $(".updateRoleByAdmin").click(function(e){
+
+           e.preventDefault();
+
+           var form = $("#updateRoleByAdmin");
+
+           $.ajax({
+              type:'POST',
+              url:"{{ route('updateRoleByAdmin') }}",
+              data:form.serialize(),
+              success: function(response){
+        alert("jjjj");
+              }
+           });
+
+       });
+
+
+   </script>
+    <div class="py-12" id="updateRoleByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -36,10 +109,13 @@
                           @foreach(App\Models\role::all() as $role)
                           <tr>
                             <td>{{$role->roleName}}</td>
-                            <td>{{Form::open(array('route' => 'updateRoleByAdmin')) }}
+                            <td><form action="{{route('updateRoleByAdmin')}}" method="POST" name="updateRoleByAdmin" id="updateRoleByAdmin">
+                            {{ csrf_field() }}{{ method_field('POST') }}
+
                             {{Form::text('roleName',$role->roleName)}}
                             {{Form::hidden('roleId',$role->roleId)}}
-                            {{Form::submit('Update Role')}}
+
+                            <button class="btn btn-success btn-updateRoleByAdmin">Update</button>
                             {{ Form::close() }}</td>
                           </tr>
                         @endforeach

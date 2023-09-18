@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\studentSubjectAttendance;
+use App\Models\student;
+use App\Models\batch;
+use App\Models\days;
+use App\Models\dailyTeacherAllocation;
+use App\Models\hours;
+use Carbon;
 use Illuminate\Http\Request;
 
 class StudentSubjectAttendanceController extends Controller
@@ -20,26 +27,36 @@ class StudentSubjectAttendanceController extends Controller
     }
     public function store(Request $request)
     {
-      $students=  new student::all();
-      $dayId=$request->dayId;
-      $hourId= $request->hourId;
+      $dailyTeacherAllocations=dailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->dailyTeacherAllocationId)->first();
+      $dailyTeacherAllocations->status=2;
+      $dailyTeacherAllocations->save();
+
+      $students = student::all();
+      $dateId=$request->dateId;
+
+      $hoursId=$request->hourId;
+
       $subjectId =$request->subjectId;
       $classRoomId=$request->classRoomId;
       $teacherId=$request->teacherId;
       foreach($students as $student)
       {
-        $StudentSubjectAttendanceController = new StudentSubjectAttendanceController;
+        $StudentSubjectAttendanceController = new StudentSubjectAttendance;
         $StudentSubjectAttendanceController->studentId=$student->studentId;
-        $StudentSubjectAttendanceController->dayId=$dayId;
-        $StudentSubjectAttendanceController->hourId=$hourId;
+        $StudentSubjectAttendanceController->dayId=$request->dayId;
+        $StudentSubjectAttendanceController->hourId=$hoursId;
         $StudentSubjectAttendanceController->subjectId=$subjectId;
         $StudentSubjectAttendanceController->classRoomId=$classRoomId;
         $StudentSubjectAttendanceController->teacherId=$teacherId;
         $StudentSubjectAttendanceController->presentOrAbsent=0;
         $StudentSubjectAttendanceController->submitted=0;
+        $StudentSubjectAttendanceController->status=0;
+        $StudentSubjectAttendanceController->dailyTeacherAllocationId=$request->dailyTeacherAllocationId;
+        $StudentSubjectAttendanceController->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
         $StudentSubjectAttendanceController->save();
+                // $StudentSubjectAttendanceController->insertOrIgnore();
       }
-      return redirect()->reoute('Admindashboard');
+      return redirect()->route('TeacherAttendance',['id'=>'createTeacherTimetableForTheParticularHour']);
     }
 
     /**
@@ -91,23 +108,17 @@ class StudentSubjectAttendanceController extends Controller
     public function update(Request $request, studentSubjectAttendance $studentSubjectAttendance)
     {
 
-$inputs = $request->input('studentId');
+$inputs = $request->input('id');
 
 
     foreach($inputs as $key => $value) {
-  $StudentSubjectAttendanceController = StudentSubjectAttendanceController::where('studentId','=',$request->studentId[$key])
-                                        ->where('teacherId','=',$request->teacherId)
-                                        ->where('classRoomId','=',$request->classRoomId)
-                                        ->where('subjectId','=',$request->subjectId)
-                                        ->where('dayId','=',$request->dayId)
-                                        ->where('hourId','=',$request->hourId)
-                                        ->where('presentOrAbsent','=',$request->input('presentOrAbsent')[$key])
-                                        ->where('submitted','=',1)
-                                        ->first();
+  $StudentSubjectAttendanceController = studentSubjectAttendance::where('id','=',$request->id[$key])->first();
+    $StudentSubjectAttendanceController->presentOrAbsent=$request->input('presentOrAbsent')[$key];
+      $StudentSubjectAttendanceController->submitted=1;
     $StudentSubjectAttendanceController->save();
     }
 
-    return redirect()->route('TeacherAttendance');
+    return redirect()->route('TeacherAttendance',['id'=>'submitClasswiseAttendence']);
 }
     /**
      * Remove the specified resource from storage.

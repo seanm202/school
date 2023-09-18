@@ -16,8 +16,8 @@ class teacher extends Model
     protected $table = 'teachers';
     protected $primaryKey = 'teacherId';
     protected $attributes = [
-        'teacherName' => 0,
         'userId'=>'',
         'teacherDetailId'=>0,
+          'batchId'=>0,
     ];
 }

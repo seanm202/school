@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\SubjectTeacherForEachSections;
+use App\Models\batch;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -37,15 +39,26 @@ class SubjectTeacherForEachSectionsController extends Controller
      public function store(Request $request)
      {
          //Add An Entity
+         $validated = $request->validate([
+
+             'classRoomId' => ['required', 'confirmed'],
+             'subjectId' => ['required', 'confirmed'],
+        [
+         'classRoomId.required'=> 'A cass room must be seleted',
+         'subjectId.required'=> 'A subject must be seleted',
+        ]
+         ]);
          $subjectTeacherForEachSections = new SubjectTeacherForEachSections;
-           $subjectTeacherForEachSections->teacherId =>  $request->teacherId,
-           $subjectTeacherForEachSections->classRoomId =>  $request->classroomDetailId,
-           $subjectTeacherForEachSections->subjectId =>  $request->subjectId,
-           $subjectTeacherForEachSections->departmentId => $request->departmentId,
-           $subjectTeacherForEachSections->semesterId =>  $request->semesterId,
-           $subjectTeacherForEachSections->status => 1,
-        $SubjectTeacherForEachSectionss->save();
-       return Redirect::back();
+           $subjectTeacherForEachSections->teacherId = $request->teacherId;
+           $subjectTeacherForEachSections->classRoomId =  $request->classroomDetailId;
+           $subjectTeacherForEachSections->subjectId =  $request->subjectId;
+           $subjectTeacherForEachSections->departmentId = $request->departmentId;
+           $subjectTeacherForEachSections->semesterId =  $request->semesterId;
+           $subjectTeacherForEachSections->status= 1;
+           $subjectTeacherForEachSections->batchId= 1;
+           $subjectTeacherForEachSections->save();
+
+                 return redirect()->route('AdminSubjectTeachersForEachSection',['id'=>'createTeacherForSubject']);
      }
 
 
@@ -53,17 +66,26 @@ class SubjectTeacherForEachSectionsController extends Controller
          public function update(Request $request)
          {
              //Updating classroom details
+             $validated = $request->validate([
+
+                 'classRoomId' => ['required', 'confirmed'],
+                 'subjectId' => ['required', 'confirmed'],
+            [
+             'classRoomId.required'=> 'A cass room must be seleted',
+             'subjectId.required'=> 'A subject must be seleted',
+            ]
+             ]);
              $detail = SubjectTeacherForEachSections::where('subjectForSectionId', $request->subjectForSectionId)->first();
-             $subjectTeacherForEachSections->teacherId =>  $request->teacherId,
-             $subjectTeacherForEachSections->classRoomId =>  $request->classroomDetailId,
-             $subjectTeacherForEachSections->subjectId =>  $request->subjectId,
-             $subjectTeacherForEachSections->departmentId => $request->departmentId,
-             $subjectTeacherForEachSections->semesterId =>  $request->semesterId,
-             $subjectTeacherForEachSections->status => 1,
-          $SubjectTeacherForEachSectionss->save();
+             $subjectTeacherForEachSections->teacherId =  $request->teacherId;
+             $subjectTeacherForEachSections->classRoomId =  $request->classroomDetailId;
+             $subjectTeacherForEachSections->subjectId =  $request->subjectId;
+             $subjectTeacherForEachSections->departmentId = $request->departmentId;
+             $subjectTeacherForEachSections->semesterId =  $request->semesterId;
+             $subjectTeacherForEachSections->status = 1;
+          $SubjectTeacherForEachSections->save();
 
 
-           return Redirect::back();
+           return redirect()->route('AdminSubjectTeachersForEachSection',['id'=>'editTeacherForSubject']);
          }
 
 
@@ -97,10 +119,10 @@ class SubjectTeacherForEachSectionsController extends Controller
      * @param  \App\Models\SubjectTeacherForEachSections  $subjectTeacherForEachSections
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubjectTeacherForEachSections $subjectTeacherForEachSections)
-    {
-        //
-    }
+    // public function update(Request $request,SubjectTeacherForEachSections $subjectTeacherForEachSections)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.

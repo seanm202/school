@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\days;
+use App\Models\batch;
 use Illuminate\Http\Request;
 
 class DaysController extends Controller
@@ -14,13 +16,19 @@ class DaysController extends Controller
      */
     public function index(Request $request)
     {
+            $validated = $request->validate([
+              'dayName' => ['required'],
+          [
+          'dayName.required'=> 'A name must be specified for the day.',
+          ]
+          ]);
       $days = new days;
 
      $days->dayDate = $request->dayDate;
 
      $days->save();
 
-     return redirect()->route('Admindashboard');
+     return redirect()->route('Admindashboard')->with('success', 'Created successfully.');
     }
 
     /**
@@ -75,10 +83,16 @@ class DaysController extends Controller
      */
     public function update(Request $request, days $days)
     {
+            $validated = $request->validate([
+              'dayName' => ['required'],
+          [
+          'dayName.required'=> 'A name must be specified for the day.',
+          ]
+          ]);
       $day=\App\Models\days::where('dayId','=',$request->dayId)->first();
       $day->dayName=$request->dayName;
       $day->save();
-      return redirect()->route('\Admindashboard');
+      return redirect()->route('\Admindashboard')->with('success', 'Updated successfully.');
     }
 
     /**
@@ -90,6 +104,6 @@ class DaysController extends Controller
     public function destroy(Request $request)
     {
         $deleted = DB::table('days')->where('dayId', '=', $request->dayId)->delete();
-        return redirect()->route('\Admindashboard');
+        return redirect()->route('\Admindashboard')->with('success', 'Deleted successfully.');
     }
 }

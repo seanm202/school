@@ -13,6 +13,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\StudentMarksController;
 use App\Http\Controllers\SubjectTeacherForEachSectionsController;
+use App\Http\Controllers\StudentSubjectAttendanceController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BatchController;
+use App\Http\Controllers\StatusController;
+use App\Http\Controllers\dailyTeacherAllocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,8 +35,35 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+////Assign teachers of subjects to various classes
+Route::post('/createTeacherForSubject', [SubjectTeacherForEachSectionsController::class, 'store'])->name('createTeacherForSubject');
+Route::post('/editTeacherForSubject', [SubjectTeacherForEachSectionsController::class, 'update'])->name('editTeacherForSubject');
 
-////Student Daily Attendance/////
+//////Role creation////////
+Route::post('/statusAddAdmin', [StatusController::class, 'create'])->name('statusAddAdmin');
+Route::post('/updateStatusDetails', [StatusController::class, 'update'])->name('updateStatusDetails');
+Route::post('/deleteStatusDetails', [StatusController::class, 'destroy'])->name('deleteStatusDetails');
+
+////Create Batches
+Route::post('/updateBatches', [BatchController::class, 'update'])->name('updateBatches');
+Route::post('/createBatches', [BatchController::class, 'create'])->name('createBatches');
+Route::post('/deleteBatches', [BatchController::class, 'destroy'])->name('deleteBatches');
+Route::post('/currentBatch', [BatchController::class, 'currentBatch'])->name('currentBatch');
+////Generate daily teacher enabled attendance
+Route::post('/createDailyAttendance', [dailyTeacherAllocationController::class, 'createDailyAttendanceForAllTeachers'])->name('createDailyAttendance');
+
+////Generate daily teacher enabled attendance for students
+Route::post('/createStudentsDailyAttendance', [StudentSubjectAttendanceController::class, 'store'])->name('createStudentsDailyAttendance');
+
+////Hour creation and updation/////
+Route::post('/createHour', [AdminController::class, 'updateHourName'])->name('createHour');
+Route::post('/deleteHour', [AdminController::class, 'deleteHour'])->name('deleteHour');
+Route::post('/updateHourDetails', [AdminController::class, 'addHourName'])->name('updateHourDetails');
+
+////Day creation and updation/////
+Route::post('/createDay', [AdminController::class, 'addDayName'])->name('createDay');
+Route::post('/updateDayDetails', [AdminController::class, 'updateDayName'])->name('updateDayDetails');
+Route::post('/deleteDay', [AdminController::class, 'deleteDay'])->name('deleteDay');
 
 Route::post('/createTeacherTimetableForTheParticularHour', [StudentSubjectAttendanceController::class, 'store'])->name('createTeacherTimetableForTheParticularHour');
 Route::post('/submitClasswiseAttendence', [StudentSubjectAttendanceController::class, 'update'])->name('submitClasswiseAttendence');
@@ -62,7 +94,8 @@ Route::post('/updateAdminDetails', [DetailController::class, 'updateAdminDetails
 Route::post('/updateTeacherDetails', [DetailController::class, 'updateTeacherDetails'])->name('createOrUpdateTeacherDetails');
 Route::post('/updateStudentDetails', [DetailController::class, 'updateStudentDetails'])->name('createOrUpdateStudentDetails');
 Route::post('/addTeacherAdmin', [DetailController::class, 'createTeacher'])->name('addTeacherAdmin');
-Route::post('/addStudentAdmin', [DetailController::class, 'createStudent'])->name('addStudentAdmin');
+Route::post('/addStudentAdmin', [DetailController::class, 'createStudentAdmin'])->name('addStudentAdmin');
+Route::post('/addStudentTeacher', [DetailController::class, 'createStudentTeacher'])->name('addStudentTeacher');
 Route::post('/addAdminAdmin', [DetailController::class, 'createAdmin'])->name('addAdminAdmin');
 
 ///////Role////
@@ -71,19 +104,19 @@ Route::post('/updateRole', [RoleController::class, 'update'])->name('updateRoleB
 // Route::post('/destroyRole', [RoleController::class, 'destroy'])->name('deleteRoleByAdmin');
 ///////Section/////
 
-Route::post('/createSection', [sectionController::class, 'create'])->name('createSectionByAdmin');
-Route::post('/updateSection', [sectionController::class, 'update'])->name('updateSectionByAdmin');
-Route::post('/destroySection', [sectionController::class, 'destroy'])->name('deleteSectionByAdmin');
+Route::post('/createSection', [SectionController::class, 'create'])->name('createSectionByAdmin');
+Route::post('/updateSection', [SectionController::class, 'update'])->name('updateSectionByAdmin');
+Route::post('/destroySection', [SectionController::class, 'destroy'])->name('deleteSectionByAdmin');
 /////Grade////////
 
 Route::post('/createGrade', [gradeController::class, 'create'])->name('createGradeByAdmin');
 Route::post('/updateGrade', [gradeController::class, 'update'])->name('updateGradeByAdmin');
-// Route::post('/destroyGrade', [gradeController::class, 'destroy'])->name('deleteGradeByAdmin');
+Route::post('/destroyGrade', [gradeController::class, 'destroy'])->name('deleteGradeByAdmin');
 ////Department//////
 
 Route::post('/addDepartment', [DepartmentController::class, 'store'])->name('createDepartment');
 Route::post('/editDepartment', [DepartmentController::class, 'edit'])->name('updateDepartment');
-// Route::post('/deleteDepartment', [DepartmentController::class, 'destroy'])->name('deleteDepartment');
+Route::post('/deleteDepartment', [DepartmentController::class, 'destroy'])->name('deleteDepartment');
 ////Subject//////
 
 Route::post('/selectedSubjectDetails', [SubjectController::class, 'getDepartmentFromGradeForSubject'])->name('selectedSubjectDetails');
@@ -96,11 +129,14 @@ Route::post('/addSemester', [SemesterController::class, 'store'])->name('createS
 Route::post('/editSemester', [SemesterController::class, 'update'])->name('updateSemester');
 //////StudentMarks//////////
 
-Route::post('/createStudentMarks', [StudentMarksController::class, 'create'])->name('createStudentMarks');
-Route::post('/updateStudentMarks', [StudentMarksController::class, 'update'])->name('updateStudentMarks');
-Route::post('/destroyStudentMarks', [StudentMarksController::class, 'destroy'])->name('destroyStudentMarks');
-Route::post('/selectClassRoomForStudent', [ClassRoomController::class, 'destroy'])->name('selectClassRoomForStudent');
-Route::post('/updateClassRoomForStudent', [ClassRoomController::class, 'update'])->name('updateClassRoomForStudent');
+Route::post('/updateMarksTeacher', [StudentMarksController::class, 'updateMarksTeacher'])->name('updateMarksTeacher');
+Route::post('/createStudentSubjectMarks', [StudentMarksController::class, 'update'])->name('createStudentSubjectMarks');
+Route::post('/createMarkEntry', [StudentMarksController::class, 'index'])->name('createMarkEntry');
+// Route::post('/createStudentMarks', [StudentMarksController::class, 'create'])->name('createStudentMarks');
+// Route::post('/updateStudentMarks', [StudentMarksController::class, 'update'])->name('updateStudentMarks');
+Route::post('/destroyStudentMarks', [StudentMarksController::class, 'destroy'])->name('deleteStudentMarks');
+Route::post('/assignClassRoomToStudents', [ClassRoomController::class, 'updateClassroomStudent'])->name('assignClassRoomToStudents');
+Route::post('/updateClassRoomForStudent', [ClassRoomController::class, 'assignClassroomStudent'])->name('updateClassRoomForStudent');
 /////SubjectTeacherForEachSectionsController////
 
 Route::post('/SubjectTeacherForEachSectionsController', [SubjectTeacherForEachSectionsController::class, 'store'])->name('SubjectTeacherForEachSectionsController');
@@ -108,10 +144,10 @@ Route::post('/SubjectTeacherForEachSectionsController', [SubjectTeacherForEachSe
 
 Route::get('/logout', [DashboardController::class,'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'chooseDashboard'])->name('selectDashboard');
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/Admindashboard', function () {
+Route::get('/guestDashboard', function () {
+    return view('/dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/Admindashboard',function () {
     return view('/Admin/dashboard');
 })->middleware(['auth', 'verified'])->name('Admindashboard');
 Route::get('/Teacherdashboard', function () {
@@ -190,9 +226,9 @@ Route::get('/TeacherSubject', function () {
 Route::get('/StudentDashboard', function () {
     return view('/Student/dashboard');
 })->middleware(['auth', 'verified'])->name('StudentDashboard');
-Route::get('/StudentAssignment', function () {
-    return view('/Student/assignment');
-})->middleware(['auth', 'verified'])->name('StudentAssignment');
+Route::get('/teachersDetails', function () {
+    return view('/Student/teachersDetails');
+})->middleware(['auth', 'verified'])->name('StudentTeachersDetails');
 Route::get('/StudentAttendance', function () {
     return view('/Student/attendance');
 })->middleware(['auth', 'verified'])->name('StudentAttendance');

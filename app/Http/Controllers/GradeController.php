@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Response;
+use App\Models\batch;
 use App\Models\grade;
 use Illuminate\Http\Request;
 
@@ -26,9 +28,16 @@ class GradeController extends Controller
      {
 
            //Add An Entity
+                   $validated = $request->validate([
+                     'gradeName' => ['required'],
+                 [
+                 'gradeName.required'=> 'A name must be specified for the grade.',
+                 ]
+                 ]);
          $gradeNameNew=$request->gradeName;
-          grade::updateOrCreate(['grade' => $gradeNameNew]);
-          return view("/Admin/grade");
+         $batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+          grade::updateOrCreate(['grade' => $gradeNameNew,'batchId'=>$batchId]);
+        return  returnredirect()->route('AdminGrade',['id'=>'createGradeByAdmin']);
      }
     /**
      * Store a newly created resource in storage.
@@ -84,8 +93,14 @@ class GradeController extends Controller
      public function update(Request $request)
      {
          //Updating classroom details
+                 $validated = $request->validate([
+                   'gradeName' => ['required'],
+               [
+               'gradeName.required'=> 'A name must be specified for the grade.',
+               ]
+               ]);
              grade::where('gradeId', $request->gradeId)->update(['grade' => $request->gradeName]);
-           return view("/Admin/grade");
+           return  returnredirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
      }
     /**
      * Remove the specified resource from storage.
@@ -97,6 +112,6 @@ class GradeController extends Controller
     {
       //Retrieve  details about grade
       $grades = grade::where('gradeId','=',$request->gradeId)->delete();
-      return view("/Admin/grade");
+    return  returnredirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
     }
 }

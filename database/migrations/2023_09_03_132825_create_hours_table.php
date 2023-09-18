@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('hours', function (Blueprint $table) {
             $table->id('hourId');
             $table->string('hourName');
+            $table->time('hourStartingTime');
             $table->integer('status');
             $table->timestamps();
         });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\batch;
 use App\Models\attendence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,6 +44,7 @@ class AttendenceController extends Controller
        $attendence->userRole =  Auth()->user()->role;
        $attendence->dailyReg =  0;
        $attendence->todaysDate=date('Y-m-d');
+       $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
        $attendence->save();
       }
              $attendence = new attendence;
@@ -49,6 +52,7 @@ class AttendenceController extends Controller
              $attendence->userId =  1;
              $attendence->userRole = 2;
              $attendence->dailyReg =  0;
+             $attendence->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
              $attendence->todaysDate=date('Y-m-d');
              $attendence->save();
            }
@@ -155,7 +159,13 @@ class AttendenceController extends Controller
 
    public function showDaysAbsentees(Request $request)
    {
-     //View attendence details
+     //View attendence detailsdayName
+       $validated = $request->validate([
+         'selectedDate' => ['required'],
+    [
+     'selectedDate.required'=> 'A date should be selected',
+    ]
+     ]);
      $attendences = DB::table('attendences')
             ->join('users', 'users.userId', '=', 'attendences.userId')
             ->join('roles', 'users.role', '=', 'roles.roleId')
@@ -174,9 +184,9 @@ class AttendenceController extends Controller
                         ->where('userRole','=',$request->userRole)
                         ->where('todaysDate','=', date('Y-m-d'))->first();
      $att->yes_or_no = $request->inOrOut;
-     $att->dailyReg = 0;
      $att->save();
-     return Redirect::back();
+return back()->with('success', 'Updated successfully.');
+     // return Redirect::back();
    }
 function resetTodaysAttendance(Request $request)
 {
@@ -184,11 +194,19 @@ function resetTodaysAttendance(Request $request)
  $attendence = attendence::where('todaysDate','=',date('Y-m-d'))->get();
 
  $attendence->each->delete();
- return Redirect::back();
+ return back()->with('success', 'Deleted successfully.');
 }
       public function showAbsenteesBetweenDays(Request $request)
       {
         //View attendence details
+          $validated = $request->validate([
+            'fromDate' => ['required'],
+              'tillDate' => ['required'],
+       [
+        'fromDate.required'=> 'A starting date should be selected',
+         'tillDate.required'=> 'An ending date should be selected',
+       ]
+        ]);
         $attendencesBetweens = DB::table('attendences')
                ->join('users', 'users.userId', '=', 'attendences.userId')
                ->join('roles', 'users.role', '=', 'roles.roleId')

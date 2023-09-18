@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\subject;
+use App\Models\batch;
 use Illuminate\Http\Request;
 use Session;
 
@@ -61,16 +63,32 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
     {
       //Add A Subject
           $subjects = new subject;
+          $validated = $request->validate([
 
-                   $subjects->subjectSemester = $request->semesterId;
-                   $subjects->subjectDepartment = $request->departmentId;
+              'semesterId' => ['required', 'confirmed'],
+              'departmentId' => ['required', 'confirmed'],
+              'subjectName' => ['required',  'confirmed'],
+              'subjectGrade' => ['required',  'confirmed'],
+              'subjectMaxMarks' => ['required', 'numeric', 'confirmed'],
+         [
+          'semesterId.required'=> 'Semester must be seleted',
+          'departmentId.required'=> 'Department must be seleted',
+          'subjectName.required'=> 'Subject name must be filled in',
+          'subjectGrade.required'=> 'Subject grade must be entered.',
+          'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.',
+          'subjectMaxMarks.numeric'=> 'Subject maximum marks should be numeric',
+         ]
+          ]);
+                   $subjects->semesterId = $request->semesterId;
+                   $subjects->departmentId = $request->departmentId;
          $subjects->subjectName = $request->subjectName;
          $subjects->subjectGrade = $request->subjectGrade;
          $subjects->subjectMaxMarks = $request->subjectMaxMarks;
          $subjects->subjectTextName = $request->subjectTextName;
+         $subjects->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
          $subjects->save();
 
-      return redirect()->route('AdminSubject');
+      return redirect()->route('AdminSubject',['id'=>'createSubject']);
     }
 
     /**
@@ -108,16 +126,31 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
-    {
+    {$validated = $request->validate([
+
+        'semesterId' => ['required', 'confirmed'],
+        'departmentId' => ['required', 'confirmed'],
+        'subjectName' => ['required',  'confirmed'],
+        'subjectGrade' => ['required',  'confirmed'],
+        'subjectMaxMarks' => ['required', 'numeric', 'confirmed'],
+   [
+    'semesterId.required'=> 'Semester must be seleted',
+    'departmentId.required'=> 'Department must be seleted',
+    'subjectName.required'=> 'Subject name must be filled in',
+    'subjectGrade.required'=> 'Subject grade must be entered.',
+    'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.',
+    'subjectMaxMarks.numeric'=> 'Subject maximum marks should be numeric',
+   ]
+    ]);
       $subject = subject::where('subjectId',$request->subjectId)->first();
-    $subject->subjectSemester =$request->semesterId;
-    $subject->subjectDepartment = $request->departmentId;
+    $subject->semesterId =$request->semesterId;
+    $subject->departmentId = $request->departmentId;
     $subject->subjectName = $request->subjectName;
     $subject->subjectGrade = $request->subjectGrade;
     $subject->subjectMaxMarks = $request->subjectMaxMarks;
     $subject->subjectTextName = $request->subjectTextName;
     $subject->save();
-    return redirect()->route('AdminSubject');
+    return redirect()->route('AdminSubject',['id'=>'updateSubject']);
     }
 
     /**
@@ -131,6 +164,6 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
        //Delete Subject
       $subject = subject::where('subjectId', $request->subjectId)->first();
        $subject->delete();
-       return redirect()->route('AdminSubject');
+       return redirect()->route('AdminSubject',['id'=>'updateSubject']);
      }
 }

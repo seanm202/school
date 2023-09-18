@@ -18,6 +18,7 @@ class section extends Model
     protected $attributes = [
         'sectionName' => '',
         'status'=>0,
+          'batchId'=>0,
     ];
     protected $fillable = ['secionName'];
 }

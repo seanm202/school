@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('userId');
             $table->integer('notifications_Posted')->default(0);
             $table->integer('adminDetailId')->default(0);
-            $table->integer('status');
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

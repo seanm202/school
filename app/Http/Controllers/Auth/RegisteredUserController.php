@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AdminController;
 use App\Models\User;
+use App\Models\batch;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -30,7 +31,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
 
           $request->validate([
@@ -40,47 +41,42 @@ class RegisteredUserController extends Controller
           ]);
 
 
-
+$batchId=batch::where('status',1)->select('batchId')->first()->batchId;
               $user = User::create([
                   'name' => $request->name,
                   'email' => $request->email,
-                  'password' => Hash::make($request->password)
+                  'phone' => 0,
+                  'role'=> 1,
+                  'password' => Hash::make($request->password),
+                  'detailsId' => 0,
+                  'batchId'=>$batchId,
               ]);
 
               event(new Registered($user));
 
               Auth::login($user);
+              //
+              // return redirect(RouteServiceProvider::HOME);
 
-              return redirect(RouteServiceProvider::HOME);
 
-      //
-      // $user = User::create([
-      //     'name' => $request->name,
-      //     'email' => $request->email,
-      //     'password' => Hash::make($request->password),
-      // ]);
-      //
-      // event(new Registered($user));
-      //
-      // Auth::login($user);
-    //   $role =  DB::table('users')
-    //   ->select('role')
-    //   ->where('email','=',$request->email)
-    //   ->first();
-    // if($role->role==4)
-    // {
-    //   return redirect(RouteServiceProvider::STUDENT);
-    // }
-    // else if($role->role==3)
-    // {
-    //   return redirect(RouteServiceProvider::ADMIN);
-    // }
-    // else if($role->role==2)
-    // {
-    //   return redirect(RouteServiceProvider::TEACHER);
-    // }
-    // else {
-    //   return redirect(RouteServiceProvider::HOME);
-    // }
-}
+      $user =  DB::table('users')
+      ->select('role')
+      ->where('email','=',$request->email)
+      ->first();
+    if($user->role==4)
+    {
+      return redirect(RouteServiceProvider::STUDENT);
+    }
+    else if($user->role==3)
+    {
+      return redirect(RouteServiceProvider::ADMIN);
+    }
+    else if($user->role==2)
+    {
+      return redirect(RouteServiceProvider::TEACHER);
+    }
+    else {
+      return redirect(RouteServiceProvider::HOME);
+    }
+  }
 }

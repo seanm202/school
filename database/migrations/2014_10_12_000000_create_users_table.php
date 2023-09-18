@@ -11,18 +11,22 @@ return new class extends Migration
      *
      * @return void
      */
+     public $timestamps = false;
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('userId');
-            $table->string('name');
+            $table->string('name')->default(NULL);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->default(NULL);
             $table->integer('detailsId')->nullable();
+            $table->integer('phone')->nullable();
             $table->integer('role')->default(1);
+            $table->integer('batchId')->default(NULL);
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

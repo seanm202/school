@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('attendences', function (Blueprint $table) {
-            $table->id('attendanceDataId');
-            $table->integer('yes_or_no');
-            $table->integer('userId');
-            $table->integer('userRole');
-            $table->integer('dailyReg');
-            $table->date('todaysDate');
-            $table->integer('status');
+            $table->id('attendanceDataId')->default(NULL);
+            $table->integer('yes_or_no')->default(NULL);
+            $table->integer('userId')->default(NULL);
+            $table->integer('userRole')->default(NULL);
+            $table->date('todaysDate')->default(NULL);
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('sections', function (Blueprint $table) {
             $table->id('sectionId');
-            $table->string('sectionName');
-            $table->integer('status');
+            $table->string('sectionName')->default(NULL);
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

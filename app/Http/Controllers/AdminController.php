@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Response;
 use App\Models\User;
 use App\Models\student;
 use App\Models\teacher;
@@ -11,6 +12,9 @@ use App\Models\detail;
 use App\Models\role;
 use App\Models\grade;
 use App\Models\classRoom;
+use App\Models\batch;
+use App\Models\hours;
+use App\Models\days;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,7 +27,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+          return view('/Admin/dashboard');
     }
 
     /**
@@ -36,7 +40,7 @@ class AdminController extends Controller
         //Create an add admin form
         $roles=role::where('roleName', 'admin')
                ->get();
-        return 1;
+        return back()->with('success', 'Role created successfully.');
     }
 
     /**
@@ -47,7 +51,42 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //Store or add admin
+        //Store or add admin  $validated = $request->validate([
+        $validated = $request->validate([
+
+           'firstName' => ['required', 'confirmed'],
+           'lastName' => ['required', 'confirmed'],
+           'age' => ['required', 'numeric', 'confirmed'],
+           'dob' => ['required', 'date', 'confirmed'],
+           'contactNumber' => ['required', 'numeric', 'confirmed'],
+           'alternateContactNumber' => ['required','numeric', 'confirmed'],
+           'address' => ['required',  'confirmed'],
+           'bloodGroup' => ['required',  'confirmed'],
+           'identificationMark' => ['required',  'confirmed'],
+           'parentNumber' => ['required', 'numeric', 'confirmed'],
+           'homePhoneNumber' => ['required', 'numeric', 'confirmed'],
+           'fatherSpouseName' => ['required', 'confirmed'],
+           'motherName' => ['required',  'confirmed'],
+           'guardianName' => ['required', 'confirmed'],
+       [
+       'firstName.required'=> 'Your First Name is Required',
+       'lastName.required'=> 'Your Last Name is Required',
+       'age.numeric'=> 'Age should be numeric',
+       'dob.required'=> 'Your date of birth is Required',
+       'contactNumber.required'=> 'Your Contact Number is Required',
+       'contactNumber.numeric'=> 'Contact Number Should be numeric',
+       'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+       'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+       'address.required'=> 'Address is required',
+       'bloodGroup.required'=> 'Your blood group is Required',
+       'identificationMark.required'=> 'Please provide an identification mark',
+       'parentNumber.required'=> 'Parent\'s contact number is required',
+       'homePhoneNumber.required'=> 'Home phone number is required',
+       'fatherSpouseName.required'=> 'Your Father\'s / Spouse\'s name is Required',
+       'motherName.required'=> 'Your Mother\'s name is Required',
+       'guardianName.required'=> 'Your Guardian\'s name is Required',
+       ]
+       ]);
         $details = new detail;
 
        $details->firstname = $request->firstname;
@@ -66,10 +105,102 @@ class AdminController extends Controller
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
        $details->guardianName = $request->guardianName;
+       $details->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
        $details->save();
 
-       return 1;
+       return back()->with('success', 'Added successfully.');
     }
+
+    public function addDayName(Request $request)
+    {
+        //Store or add admin
+          $validated = $request->validate([
+            'dayName' => ['required'],
+       [
+        'dayName.required'=> 'A name for the day is required',
+       ]
+        ]);
+        $days = new days;
+
+       $days->dayName = $request->dayName;
+       $days->save();
+
+      return redirect()->route('Admin',['id'=>'addTheDay'])
+->with('success', 'Day added successfully.');
+    }
+
+        public function deleteDay(Request $request)
+        {
+            //Store or add admin
+            $days = days::where('dayId',$request->dayId)->first();
+           $days->delete();
+
+
+
+          return redirect()->route('Admin',['id'=>'editDayName'])
+    ->with('success', 'Day added successfully.');
+        }
+
+
+
+    public function updateDayName(Request $request)
+    {
+        //Store or add admin
+        $days =days::where('dayId','=',$request->dayId)->first();
+        $days->dayName = $request->dayName;
+        $days->save();
+
+              return redirect()->route('Admin',['id'=>'editDayName'])
+        ->with('success', 'Details updated successfully.');
+    }
+
+
+
+    public function addHourName(Request $request)
+    {
+        //Store or add admin
+          $validated = $request->validate([
+            'hourName' => ['required'],
+       [
+        'phone.required'=> 'A name for the hour is required',
+       ]
+        ]);
+        $hours = hours::where('hourId',$request->hourId)->first();
+
+       $hours->hourName = $request->hourName;
+       $hours->hourStartingTime = $request->hourStartingTime;
+       $hours->save();
+
+       return redirect()->route('Admin',['id'=>'addTheHour'])
+    }
+
+
+
+    public function updateHourName(Request $request)
+    {
+        //Store or add admin
+        $hours =hours::where('hourId','=',$request->hourId)->first();
+        $hours->hourName = $request->hourName;
+        $hours->save();
+
+        return redirect()->route('Admin',['id'=>'editTheHourName'])
+
+    }
+
+    public function deleteHour(Request $request)
+    {
+        //Store or add admin
+        $hours =hours::where('hourId','=',$request->hourId)->first();
+
+        $hours->delete();
+
+        return redirect()->route('Admin',['id'=>'editTheHourName'])
+
+    }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -108,15 +239,7 @@ class AdminController extends Controller
     public function update(Request $request, admin $admin)
     {
         //Update admin details
-        $detail = detail::where('userId'=>$admin->userId);
-        $detail = detail::updateOrCreate(
-    ['firstname' => $admin->, 'lastname' => $admin->,
-    'age' => $admin->, 'dob' => $admin->, 'contactNumber' => $admin->,
-    'alternateContactNumber' => $admin->, 'roleId' => $admin->, 'address' => $admin->,
-    'bloodGroup' => $admin->, 'identificationMark' => $admin->, 'parentNumber' => $admin->,
-    'homePhoneNumber' => $admin->, 'father/SpouseName' => $admin->, 'motherName' => $admin->,
-    'guardianName' => $admin->, 'dob' => $admin->]
-);
+
 return 1;
     }
 
@@ -126,12 +249,12 @@ return 1;
      * @param  \App\Models\admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function destroy(admin $admins)
+    public function destroy(Request $request)
     {
       //Delete self - admin
-      $admins = admin::where('adminId'=>$admins->userId);
+      $admins = admin::where('adminId',$request->userId)->first();
       $admins->delete();
-      $detail = detail::where('userId'=>$admins->userId);
+      $detail = detail::where('userId',$request->userId)->first();
       $detail->delete();
       return 1;
     }
@@ -186,7 +309,7 @@ return 1;
       $affected = DB::table('users')
                     ->where('userId', $request->userId)
                     ->update(['roleId' => $request->roleId]);
-                    return 1;
+                    return back()->with('success', 'Assigned successfully.');
     }
     public function getSectionDetails(Request $request)
     {

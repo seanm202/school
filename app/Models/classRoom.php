@@ -25,5 +25,6 @@ class classRoom extends Model
         'description' => 'Welcome',
         'capacity' => 0,
         'classTimeTableId' => 0,
+          'batchId'=>0,
     ];
 }

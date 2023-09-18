@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use Response;
 use App\Models\semester;
+use App\Models\batch;
 use Illuminate\Http\Request;
 
 class SemesterController extends Controller
@@ -36,11 +38,19 @@ class SemesterController extends Controller
       public function store(Request $request)
       {
         //Add A Subject
+                       $validated = $request->validate([
+                         'semesterName' => ['required'],
+                     [
+                     'semesterName.required'=> 'A name must be specified for the semester.',
+                     ]
+                     ]);
             $semester = new semester;
             $semester->semesterName = $request->semesterName;
+            $semester->batchId = batch::where('status',1)->select('batchId')->first()->batchId;
            $semester->save();
 
-           return redirect()->route('Admin');
+           return redirect()->route('Admin',['id'=>'addTheSemesters']);
+
       }
 
       /**
@@ -79,10 +89,17 @@ class SemesterController extends Controller
        */
       public function update(Request $request, semester $semester)
       {
-        $semester = semester::where('subjectId', $request->semesterId)->first();
+                     $validated = $request->validate([
+                       'semesterName' => ['required'],
+                   [
+                   'semesterName.required'=> 'A name must be specified for the semester.',
+                   ]
+                   ]);
+        $semester = semester::where('semesterId',$request->semesterId)->first();
       $semester->semesterName = $request->semesterName;
       $semester->save();
-      return redirect()->route('Admin');
+
+                 return redirect()->route('Admin',['id'=>'editTheSemesters']);
       }
 
       /**

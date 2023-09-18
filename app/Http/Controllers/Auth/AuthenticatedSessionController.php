@@ -46,7 +46,7 @@ class AuthenticatedSessionController extends Controller
           return redirect(RouteServiceProvider::TEACHER);
         }
         else {
-        return redirect()->route('logout');
+        return redirect()->route('dashboard');
       }
     }
 

@@ -13,5 +13,6 @@ class Department extends Model
    protected $attributes = [
        'departmentId' => 0,
            'departmentName' => 0,
+             'batchId'=>0,
    ];
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('departmentId');
             $table->integer('semesterId');
             $table->integer('status');
+            $table->integer('batchId');
             $table->timestamps();
         });
     }

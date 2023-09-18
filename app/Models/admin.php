@@ -16,7 +16,6 @@ class admin extends Model
     protected $table = 'admins';
     protected $primaryKey = 'adminId';
     protected $attributes = [
-        'dailyLogin_yes_or_no' => 0,
         'notifications_Posted'=>0,
     ];
 }

@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id('student_marksId');
             $table->integer('userId');
             $table->integer('studentId');
-            $table->integer('gradeId');
+            $table->integer('classRoomId');
             $table->integer('subjectId');
             $table->integer('marks');
-            $table->integer('studentSemester');
-            $table->integer('studentDepartmentId');
             $table->integer('status');
+            $table->integer('batchId');
             $table->timestamps();
         });
     }

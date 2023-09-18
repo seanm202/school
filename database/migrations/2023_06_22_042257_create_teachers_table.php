@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id('teacherId');
             $table->integer('userId');
             $table->integer('teacherDetailId')->default(0);
-            $table->integer('status');
+            $table->integer('status')->default(NULL);
+            $table->integer('batchId')->default(NULL);
             $table->timestamps();
         });
     }

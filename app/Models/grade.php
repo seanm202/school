@@ -17,6 +17,7 @@ class grade extends Model
     protected $primaryKey = 'gradeId';
     protected $attributes = [
         'grade' => '',
+          'batchId'=>0
     ];
     protected $fillable = ['grade'];
 }

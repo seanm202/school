@@ -15,18 +15,98 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Details') }}
+            {{ __('Details') }}   @if(Session::has('success'))
+        <div class="alert alert-success" style="position: fixed;">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ Session::get('success') }}
+            @php
+                Session::forget('success');
+            @endphp
+        </div>
+        @endif
         </h2>
+        @if ($errors->any())
+           <div class="alert alert-danger">
+             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+               <ul>
+                   @foreach ($errors->all() as $error)
+                       <li>{{ $error }}</li>
+                   @endforeach
+               </ul>
+           </div>
+        @endif
     </x-slot>
 
-    <div class="py-12">
+
+            @if ( Auth::user()->role != 3)
+
+              <script type="text/javascript">
+              window.location = "{{url('logout')}}";//here double curly bracket
+              </script>
+            @endif
+                          <script type="text/javascript">
+
+                              $.ajaxSetup({
+                                  headers: {
+                                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                  }
+                              });
+
+                              $(".addDetailsToNewUser").click(function(e){
+
+                                  e.preventDefault();
+
+                                  var form = $("#addDetailsToNewUser");
+
+                                  $.ajax({
+                                     type:'POST',
+                                     url:"{{ route('addDetailsToNewUser') }}",
+                                     data:form.serialize(),
+                                     success: function(response){
+                               alert("jjjj");
+                                     }
+                                  });
+
+                              });
+
+
+                          </script>
+
+                           <script type="text/javascript">
+
+                               $.ajaxSetup({
+                                   headers: {
+                                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                   }
+                               });
+
+                               $(".createOrUpdateAdminDetails").click(function(e){
+
+                                   e.preventDefault();
+
+                                   var form = $("#createOrUpdateAdminDetails");
+
+                                   $.ajax({
+                                      type:'POST',
+                                      url:"{{ route('createOrUpdateAdminDetails') }}",
+                                      data:form.serialize(),
+                                      success: function(response){
+                                alert("jjjj");
+                                      }
+                                   });
+
+                               });
+
+
+                           </script>
+    <div class="py-12" id="detailsToNewUser">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Add details to new user
                     <br>
                     New Users<br>
-                    @if(count($users=\App\Models\User::where('role','=',1)->get())>0)
+                    @if(count($users=\App\Models\User::where('users.batchId','=',$currentBatchId)->where('role','=',1)->get())>0)
                       @foreach(($users=\App\Models\User::where('role','=',1)->get()) as $user)
                           <table>
                             <thead>
@@ -51,25 +131,25 @@
 
                       </tbody>
                       </table>
+
+
                             <div class="modal fade" id="exampleModalLongNewUserUserId{{$user->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Name : {{$user->name}}</h5>
-                                      <h5 class="modal-title" id="exampleModalLongTitle">Email : {{$user->email}}</h5>
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Phone : {{$user->phone}}</h5>
-                                    <h5 class="modal-title" id="exampleModalLongTitle">New users</h5>
+                                    <h5 class="modal-title" id="exasmpleModalLongTitle">Name : {{$user->name}}</h5>
+                                      <h5 class="modal-title" id="exampleModalLonsgTitle">Email : {{$user->email}}</h5>
+                                    <h5 class="modal-title" id="exampleModaslLongTitle">Phone : {{$user->phone}}</h5>
+                                    <h5 class="modal-title" id="exampleModalLsongTitle">New users</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                   </div>
                                   <div class="modal-body">
-                                    {{Form::open(array('route' => 'addDetailsToNewUser')) }}
-                                      <table>
-                                    <thead>
-
-                                      <tr>
-                                        <th>First name</th>
+                                    <form action="{{route('addDetailsToNewUser')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
+                                    {{ csrf_field() }}{{ method_field('POST') }}
+                                      <table><tr>
+                                        <th>First name</th>{{Form::hidden('userId',$user->userId)}}
                                       <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name'))}} </td>
                                       </tr>
                                       <tr>
@@ -125,13 +205,12 @@
                                                         <tr>
                                                           <th>Guardian's Name</th>
                                                           <td>{{Form::text('guardianName',NULL,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
-                                                          <tr>
-                                                          </tr>
+
                                                         </table>
                                                       </div>
                                                         <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                          {{Form::submit('Save',array('class'=>'btn btn-primary'))}}
+                                                        <button class="btn btn-success btn-addDetailsToNewUser">Submit</button>
 
                                                           {{Form::close()}}
                                                         </div>
@@ -140,6 +219,8 @@
                                                   </div>
 
                                   @endforeach
+                            @else
+                              <h3 style="color:red;">List is empty!</h3>
                             @endif
 
                 </div>
@@ -150,15 +231,17 @@
 
 
  -->
- <div class="py-12">
+
+
+ <div class="py-12" id="createOrUpdateAdminDetails">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                  <div class="p-6 text-gray-900">
                      View/Edit details
                      <br>
                      Admins<br>
-                     @if(count($admins = (\App\Models\detail::where('roleId','=',3))->get())>0)
-                       @foreach(($admins = (\App\Models\detail::where('roleId','=',3))->get()) as $admin)
+                     @if(count($admins = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',3))->get())>0)
+                       @foreach(($admins = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',3))->get()) as $admin)
                        <div class="modal fade" id="exampleModalLongAdminAdminUserId{{$admin->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                <div class="modal-dialog" role="document">
                  <div class="modal-content">
@@ -173,8 +256,10 @@
                                    <table>
                                      <thead>
 
-                                       {{Form::open(array('route' => 'createOrUpdateAdminDetails')) }}
-                                       {{Form::hidden('detailId',$admin->detailId)}}
+
+                                       <form action="{{route('createOrUpdateAdminDetails')}}" method="POST" name="createOrUpdateAdminDetails" id="createOrUpdateAdminDetails">
+                                       {{ csrf_field() }}{{ method_field('POST') }}
+                                       {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                                        <tr>
                                          <th>First name</th>
                                        <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name'))}} </td>
@@ -197,17 +282,7 @@
                                        <td>{{Form::text('alternateContactNumber',$admin->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
                                                 <tr>
                                          <th>Current Role</th>
-                                       <td><select name="roleId">
-                                         @if(count($roles = \App\Models\role::all())>0)
-                                           @foreach(($roles = \App\Models\role::all()) as  $role)
-                                             @if($role->roleId==3)
-                                               <option value={{$role->roleId}} selected>{{$role->roleName}}</option>
-                                             @else
-                                               <option value={{$role->roleId}}>{{$role->roleName}}</option>
-                                             @endif
-                                           @endforeach
-                                         @endif
-                                       </select></td></tr>
+                                       <td>Admin</td></tr>
                                         <tr>
                                          <th>Address</th>
                                        <td>{{Form::text('address',$admin->address,array('placeholder'=>'Enter Address'))}}</td></tr>
@@ -239,7 +314,7 @@
                                         </table></div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                          {{Form::submit('Update',array('class'=>'btn btn-primary'))}}{{Form::close()}}
+                                          <button class="btn btn-success btn-createOrUpdateAdminDetails">Submit</button>{{Form::close()}}
                                         </div>
                                       </div>
                                     </div>
@@ -269,7 +344,7 @@
                        </table>
                 @endforeach
               @else
-                List is empty
+                <h3 style="color:red;">List is empty</h3>
               @endif
 
                  </div>
@@ -283,15 +358,45 @@
 
 
   -->
-     <div class="py-12">
+
+
+  <script type="text/javascript">
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      $(".createOrUpdateTeacherDetails").click(function(e){
+
+          e.preventDefault();
+
+          var form = $("#createOrUpdateTeacherDetails");
+
+          $.ajax({
+             type:'POST',
+             url:"{{ route('createOrUpdateTeacherDetails') }}",
+             data:form.serialize(),
+             success: function(response){
+       alert("jjjj");
+             }
+          });
+
+      });
+
+
+  </script>
+
+     <div class="py-12" id="createOrUpdateTeacherDetails">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                  <div class="p-6 text-gray-900">
                      View/Edit details
                      <br>
                      Teachers<br>
-                     @if(count($teachers = (\App\Models\detail::where('roleId','=',2))->get())>0)
-                       @foreach(($teachers = (\App\Models\detail::where('roleId','=',2))->get()) as $teacher)
+                     @if(count($teachers = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',2))->get())>0)
+                       @foreach(($teachers = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',2))->get()) as $teacher)
                        <div class="modal fade" id="exampleModalLongTeacherTeacherUserId{{$teacher->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                           <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -305,8 +410,11 @@
                               <div class="modal-body">
                                               <table>
                                                 <thead>
-                                                  {{Form::open(array('route' => 'createOrUpdateTeacherDetails')) }}
+
+                                                  <form action="{{route('createOrUpdateTeacherDetails')}}" method="POST" name="createOrUpdateTeacherDetails" id="createOrUpdateTeacherDetails">
+                                                  {{ csrf_field() }}{{ method_field('POST') }}
                                                   {{Form::hidden('detailId',$teacher->detailId)}}
+                                                  {{Form::hidden('userId',$teacher->userId)}}
                                                   <tr>
                                                     <th>First name</th>
                                                   <td>{{Form::text('firstName',$teacher->firstname,array('placeholder'=>'Enter first name'))}} </td>
@@ -329,17 +437,7 @@
                                                   <td>{{Form::text('alternateContactNumber',$teacher->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
                                                   <tr>
                                                     <th>Current Role</th>
-                                                  <td><select name="roleId">
-                                                    @if(count($roles = \App\Models\role::all())>0)
-                                                      @foreach(($roles = \App\Models\role::all()) as  $role)
-                                                        @if($role->roleId==2)
-                                                          <option value={{$role->roleId}} selected>{{$role->roleName}}</option>
-                                                        @else
-                                                          <option value={{$role->roleId}}>{{$role->roleName}}</option>
-                                                        @endif
-                                                      @endforeach
-                                                    @endif
-                                                  </select></td></tr>
+                                                  <td>Teacher</td></tr>
                                                     <tr>
                                                     <th>Address</th>
                                                   <td>{{Form::text('address',$teacher->address,array('placeholder'=>'Enter Address'))}}</td></tr>
@@ -366,10 +464,10 @@
                                                           <td>{{Form::text('guardianName',$teacher->guardianName,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
                                                           <tr>
                                                           </tr>
-                                                        </table></div>
+                                                        </table>  <button class="btn btn-success btn-createOrUpdateTeacherDetails">Submit</button>{{Form::close()}}</div>
                                                         <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                          {{Form::submit('Update',array('class'=>'btn btn-primary'))}}
+
                                                         </div>
                                                       </div>
                                                     </div>
@@ -402,7 +500,7 @@
                          {{Form::close()}}
                        @endforeach
                     @else
-                       List is empty
+                       <h3 style="color:red">List is empty</h3>
                     @endif
 
                  </div>
@@ -413,6 +511,35 @@
 
 
   -->
+
+  <script type="text/javascript">
+
+      $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
+
+      $(".createOrUpdateStudentDetails").click(function(e){
+
+          e.preventDefault();
+
+          var form = $("#createOrUpdateStudentDetails");
+
+          $.ajax({
+             type:'POST',
+             url:"{{ route('createOrUpdateStudentDetails') }}",
+             data:form.serialize(),
+             success: function(response){
+       alert("jjjj");
+             }
+          });
+
+      });
+
+
+  </script>
+
                   <div class="py-12">
                       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -420,8 +547,8 @@
                       View/Edit details
                       <br>
                       Students<br>
-                      @if(count($students = (\App\Models\detail::where('roleId','=',4))->get())>0)
-                        @foreach(($students = (\App\Models\detail::where('roleId','=',4))->get()) as $student)
+                      @if(count($students = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',4))->get())>0)
+                        @foreach(($students = (\App\Models\detail::where('details.batchId','=',$currentBatchId->batchId)->where('roleId','=',4))->get()) as $student)
                         <div class="modal fade" id="exampleModalLongStudentStudentUserId{{$student->userId}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                   <div class="modal-content">
@@ -433,14 +560,16 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      {{Form::open(array('route' => 'createOrUpdateStudentDetails')) }}
+                      <form action="{{route('createOrUpdateStudentDetails')}}" method="POST" name="createOrUpdateStudentDetails" id="createOrUpdateStudentDetails">
+                      {{ csrf_field() }}{{ method_field('POST') }}
+
                                     <table>
                                       <thead>
 
                                         <tr>
                                           <th>First name</th>
                                         <td>{{Form::text('firstName',$student->firstname,array('placeholder'=>'Enter first name'))}}
-                                        {{Form::hidden('detailId',$student->detailId)}} </td>
+                                        {{Form::hidden('detailId',$student->detailId)}} </td>{{Form::hidden('userId',$student->userId)}}
                                         </tr>
                                         <tr>
                                           <th>Last name</th>
@@ -460,17 +589,7 @@
                                         <td>{{Form::text('alternateContactNumber',$student->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
                                           <tr>
                                           <th>Current Role</th>
-                                        <td><select name="roleId">
-                                          @if(count($roles = \App\Models\role::all())>0)
-                                            @foreach(($roles = \App\Models\role::all()) as  $role)
-                                              @if($role->roleId==4)
-                                                <option value={{$role->roleId}} selected>{{$role->roleName}}</option>
-                                              @else
-                                                <option value={{$role->roleId}}>{{$role->roleName}}</option>
-                                              @endif
-                                            @endforeach
-                                          @endif
-                                        </select></td></tr>
+                                        <td>Student</td></tr>
                                           <tr>
                                           <th>Address</th>
                                         <td>{{Form::text('address',$student->address,array('placeholder'=>'Enter Address'))}}</td></tr>
@@ -502,7 +621,7 @@
                                           </div>
                                             <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                               {{Form::submit('Update',array('class'=>'btn btn-primary'))}}
+                                               <button class="btn btn-success btn-createOrUpdateStudentDetails">Submit</button>
                                  {{Form::close()}}
                                             </div>
                                           </div>
@@ -537,7 +656,7 @@
 
                         @endforeach
                      @else
-                        List is empty
+                        <h3 style="color:red;">List is empty</h3>
                      @endif
 
                   </div>
