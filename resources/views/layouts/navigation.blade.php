@@ -104,11 +104,6 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('TeacherClassRoom')" :active="request()->routeIs('TeacherClassRoom')">
-                        {{ __('Classroom') }}
-                    </x-nav-link>
-                </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherStudent')" :active="request()->routeIs('TeacherStudent')">
@@ -125,12 +120,6 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherDetails')" :active="request()->routeIs('TeacherDetails')">
                         {{ __('Details') }}
-                    </x-nav-link>
-                </div>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('TeacherSubject')" :active="request()->routeIs('TeacherSubject')">
-                        {{ __('Subject') }}
                     </x-nav-link>
                 </div>
                 @endif
@@ -183,6 +172,8 @@
                     </x-slot>
 
                     <x-slot name="content">
+                                    <!-- Navigation Links -->
+
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -232,7 +223,76 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
+                @if ( Auth::user()->role == 3)
+                    <x-responsive-nav-link :href="route('Admindashboard')" :active="request()->routeIs('Admindashboard')">
+                            {{ __('Dashboard') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('Admin')" :active="request()->routeIs('Admin')">
+                            {{ __('Admin') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminAttendance')" :active="request()->routeIs('AdminAttendance')">
+                            {{ __('Attendance') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('getAdminClassRoomDetails')" :active="request()->routeIs('getAdminClassRoomDetails')">
+                            {{ __('Classroom') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">
+                            {{ __('Details') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminGrade')" :active="request()->routeIs('AdminGrade')">
+                            {{ __('Grade') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminRole')" :active="request()->routeIs('AdminRole')">
+                            {{ __('User Roles') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminSection')" :active="request()->routeIs('AdminSection')">
+                            {{ __('Section') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminStudent')" :active="request()->routeIs('AdminStudent')">
+                            {{ __('Student') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminSubjectTeachersForEachSection')" :active="request()->routeIs('AdminSubjectTeachersForEachSection')">
+                            {{ __('Subject Teachers') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminSubject')" :active="request()->routeIs('AdminSubject')">
+                            {{ __('Subject') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('AdminTeacher')" :active="request()->routeIs('AdminTeacher')">
+                            {{ __('Teacher') }}
+                          </x-responsive-nav-link>
+                @endif
+                @if ( Auth::user()->role == 2)
+                    <x-responsive-nav-link :href="route('Teacherdashboard')" :active="request()->routeIs('Teacherdashboard')">
+                            {{ __('Dashboard') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('TeacherStudent')" :active="request()->routeIs('TeacherStudent')">
+                            {{ __('Student') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('TeacherAttendance')" :active="request()->routeIs('TeacherAttendance')">
+                            {{ __('Attendance') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('TeacherDetails')" :active="request()->routeIs('TeacherDetails')">
+                            {{ __('Details') }}
+                          </x-responsive-nav-link>
+                @endif
+                @if ( Auth::user()->role == 4)
+                          <x-responsive-nav-link :href="route('StudentDashboard')" :active="request()->routeIs('StudentDashboard')">
+                            {{ __('Dashboard') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('StudentTeachersDetails')" :active="request()->routeIs('StudentTeachersDetails')">
+                            {{ __('Contact Us') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('StudentAttendance')" :active="request()->routeIs('StudentAttendance')">
+                            {{ __('Attendance') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('StudentMarks')" :active="request()->routeIs('StudentMarks')">
+                            {{ __('Marks') }}
+                          </x-responsive-nav-link>
+                          <x-responsive-nav-link :href="route('StudentDetails')" :active="request()->routeIs('StudentDetails')">
+                            {{ __('Details') }}
+                          </x-responsive-nav-link>
 
+              @endif
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

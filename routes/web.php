@@ -208,9 +208,6 @@ Route::get('/subjectTeachersForEachSection', function () {
 Route::get('/TeacherAttendance', function () {
     return view('/Teacher/attendance');
 })->middleware(['auth', 'verified'])->name('TeacherAttendance');
-Route::get('/TeacherClassRoom', function () {
-    return view('/Teacher/classRoom');
-})->middleware(['auth', 'verified'])->name('TeacherClassRoom');
 Route::get('/TeacherDetails', function () {
     return view('/Teacher/details');
 })->middleware(['auth', 'verified'])->name('TeacherDetails');

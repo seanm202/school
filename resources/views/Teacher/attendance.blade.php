@@ -201,7 +201,7 @@
                                                   'daily_teacher_allocation.classRoomId AS classRoomId',
                                                   'daily_teacher_allocation.daily_Teacher_AllocationId  AS daily_Teacher_AllocationId',
                                                   'batches.batchName AS batchName',
-                                                  'batches.batcheStartingYear AS batcheStartingYear',
+                                                  'batches.batchStartingYear AS batcheStartingYear',
                                                   'batches.batchEndingYear  AS batchEndingYear',
                                                   )->get() as $classRoomsThatITeach)
                                                   <table>

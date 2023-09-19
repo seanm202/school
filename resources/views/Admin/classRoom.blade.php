@@ -1,3 +1,9 @@
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sidebar.js') }}"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -14,7 +20,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Class Room') }}    @if(Session::has('success'))
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button>   {{ __('Class Room') }}    @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -35,6 +41,27 @@
            </div>
         @endif
     </x-slot>
+    <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div>
+
+
+    <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
+      <div class="sidebar-heading">Therichpost </div>
+      <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
+        <ul>
+          <li>
+          <a href="#viewEditClassrooms" class="list-group-item list-group-item-action bg-light">View classrooms</a>
+          <a href="#createClassRoom" class="list-group-item list-group-item-action bg-light">Create Classrooms</a>
+        </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+
+    <div>
+
 
 
     @if ( Auth::user()->role != 3)
@@ -113,7 +140,7 @@
 
 
 
-                    @if(count(($classRooms=\App\Models\classRoom::where('class_rooms.batchId','=',1)
+                    @if(count(($classRooms=\App\Models\classRoom::where('class_rooms.batchId','=',$currentBatchId)
                                           ->join('grades','grades.gradeId','=','class_rooms.grade')
                                           ->join('sections','sections.sectionId','=','class_rooms.section')
                                           ->join('departments','departments.departmentId','=','class_rooms.departmentId')
@@ -171,7 +198,7 @@
                                               'class_rooms.classTimeTableId AS classTimeTableId',
                                               'class_rooms.classroomDetailId AS classroomDetailId',
                                               'class_rooms.batchId AS batchId'
-                                              )->where('class_rooms.batchId','=',$currentBatchId->batchId)
+                                              )->where('class_rooms.batchId','=',$currentBatchId)
                                               ->get()) as $classRoom)
 
                                               <form action="{{route('updateClassRoom')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
@@ -184,7 +211,7 @@
                               <td>{{$classRoom->departmentName}} </td>
                               <td>{{$classRoom->semesterName}} </td>
                               <td><select name="teacherId">
-                                @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId->batchId)
+                                @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)
                                                                         ->join('details','details.userId','=','teachers.userId')
                                                                         ->select('details.lastname AS lastName',
                                                                         'details.firstname AS firstName',
@@ -264,11 +291,44 @@
                   Create classroom
                   <form action="{{route('createClassRoom')}}" method="POST" name="createClassRoom" id="createClassRoom">
                   {{ csrf_field() }}{{ method_field('POST') }}
+                  {{Form::label('departments','Department')}}
+                  <select name="departmentId">
+                    @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
+                      @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as $department)
+                        <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                  <br>
+                  <br>
+                  {{Form::label('semesters','Semester')}}
+                  <select name="semesterId">
+                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId->batchId)->get())>0)
+                      @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId->batchId)->get()) as $semester)
+                        <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                  <br>
+                  <br>
+                  {{Form::label('classTeacher','Class Teacher')}}
+                  <select name="classTeacher">
+                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
+                      @foreach(($teachers = \App\Models\teacher::join('details','details.userId','=','teachers.userId')
+                                          ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
+                                                              ->where('teachers.batchId','=',$currentBatchId)
+                                          ->get()) as $teacher)
+                        <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                  <br>
+                  <br>
                   {{Form::label('grade','Grade : ')}}
                   <select name="grade">
-                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId->batchId)->get())>0)
-                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId->batchId)->get()) as $graded)
-                        <option value="$graded->gradeId">{{$graded->grade}}</option>
+                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
+                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get()) as $graded)
+                        <option value="{{$graded->gradeId}}">{{$graded->grade}}</option>
                         @endforeach
                     @endif
                   </select>
@@ -278,21 +338,21 @@
                   <br>
                   {{Form::label('sectionName','Section Name : ')}}
                   <select name="section">
-                    @if(count($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId->batchId)->get())>0)
-                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId->batchId)->get()) as $section)
-                        <option value="$section->sectionId">{{$section->sectionName}}</option>
+                    @if(count($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId)->get())>0)
+                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId)->get()) as $section)
+                        <option value="{{$section->sectionId}}">{{$section->sectionName}}</option>
                       @endforeach
                     @endif
                   </select>
                   <br>
                   {{Form::label('classTeacher','Class Teacher')}}
                   <select name="classTeacher">
-                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',$currentBatchId->batchId)->get())>0)
+                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
                       @foreach(($teachers = \App\Models\teacher::join('details','details.userId','=','teachers.userId')
-                                          ->where('teachers.batchId','=',$currentBatchId->batchId)
+                                          ->where('teachers.batchId','=',$currentBatchId)
                                           ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
                                           ->get()) as $teacher)
-                        <option value="$teacher->teacherId">{{$teacher->firstName}} {{$teacher->lastName}}</option>
+                        <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
                       @endforeach
                     @endif
                   </select>
@@ -308,7 +368,7 @@
                     {{Form::label('classTimeTableId','Class TimeTable Id')}}
                     <select name="classTimeTableId">
                       @foreach($classTimeTables as $classTimeTable)
-                        <option value="$classTimeTable->classTimeTableId">{{$classTimeTable->classTimeTableName}}</option>
+                        <option value="{{$classTimeTable->classTimeTableId}}">{{$classTimeTable->classTimeTableName}}</option>
                       @endforeach
                     </select>
                   @endisset
@@ -317,6 +377,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    </div>
+    </div>
     </div>
 
 

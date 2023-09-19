@@ -1,4 +1,11 @@
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="{{ asset('css/style.css') }}" rel="stylesheet">
+<script src="{{ asset('js/sidebar.js') }}"></script>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js"
                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                crossorigin="anonymous">
@@ -26,7 +33,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Admin') }}
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button> {{ __('Admin') }}
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -39,6 +46,39 @@
             @endif
         </h2>
     </x-slot>
+    <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div>
+
+
+    <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
+      <div class="sidebar-heading">Therichpost </div>
+      <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
+        <ul>
+          <li>
+          <a href="#createTheAdmin" class="list-group-item list-group-item-action bg-light">Add Admin</a>
+          <a href="#updateTheBatches" class="list-group-item list-group-item-action bg-light">Update Batches</a>
+          <a href="#createTheBatches" class="list-group-item list-group-item-action bg-light">Add Batches</a>
+          <a href="#deleteTheDepartments" class="list-group-item list-group-item-action bg-light">Edit/Delete Departments</a>
+          <a href="#addTheDepartments" class="list-group-item list-group-item-action bg-light">Add Departments</a>
+          <a href="#editTheSemesters" class="list-group-item list-group-item-action bg-light">Edit Delete Semesters</a>
+          <a href="#addTheSemesters" class="list-group-item list-group-item-action bg-light">Add Semester</a>
+          <a href="#editDayName" class="list-group-item list-group-item-action bg-light">Edit Day Name</a>
+          <a href="#addTheDay" class="list-group-item list-group-item-action bg-light">Add Day Name</a>
+          <a href="#editTheHourName" class="list-group-item list-group-item-action bg-light">Edit Hour</a>
+          <a href="#addTheHour" class="list-group-item list-group-item-action bg-light">Add Hour</a>
+          <a href="#generateAttendanceForTeachers" class="list-group-item list-group-item-action bg-light">Generate Timetable</a>
+          <a href="#updateTheStatus" class="list-group-item list-group-item-action bg-light">Edit Status</a>
+          <a href="#createTheStatus" class="list-group-item list-group-item-action bg-light">Add Status</a>
+        </li>
+          </ul>
+      </div>
+    </div>
+  </div>
+
+    <div>
+
 
     @if ( Auth::user()->role != 3)
 
@@ -79,7 +119,7 @@
 
 
  </script>
-
+<div>
     <div class="py-12" id="createTheAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -166,73 +206,6 @@
             </div>
         </div>
     </div>
-<!-- Add batches
-
- -->
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $('#createBatches').submit(function (event) {
-           event.preventDefault();
-           $.ajax({
-              type: "POST",
-              url: "{{ route('createBatches') }}",
-              data: $(this).serialize(),
-               success: function (data) {
-                 console.log("hi");
-               // $('.result').html(data);
-              }
-            });
-        });
-
-//         $("createBatches").click(function(e){
-//
-//             e.preventDefault();
-//
-//             var form = $("#createBatches");
-//
-//             $.ajax({
-//                type:'POST',
-//                url:"{{ route('createBatches') }}",
-//                data:form.serialize(),
-//                success: function(response){
-//          alert("jjjj");
-//                }
-//             });
-// return false;
-//         });
-
-
-    </script>
-
-
- <div class="py-12" id="createTheBatches">
-     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-             <div class="p-6 text-gray-900">
-               Add Batches
-               <form action="{{route('createBatches')}}" method="post" name="createBatches" id="createBatches">
-               {{ csrf_field() }}{{ method_field('POST') }}
-
-                       <div style="display:flex;">
-                         <div>{{Form::label('Batch Name','Batch Name')}}</div>
-                       <div>{{Form::text('batchName',NULL,array('placeholder'=>'Enter Batch Name : ','id'=>'batchName'))}}</div><div style="padding:20px;"></div>
-                       <div>{{Form::label('Batch StartingYear','Batch Starting Year')}}</div>
-                       <div>{{Form::text('batchStartingYear',NULL,array('placeholder'=>'Enter Starting Year','id'=>'batchStartingYear'))}}</div><div style="padding:20px;"></div>
-                      <div> {{Form::label('Batch Ending Year','Batch Ending Year')}}</div>
-                       <div>{{Form::text('batchEndingYear',NULL,array('placeholder'=>'Enter Ending Year','id'=>'batchEndingYear'))}}</div><div style="padding:20px;"></div>
-                       <div><button type="submit" onsubmit="submitBatch()" class="btn btn-success btn-createBatches">Create</button></div></div>
-                       {{Form::close()}}
-             </div>
-         </div>
-     </div>
- </div>
-
 
      <script type="text/javascript">
 
@@ -318,6 +291,9 @@
 
 
          </script>
+
+
+
  <div class="py-12" id="updateTheBatches">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -326,36 +302,53 @@
                Update Batch Details / Delete Batch
                <table>
                <thead>
-               <th>Batch Id</th>
                <th>Batch Name</th>
-               <th>Starting Year</th>
-               <th>Ending Year</th>
-               <th>Update</th>
-               <th>Assign</th>
+               <th>View</th>
                </thead>
                <tbody>
                @foreach(($batches = \App\Models\batch::all()) as $batch)
-                    @if($batch->status!=1)
-                        <tr><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
-                      <td>{{$batch->batchId}}</td>
-                      <td>{{Form::text('batchName',$batch->batchName)}}</td>
-                      <td>{{Form::text('batchStartingYear',$batch->batchStartingYear)}}</td>
-                      <td>{{Form::text('batchEndingYear',$batch->batchEndingYear)}}</td>
-                      <td><button class="btn btn-success btn-updateBatches">Update</button>{{Form::close()}}</td><form action="{{route('currentBatch')}}" method="POST" name="updateBatches" id="currentBatch">{{ csrf_field() }}{{ method_field('POST') }}
-                    {{Form::hidden('batchId',$batch->batchId)}}{{Form::hidden('currentBatchId',(\App\Models\batch::where('status',1)->select('batchId')->first())->batchId)}}
-                      <td><button class="btn btn-success btn-currentBatch">Assign</button>{{Form::close()}}</td>
-                      </tr>
-                    @else
-                      <tr style="background:green;color:white;"><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
-                      <td>{{$batch->batchId}}</td>
-                      <td>{{Form::text('batchName',$batch->batchName)}}</td>
-                        <td>{{Form::text('batchStartingYear',$batch->batchStartingYear)}}</td>
-                        <td>{{Form::text('batchEndingYear',$batch->batchEndingYear)}}</td>
-                        <td><button class="btn btn-success btn-updateBatches">Update</button>{{Form::close()}}</td><form action="{{route('currentBatch')}}" method="POST" name="updateBatches" id="currentBatch">{{ csrf_field() }}{{ method_field('POST') }}
-                          {{Form::hidden('batchId',$batch->batchId)}}{{Form::hidden('currentBatchId',(\App\Models\batch::where('status',1)->select('batchId')->first())->batchId)}}
-                          <td><button class="btn btn-success btn-currentBatch">Assign</button>{{Form::close()}}</td>
-                      </tr>
-                   @endif
+                  @if($batch->status!=1)
+                     <tr><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
+                     <td>{{$batch->batchName}}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
+                   </tr>
+                @else
+                 <tr style="background:green;color:white;"><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
+                   <td>{{$batch->batchName}}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
+                  </tr>
+                @endif
+                 <div class="modal fade" id="myModalUpdateBatches{{$batch->batchId}}">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h4 class="modal-title">Modal Heading</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                          <form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
+                          {{Form::label('batchName','Batch Name : ')}}{{Form::text('batchName',$batch->batchName)}}
+                          {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchName',$batch->batchStartingYear)}}
+                          {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchName',$batch->batchEndingYear)}}
+                          <button class="btn btn-success btn-updateBatches">Update</button>{{Form::close()}}
+                          <form action="{{route('currentBatch')}}" method="POST" name="currentBatch" id="currentBatch">{{ csrf_field() }}{{ method_field('POST') }}
+                            {{Form::hidden('batchId',$batch->batchId)}}
+                          <button class="btn btn-success btn-currentBatch">Assign</button>{{Form::close()}}
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                      </div>
+                    </div>
+                   </div>
               @endforeach
              </tbody>
               </table>
@@ -368,56 +361,62 @@
  </div>
 
 
+ <!-- Add batches
+
+ -->
+
+ <script type="text/javascript">
+
+     $.ajaxSetup({
+         headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+         }
+     });
+     $('#createBatches').submit(function (event) {
+        event.preventDefault();
+        $.ajax({
+           type: "POST",
+           url: "{{ route('createBatches') }}",
+           data: $(this).serialize(),
+            success: function (data) {
+              console.log("hi");
+            // $('.result').html(data);
+           }
+         });
+     });
+
+
+ </script>
+
+
+ <div class="py-12" id="createTheBatches">
+  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+          <div class="p-6 text-gray-900">
+            Add Batches
+            <form action="{{route('createBatches')}}" method="post" name="createBatches" id="createBatches">
+            {{ csrf_field() }}{{ method_field('POST') }}
+
+                    <div>
+                      <div>{{Form::label('Batch Name','Batch Name')}}</div>
+                    <div>{{Form::text('batchName',NULL,array('placeholder'=>'Enter Batch Name : ','id'=>'batchName'))}}</div><div style="padding:20px;"></div>
+                    <div>{{Form::label('Batch StartingYear','Batch Starting Year')}}</div>
+                    <div>{{Form::text('batchStartingYear',NULL,array('placeholder'=>'Enter Starting Year','id'=>'batchStartingYear'))}}</div><div style="padding:20px;"></div>
+                   <div> {{Form::label('Batch Ending Year','Batch Ending Year')}}</div>
+                    <div>{{Form::text('batchEndingYear',NULL,array('placeholder'=>'Enter Ending Year','id'=>'batchEndingYear'))}}</div><div style="padding:20px;"></div>
+                    <div><button type="submit" onsubmit="submitBatch()" class="btn btn-success btn-createBatches">Create</button></div></div>
+                    {{Form::close()}}
+          </div>
+      </div>
+  </div>
+ </div>
+
 
     <!--
 
 
    -->
 
-
-   <script type="text/javascript">
-
-       $.ajaxSetup({
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           }
-       });
-
-       $(".createDepartment").click(function(e){
-
-           e.preventDefault();
-
-           var form = $("#createDepartment");
-
-           $.ajax({
-              type:'POST',
-              url:"{{ route('createDepartment') }}",
-              data:form.serialize(),
-              success: function(response){
-        alert("jjjj");
-              }
-           });
-
-       });
-
-
-   </script>
-
-    <div class="py-12" id="addTheDepartments">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                  Add Departments
-                  <form action="{{route('createDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
-                  {{ csrf_field() }}{{ method_field('POST') }}
-                    {{Form::label('departmentName','Department Name : ')}}
-                          {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : '))}}<br><br><hr><br>
-                          <button class="btn btn-success btn-createDepartment">Create</button>
-                          {{Form::close()}}
-                </div>
-            </div>
-        </div>
-    </div>
     <!--
 
    -->
@@ -482,30 +481,49 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                       Edit / Delete Departments
-                      @if(count($departments = (\App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('status',1)->select('batchId')->first())->batchId)->get()))>0)
+                  @if(count($departments = (\App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('status',1)->select('batchId')->first())->batchId)->get()))>0)
                        <table>
                          <thead>
                            <tr>
-                             <th>Department Id</th>
                              <th>Department Name</th>
-                             <th>Update</th>
-                             <th>Delete</th>
+                             <th>View</th>
                            </tr>
                          </thead>
                          <tbody>
                         @foreach(($departments = (\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())) as $department)
-                          <tr>  <form action="{{route('updateDepartment')}}" method="POST" name="updateDepartment" id="updateDepartment">
-                              {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                              <td>{{Form::label('departmentId',$department->departmentId)}}</td>
-                              <td>{{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : '))}}</td>
-                              <td><button class="btn btn-success btn-updateDepartment">Update</button></td>
-                              {{Form::close()}}
-                              <form action="{{route('deleteDepartment')}}" method="POST" name="deleteDepartment" id="deleteDepartment">
-                                  {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                                  <td><button class="btn btn-success btn-deleteDepartment">Delete</button>
-                                  {{Form::close()}}
-                                </td>
-                            </tr>
+                          <tr><td>{{$department->departmentName}}</td>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateDepartment{{$department->departmentId}}">View</button></td>
+                          </tr>
+                          <div class="modal fade" id="myModalUpdateDepartment{{$department->departmentId}}">
+                             <div class="modal-dialog modal-sm">
+                               <div class="modal-content">
+
+                                 <!-- Modal Header -->
+                                 <div class="modal-header">
+                                   <h4 class="modal-title">Modal Heading</h4>
+                                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                 </div>
+
+                                 <!-- Modal body -->
+                                 <div class="modal-body">
+                                   <form action="{{route('updateDepartment')}}" method="POST" name="updateDepartment" id="updateDepartment">
+                                         {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
+                                         {{Form::label('departmentId',$department->departmentName)}} {{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : '))}}
+                                         <button class="btn btn-success btn-updateDepartment">Update</button>{{Form::close()}}
+                                         <form action="{{route('deleteDepartment')}}" method="POST" name="deleteDepartment" id="deleteDepartment">
+                                             {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
+                                             <button class="btn btn-success btn-deleteDepartment">Delete</button>{{Form::close()}}
+
+                                 </div>
+
+                                 <!-- Modal footer -->
+                                 <div class="modal-footer">
+                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                 </div>
+
+                               </div>
+                             </div>
+                            </div>
                         @endforeach
                          </tbody>
                        </table>
@@ -518,54 +536,55 @@
     </div>
 
 
+
+       <script type="text/javascript">
+
+           $.ajaxSetup({
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               }
+           });
+
+           $(".createDepartment").click(function(e){
+
+               e.preventDefault();
+
+               var form = $("#createDepartment");
+
+               $.ajax({
+                  type:'POST',
+                  url:"{{ route('createDepartment') }}",
+                  data:form.serialize(),
+                  success: function(response){
+            alert("jjjj");
+                  }
+               });
+
+           });
+
+
+       </script>
+
+        <div class="py-12" id="addTheDepartments">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                      Add Departments
+                      <form action="{{route('createDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
+                      {{ csrf_field() }}{{ method_field('POST') }}
+                        {{Form::label('departmentName','Department Name : ')}}
+                              {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : '))}}<br><br><hr><br>
+                              <button class="btn btn-success btn-createDepartment">Create</button>
+                              {{Form::close()}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
 <!--
 
  -->
 
-
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".createSemester").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#createSemester");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createSemester') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
-    <div class="py-12" id="addTheSemesters">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    Add Semester
-
-                    <form action="{{route('createSemester')}}" method="POST" name="createSemester" id="createSemester">
-                    {{ csrf_field() }}{{ method_field('POST') }}
-                          {{Form::label('semesterName','Semester Name : ')}}
-                          {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name'))}}<br><br><hr><br>
-                          <button class="btn btn-success btn-createSemester">Create</button>
-                          {{Form::close()}}
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <script type="text/javascript">
@@ -628,6 +647,51 @@
             </div>
         </div>
     </div>
+
+
+     <script type="text/javascript">
+
+         $.ajaxSetup({
+             headers: {
+                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             }
+         });
+
+         $(".createSemester").click(function(e){
+
+             e.preventDefault();
+
+             var form = $("#createSemester");
+
+             $.ajax({
+                type:'POST',
+                url:"{{ route('createSemester') }}",
+                data:form.serialize(),
+                success: function(response){
+          alert("jjjj");
+                }
+             });
+
+         });
+
+
+     </script>
+        <div class="py-12" id="addTheSemesters">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 text-gray-900">
+                        Add Semester
+
+                        <form action="{{route('createSemester')}}" method="POST" name="createSemester" id="createSemester">
+                        {{ csrf_field() }}{{ method_field('POST') }}
+                              {{Form::label('semesterName','Semester Name : ')}}
+                              {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name'))}}<br><br><hr><br>
+                              <button class="btn btn-success btn-createSemester">Create</button>
+                              {{Form::close()}}
+                    </div>
+                </div>
+            </div>
+        </div>
 <!--
 Day creation and updation
  -->
@@ -815,26 +879,48 @@ Hour creation
              <thead>
 
                <tr>
-                 <th>Hour ID</th>
                  <th>Hour Name </th>
-                 <th>Hour Starting Time</th>
-                 <th>Update</th>
-                 <th>Delete</th>
+                 <th>View</th>
                </tr>
              </thead>
            <tbody>
                @foreach(($hours=(\App\Models\hours::all())) as $hour)
-               <tr><form action="{{route('updateHourDetails')}}" method="POST" name="updateHourDetails" id="updateHourDetails">
-               {{ csrf_field() }}{{ method_field('POST') }}
-                 <td>{{$hour->hourId}}</td>{{Form::hidden('hourId',$hour->hourId)}}
-               <td>{{Form::text('hourName',$hour->hourName,array('placeholder'=>'Enter Day Name'))}}</td>
-               <td>{{Form::time('hourStartingTime',$hour->hourStartingTime)}}</td>
-               <td><button class="btn btn-success btn-updateHourDetails">Save</button></td>{{Form::close()}}
-             <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
-               {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',$hour->hourId)}}
-               <td><button class="btn btn-success btn-deleteHour">Delete</button>
-                   {{Form::close()}}</td>
-             </tr>
+                  <tr><td>{{$hour->hourName}}</td>
+                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateHour{{$hour->hourId}}">View</button></td>
+                 </tr>
+                 <div class="modal fade" id="myModalUpdateHour{{$hour->hourId}}">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                          <h4 class="modal-title">Modal Heading</h4>
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                          <form action="{{route('updateHourDetails')}}" method="POST" name="updateHourDetails" id="updateHourDetails">
+                          {{ csrf_field() }}{{ method_field('POST') }}
+                          {{Form::label('hourName',"Hour Name")}}{{Form::hidden('hourId',$hour->hourId)}}
+                          {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name'))}}
+                          {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime)}}
+                          <button class="btn btn-success btn-updateHourDetails">Save</button>{{Form::close()}}
+                        <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
+                          {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',$hour->hourId)}}
+                        <button class="btn btn-success btn-deleteHour">Delete</button>
+                              {{Form::close()}}
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+
+                      </div>
+                    </div>
+                   </div>
                @endforeach
            </tbody>
              </table>
@@ -885,8 +971,8 @@ Hour creation
              <div class="p-6 text-gray-900">
                Add Hour
                  <div><form action="{{route('createHour')}}" method="POST" name="createHour" id="createHour">
-                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('houryName',NULL,array('placeholder'=>'Enter first name'))}}
-                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStarTime',NULL)}}<br><br><hr><br>
+                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('houryName',NULL,array('placeholder'=>'Enter first name'))}}<br><br>
+                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStarTime',NULL)}}<br><br>
                  <button class="btn btn-success btn-createHour">Add</button>{{Form::close()}}
                 </div>
              </div>
@@ -945,35 +1031,56 @@ Hour creation
                     View Status
                     <table>
                       <thead><tr>
-                        <th>Status Id</th>
                         <th>Status Name</th>
-                        <th>Status for </th>
-                        <th>Update</th>
-                        <th>Delete</th></tr>
+                        <th>View </th>
                       </thead>
+                      <tbody>
                     @foreach($statuses=\App\Models\Status::all() as $status)
+                      <tr><td>{{$status->statusName}}</td>
+                          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateStatus{{$status->statusId}}">View</button></td>
+                        </tr>
 
-                    <tbody>
-                      <tr>
-                      <form action="{{route('updateStatusDetails')}}" method="POST" name="updateStatusDetails" id="updateStatusDetails">
-                      {{ csrf_field() }}{{ method_field('POST') }}
-                       <td>{{$status->statusId}}</td>
-                       <td>{{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name'))}}</td>
-                        <td><select name="roleForStatus">
-                        @foreach(($roles=\App\Models\role::all()) as $role)
-                         <option value="{{$role->roleId}}">{{$role->roleName}}</option>
-                          @endforeach
-                        </select></td>
-                        <td><button class="btn btn-success btn-updateStatusDetails">Update</button>
-                       {{Form::hidden('statusId',$status->statusId)}}
-                        {{Form::close()}}</td><form action="{{route('deleteStatusDetails')}}" method="POST" name="deleteStatusDetails" id="deleteStatusDetails">
-                        <td><button class="btn btn-success btn-deleteStatusDetails">Delete</button></td>
-                          {{ csrf_field() }}{{ method_field('POST') }}
-                       {{Form::hidden('statusId',$status->statusId)}}
-                        {{Form::close()}}
-                      </tr>
-                        </tbody>
+                        <div class="modal fade" id="myModalUpdateStatus{{$status->statusId}}">
+                           <div class="modal-dialog modal-sm">
+                             <div class="modal-content">
+
+                               <!-- Modal Header -->
+                               <div class="modal-header">
+                                 <h4 class="modal-title">Modal Heading</h4>
+                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
+                               </div>
+
+                               <!-- Modal body -->
+                               <div class="modal-body">
+                                 <form action="{{route('updateStatusDetails')}}" method="POST" name="updateStatusDetails" id="updateStatusDetails">
+                                 {{ csrf_field() }}{{ method_field('POST') }}
+                              {{Form::hidden('statusId',$status->statusId)}}
+                                  {{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name'))}}
+                                   <select name="roleForStatus">
+                                   @foreach(($roles=\App\Models\role::all()) as $role)
+                                    <option value="{{$role->roleId}}">{{$role->roleName}}</option>
+                                     @endforeach
+                                   </select>
+                                   <button class="btn btn-success btn-updateStatusDetails">Update</button>
+                                  {{Form::hidden('statusId',$status->statusId)}}
+                                   {{Form::close()}}<form action="{{route('deleteStatusDetails')}}" method="POST" name="deleteStatusDetails" id="deleteStatusDetails">
+                                   <button class="btn btn-success btn-deleteStatusDetails">Delete</button>
+                                     {{ csrf_field() }}{{ method_field('POST') }}
+                                  {{Form::hidden('statusId',$status->statusId)}}
+                                   {{Form::close()}}
+
+                               </div>
+
+                               <!-- Modal footer -->
+                               <div class="modal-footer">
+                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                               </div>
+
+                             </div>
+                           </div>
+                          </div>
                     @endforeach
+                    </tbody>
                   </table>
                   </div>
               </div>
@@ -1040,5 +1147,10 @@ Hour creation
              </div>
          </div>
      </div>
+</div>
+     </div>
+   </div>
+
+     <!-- /#sidebar-wrapper -->
 
 </x-app-layout>

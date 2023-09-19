@@ -137,7 +137,7 @@ class ClassRoomController extends Controller
      ->update(['studentClassroom' => $request->classroomDetailId,
    'status'=>2]);
        //return redirect()->route('AdminStudent');
-return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents']) back()->with('success', 'Updated successfully.');
+return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents'])->with('success', 'Updated successfully.');
     }
 
     /**
