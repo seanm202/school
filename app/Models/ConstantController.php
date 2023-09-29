@@ -15,8 +15,8 @@ class ConstantController extends Model
      */
     protected $table = 'constant_controllers';
     protected $primaryKey = 'constantId';
-    protected $attributes = [
-        'constantName' => '',
-        'constantValue'=>'',
+    protected $fillable = [
+        'constantName',
+        'constantValue'
     ];
 }

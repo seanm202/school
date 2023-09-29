@@ -1,4 +1,7 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,7 +23,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button>     {{ __('Section') }}    @if(Session::has('success'))
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>   {{ __('Section') }}    @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -48,12 +51,12 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
-          <a href="#createSectionByAdmin" class="list-group-item list-group-item-action bg-light">Add Sections</a>
-          <a href="#updateSectionByAdmin" class="list-group-item list-group-item-action bg-light">Update Sections</a>
+          <a href="#createSectionsByAdmin" class="list-group-item list-group-item-action bg-light">Add Sections</a>
+          <a href="#updateSectionsByAdmin" class="list-group-item list-group-item-action bg-light">Update Sections</a>
         </li>
           </ul>
       </div>
@@ -73,108 +76,26 @@
  @endif
 
 
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".createSectionByAdmin").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#createSectionByAdmin");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createSectionByAdmin') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
-
-    <div class="py-12" id="createSectionByAdmin">
+    <div class="py-12" id="createSectionsByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Create sections
 
-                    <form action="{{route('createSectionByAdmin')}}" method="POST" name="createSectionByAdmin" id="createSectionByAdmin">
+                    <form action="{{route('section.createSection')}}" method="POST" name="createSectionByAdmin" id="createSectionByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('sectionName', 'Enter section name :')}}
-                    {{Form::text('sectionName',NULL,array('placeholder'=>'Name of the section'))}}<br>
-                    <button class="btn btn-success btn-createSectionByAdmin">Submit</button>
+                    {{Form::text('sectionName',NULL,array('placeholder'=>'Name of the section','id'=>'sectionName'))}}<br>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     {{ Form::close() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".updateSectionByAdmin").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#updateSectionByAdmin");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('updateSectionByAdmin') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
 
 
-    </script>
-
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".deleteSectionByAdmin").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#deleteSectionByAdmin");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('deleteSectionByAdmin') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
-    <div class="py-12" id="updateSectionByAdmin">
+    <div class="py-12" id="updateSectionsByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -191,16 +112,16 @@
                         <tbody>
                           @foreach(($sections=App\Models\section::where('batchId','=',$currentBatchId)->get()) as $section)
                           <tr>
-                            <form action="{{route('updateSectionByAdmin')}}" method="POST" name="updateSectionByAdmin" id="updateSectionByAdmin">
+                            <form action="{{route('section.updateSection',['section'=>$section->sectionId])}}" method="POST" name="updateSectionByAdmin" id="updateSectionByAdmin">
                             {{ csrf_field() }}{{ method_field('POST') }}
-                            <td>{{Form::text('sectionName',$section->sectionName,array('placeholder'=>'Section Name'))}}</td>
-                            {{Form::hidden('sectionId',$section->sectionId)}}
-                            <td><button class="btn btn-success btn-updateSectionByAdmin">Update</button></td>
+                            <td>{{Form::text('sectionName',$section->sectionName,array('placeholder'=>'Section Name','id'=>'sectionName'))}}</td>
+                            {{Form::hidden('sectionId',$section->sectionId,array('id'=>'sectionId'))}}
+                            <td><button type="submit" class="btn btn-primary">Update</button></td>
                             {{ Form::close() }}
-                            <form action="{{route('deleteSectionByAdmin')}}" method="POST" name="deleteSectionByAdmin" id="deleteSectionByAdmin">
+                            <form action="{{route('section.destroySection',['section'=>$section->sectionId])}}" method="POST" name="deleteSectionByAdmin" id="deleteSectionByAdmin">
                             {{ csrf_field() }}{{ method_field('POST') }}
-                            {{Form::hidden('sectionId',$section->sectionId)}}
-                            <td><button class="btn btn-success btn-deleteSectionByAdmin">Delete</button></td>
+                            {{Form::hidden('sectionId',$section->sectionId,array('id'=>'sectionId'))}}
+                            <td><button type="submit" class="btn btn-primary">Delete</button></td>
                             {{ Form::close()}}
                           </tr>
                         @endforeach
@@ -216,5 +137,12 @@
 </div>
 </div>
 </div>
+
+
+
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+                  <script src="{{ asset('js/Admin/section.js') }}" defer></script>
+
 
 </x-app-layout>

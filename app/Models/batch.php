@@ -15,11 +15,11 @@ class batch extends Model
    */
   protected $table = 'batches';
   protected $primaryKey = 'batchId';
-  protected $attributes = [
-    'batchId'=>'',
-    'batchName'=>'',
-      'batchStartingYear'=>'',
-      'batchEndingYear'=>'',
-      'status'=>0,
+  protected $fillable = [
+    'batchId',
+    'batchName',
+      'batchStartingYear',
+      'batchEndingYear',
+      'status',
   ];
 }

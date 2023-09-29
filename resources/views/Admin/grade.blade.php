@@ -1,4 +1,6 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,7 +22,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button>   {{ __('Grade') }}   @if(Session::has('success'))
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>   {{ __('Grade') }}   @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -48,7 +50,7 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -74,85 +76,29 @@
 
  -->
 
-
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".createGradeByAdmin").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#createGradeByAdmin");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createGradeByAdmin') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
-
     <div class="py-12" id="createGradeByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Create grade
-                    <form action="{{route('createGradeByAdmin')}}" method="POST" name="createGradeByAdmin" id="createGradeByAdmin">
+                    <form action="{{route('grade.creategrade')}}" method="POST" name="createGradeByAdmin" id="createGradeByAdmin">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('gradeName', 'Enter grade name :')}}
                     {{Form::text('gradeName',NULL,array('placeholder'=>'Name of the grade'))}}
 
-                    <button class="btn btn-success btn-createGradeByAdmin">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     {{ Form::close() }}
                 </div>
             </div>
         </div>
     </div>
 
-     <script type="text/javascript">
-
-         $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-         });
-
-         $(".updateGradeByAdmin").click(function(e){
-
-             e.preventDefault();
-
-             var form = $("#updateGradeByAdmin");
-
-             $.ajax({
-                type:'POST',
-                url:"{{ route('updateGradeByAdmin') }}",
-                data:form.serialize(),
-                success: function(response){
-          alert("jjjj");
-                }
-             });
-
-         });
-
-
-     </script>
 
     <div class="py-12" id="updateGradeByAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    Update roles
+                    Update grades
                     @if(count(App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)<table>
                         <thead>
                           <tr>
@@ -164,18 +110,18 @@
                         <tbody>
                           @foreach(App\Models\grade::where('grades.batchId','=',$currentBatchId)->get() as $grade)
                           <tr>
-                            <form action="{{route('updateGradeByAdmin')}}" method="POST" name="updateGradeByAdmin" id="updateGradeByAdmin">
+                            <form action="{{route('grade.updategrade',['grade'=>$grade->gradeId])}}" method="POST" name="updateGradeByAdmin" id="updateGradeByAdmin">
                             {{ csrf_field() }}{{ method_field('POST') }}
                             <td>{{Form::text('gradeName',$grade->grade)}}</td>
                             {{Form::hidden('gradeId',$grade->gradeId)}}
 
-                              <td><button class="btn btn-success btn-updateGradeByAdmin">Submit</button>
+                              <td><button type="submit" class="btn btn-primary">Submit</button>
 
                             {{ Form::close() }}</td>
-                            <form action="{{route('deleteGradeByAdmin')}}" method="POST" name="deleteGradeByAdmin" id="deleteGradeByAdmin">
+                            <form action="{{route('grade.destroygrade',['grade'=>$grade->gradeId])}}" method="POST" name="deleteGradeByAdmin" id="deleteGradeByAdmin">
                             {{ csrf_field() }}{{ method_field('POST') }}
                             {{Form::hidden('gradeId',$grade->gradeId)}}
-                            <td><button class="btn btn-success btn-deleteGradeByAdmin">Delete</button>
+                            <td><button type="submit" class="btn btn-primary">Delete</button>
                             {{ Form::close() }}</td>
                           </tr>
                         @endforeach
@@ -191,5 +137,12 @@
 </div>
 </div>
 </div>
+
+
+
+                  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+                  <script src="{{ asset('js/Admin/grade.js') }}" defer></script>
+
 
 </x-app-layout>

@@ -1,3 +1,7 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
@@ -43,33 +47,6 @@
     </div>
 
 
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".submitClasswiseAttendence").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#submitClasswiseAttendence");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('submitClasswiseAttendence') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -82,35 +59,46 @@
                           @endphp
                       </div>
                       @endif
-                      @if(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
-                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())==NULL)
-                      <form action="{{route('markAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
+                @if(count($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())>0)
+                    @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
+                      <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut','Present')}}{{Form::radio('inOrOut',1)}}
                         <br>
                         {{Form::label('inOrOut','Absent')}}{{Form::radio('inOrOut',0,'checked')}}
                         {{Form::hidden('userRole',2)}}
+                        {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
                         <br>
-                        <button class="btn btn-success btn-markAttendance">Mark Attendance</button>
+                        <button type="submit" class="btn btn-primary">Mark Attendance</button>
                         {{ Form::close() }}
-                      @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
-                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->dailyReg==0)
-                      <form action="{{route('markAttendance')}}" method="POST" name="markAttendance" id="markAttendance">
+                      @endforeach
+                @elseif(count($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get())>0)
+                     @foreach(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)
+                      ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
+                      <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId])}}" method="POST" name="markAttendance" id="markAttendance">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('inOrOut','Present')}}{{Form::radio('inOrOut',1)}}
                         {{Form::hidden('userRole',2)}}
+                        {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
                         <br>
                         {{Form::label('inOrOut','Absent')}}{{Form::radio('inOrOut',0,'checked')}}
                         <br>
-                        <button class="btn btn-success btn-markAttendance">Mark Attendance</button>
-                        {{ Form::close() }}
-                      @else
+                        <button type="submit" class="btn btn-primary" >Mark Attendance</button>
+                        {{ Form::close()}}
+                      @endforeach
+                @else
                         {{ Form::open() }}
-                        {{ Form::label('attendance', 'Attendance Marked ? ')}}<input type="checkbox" name="loggedInOrOut" checked="checked;" disabled="false"/>
+                        {{ Form::label('attendance', "Attendance Marked ? ")}}<input type="checkbox" name="loggedInOrOut" checked="checked;" disabled="false"/>
                         {{ Form::close() }}
-                      @endif
+                @endif
                     </div>
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+             <script src="{{ asset('js/Teacher/dashboard.js') }}" defer></script>
 </x-app-layout>

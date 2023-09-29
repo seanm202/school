@@ -15,9 +15,14 @@ class student extends Model
      */
     protected $table = 'students';
     protected $primaryKey = 'studentId';
-    protected $attributes = [
-      'userId'=>'',
-      'studentDetailsId'=>'',
-        'batchId'=>0,
+    protected $fillable = [
+      'userId',
+      'studentDetailsId',
+        'studentGrade',
+          'studentClassroom',
+          'studentSection',
+            'studentSemester',
+            'studentDepartmentId',
+            'batchId'
     ];
 }

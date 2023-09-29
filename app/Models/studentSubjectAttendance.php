@@ -16,17 +16,17 @@ class studentSubjectAttendance extends Model
 
     protected $table = 'student_subject_attendances';
     protected $primaryKey = 'id';
-    protected $attributes = [
-    'classRoomId' => '',
-    'studentId' => '',
-        'teacherId' => 0,
-        'subjectId' => '',
-        'dayId' => 0,
-        'hourId' => 0,
-        'presentOrAbsent' => 0,
-        'submitted' => 0,
-        'dailyTeacherAllocationId' => 0,
-        'status' => 0,
-          'batchId'=>0,
+    protected $fillable = [
+    'classRoomId',
+    'studentId',
+        'teacherId',
+        'subjectId',
+        'dayId',
+        'hourId',
+        'presentOrAbsent',
+        'submitted',
+        'dailyTeacherAllocationId',
+        'status',
+          'batchId'
     ];
 }

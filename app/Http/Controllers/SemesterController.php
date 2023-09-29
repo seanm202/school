@@ -19,6 +19,15 @@ class SemesterController extends Controller
           //
       }
 
+
+      public function getSemesterDetails()
+      {
+        $semesters = \App\Models\semester::all();
+        return view("/Admin/admin")->with('semesters',$semesters);
+      }
+
+
+
       /**
        * Show the form for creating a new resource.
        *
@@ -35,7 +44,7 @@ class SemesterController extends Controller
        * @param  \Illuminate\Http\Request  $request
        * @return \Illuminate\Http\Response
        */
-      public function store(Request $request)
+      public function storesemester(Request $request)
       {
         //Add A Subject
                        $validated = $request->validate([
@@ -87,7 +96,7 @@ class SemesterController extends Controller
        * @param  \App\Models\semester  $subject
        * @return \Illuminate\Http\Response
        */
-      public function update(Request $request, semester $semester)
+      public function updatesemester(Request $request, semester $semester)
       {
                      $validated = $request->validate([
                        'semesterName' => ['required'],

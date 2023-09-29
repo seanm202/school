@@ -1,4 +1,7 @@
-<x-app-layout>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+  <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Details') }} @if ($errors->any())
@@ -27,33 +30,6 @@
 
 
 
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".detailsSubmit").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#updateTeacherDetails");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createOrUpdateTeacherDetails') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -88,7 +64,7 @@
                          'details.detailId AS detailId'
                          )
                          ->get()) as  $teacherDetail)
-                         <form action="{{route('createOrUpdateTeacherDetails')}}" method="POST" name="updateTeacherDetails" id="updateTeacherDetails">
+                         <form action="{{route('detail.updateTeacherDetails')}}" method="POST" name="updateTeacherDetails" id="updateTeacherDetails">
                          {{ csrf_field() }}{{ method_field('POST') }}
                          {{Form::label('firstname','First Name')}}
                           {{Form::hidden('userId',$teacherDetail->userId)}}
@@ -124,10 +100,13 @@
 
                   @endforeach
 
-                          <button class="btn btn-success btn-detailsSubmit">Save</button><br>
+                          <button type="submit" class="btn btn-primary" >Save</button><br>
                           {{Form::close()}}
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+         <script src="{{ asset('js/Teacher/details.js') }}" defer></script>
 </x-app-layout>

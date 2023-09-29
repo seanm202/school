@@ -18,4 +18,5 @@ class admin extends Model
     protected $attributes = [
         'notifications_Posted'=>0,
     ];
+    protected $fillable=['notifications_Posted'];
 }

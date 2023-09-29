@@ -1,4 +1,6 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,7 +22,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button>   {{ __('Class Room') }}    @if(Session::has('success'))
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>  {{ __('Class Room') }}    @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -48,7 +50,7 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -82,83 +84,32 @@
 
 -->
 
-<script type="text/javascript">
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $(".updateClassRoom").click(function(e){
-
-        e.preventDefault();
-
-        var form = $("#updateClassRoom");
-
-        $.ajax({
-           type:'POST',
-           url:"{{ route('updateClassRoom') }}",
-           data:form.serialize(),
-           success: function(response){
-     alert("jjjj");
-           }
-        });
-
-    });
 
 
-</script>
-
-<script type="text/javascript">
-
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $(".deleteClassRoom").click(function(e){
-
-        e.preventDefault();
-
-        var form = $("#deleteClassRoom");
-
-        $.ajax({
-           type:'POST',
-           url:"{{ route('deleteClassRoom') }}",
-           data:form.serialize(),
-           success: function(response){
-     alert("jjjj");
-           }
-        });
-
-    });
-
-
-</script>
-
-
-
-                    @if(count(($classRooms=\App\Models\classRoom::where('class_rooms.batchId','=',$currentBatchId)
-                                          ->join('grades','grades.gradeId','=','class_rooms.grade')
-                                          ->join('sections','sections.sectionId','=','class_rooms.section')
-                                          ->join('departments','departments.departmentId','=','class_rooms.departmentId')
-                                          ->join('semesters','semesters.semesterId','=','class_rooms.semester')
-                                          ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                          ->join('details','details.userId','=','teachers.userId')
-                                          ->select('grades.grade AS grade',
-                                          'sections.sectionName AS sectionName',
-                                          'departments.departmentName AS departmentName',
-                                          'semesters.semesterName as semesterName',
-                                          'details.firstname AS firstName',
-                                          'details.lastname AS lastName',
-                                          'class_rooms.capacity AS capacity',
-                                          'class_rooms.roomNo AS roomNo',
-                                          'class_rooms.description AS description',
-                                          'class_rooms.classTimeTableId AS classTimeTableId','class_rooms.classroomDetailId AS classroomDetailId'
-                                          )
-                                          )->get())>0)
+          @if(count($classRooms=\App\Models\classRoom::join('grades','grades.gradeId','=','class_rooms.grade')
+                                ->join('sections','sections.sectionId','=','class_rooms.section')
+                                ->join('departments','departments.departmentId','=','class_rooms.departmentId')
+                                ->join('semesters','semesters.semesterId','=','class_rooms.semester')
+                                ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
+                                ->join('details','details.detailId','=','teachers.teacherDetailId')
+                                ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.teacherId','=','teachers.teacherId')
+                                ->join('subjects','subjects.subjectId','=','subject_teacher_for_each_sections.subjectId')
+                                ->select('grades.grade AS grade',
+                                'class_rooms.roomNo AS roomNo',
+                                'sections.sectionName AS sectionName',
+                                'departments.departmentName AS departmentName',
+                                'semesters.semesterName as semesterName',
+                                'details.firstname AS firstName',
+                                'details.lastname AS lastName',
+                                'subjects.subjectName AS classTeacherSubject',
+                                'class_rooms.capacity AS capacity',
+                                'class_rooms.roomNo AS roomNo',
+                                'class_rooms.description AS description',
+                                'class_rooms.classTimeTableId AS classTimeTableId',
+                                'class_rooms.classroomDetailId AS classroomDetailId',
+                                'class_rooms.batchId AS batchId'
+                                )->where('class_rooms.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                ->get())>0)
                         <table>
                           <thead>
                            <tr>
@@ -168,10 +119,8 @@
                             <th>Department</th>
                             <th>Semester</th>
                             <th>Class Teacher</th>
-                            <th>Class Teacher Subject</th>
                             <th>Description</th>
                             <th>Capacity</th>
-                            <th>View Class TimeTable</th>
                             <th>Update Class Room</th>
                             <th>Delete Class Room</th>
                            </tr>
@@ -181,9 +130,7 @@
                                               ->join('departments','departments.departmentId','=','class_rooms.departmentId')
                                               ->join('semesters','semesters.semesterId','=','class_rooms.semester')
                                               ->join('teachers','teachers.teacherId','=','class_rooms.classTeacher')
-                                              ->join('details','details.userId','=','teachers.userId')
-                                              ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.teacherId','=','teachers.teacherId')
-                                              ->join('subjects','subjects.subjectId','=','subject_teacher_for_each_sections.subjectId')
+                                              ->join('details','details.detailId','=','teachers.teacherDetailId')
                                               ->select('grades.grade AS grade',
                                               'class_rooms.roomNo AS roomNo',
                                               'sections.sectionName AS sectionName',
@@ -191,53 +138,47 @@
                                               'semesters.semesterName as semesterName',
                                               'details.firstname AS firstName',
                                               'details.lastname AS lastName',
-                                              'subjects.subjectName AS classTeacherSubject',
                                               'class_rooms.capacity AS capacity',
                                               'class_rooms.roomNo AS roomNo',
                                               'class_rooms.description AS description',
                                               'class_rooms.classTimeTableId AS classTimeTableId',
                                               'class_rooms.classroomDetailId AS classroomDetailId',
-                                              'class_rooms.batchId AS batchId'
-                                              )->where('class_rooms.batchId','=',$currentBatchId)
+                                              'class_rooms.batchId AS batchId',
+                                              'class_rooms.classTeacher AS classTeacher'
+                                              )->where('class_rooms.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
                                               ->get()) as $classRoom)
 
-                                              <form action="{{route('updateClassRoom')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
+                                              <form action="{{route('classRoom.updateClassroomTeacher')}}" method="POST" name="updateClassRoom" id="updateClassRoom">
                                               {{ csrf_field() }}{{ method_field('POST') }}
-
+                                              {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
                             <tr>
                               <td>{{$classRoom->grade}} </td>
                               <td>{{$classRoom->roomNo}} </td>
                               <td>{{$classRoom->sectionName}} </td>
                               <td>{{$classRoom->departmentName}} </td>
                               <td>{{$classRoom->semesterName}} </td>
-                              <td><select name="teacherId">
-                                @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)
-                                                                        ->join('details','details.userId','=','teachers.userId')
+                              <td><select name="teacherId" id="teacherId">
+                                @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
+                                                                        ->join('details','details.detailId','=','teachers.teacherDetailId')
                                                                         ->select('details.lastname AS lastName',
                                                                         'details.firstname AS firstName',
                                                                         'teachers.teacherId AS teacherId')
                                                                         ->get() as $teacher)
-                                  @if($classRoom->classTeacher==$teacher->teacherId)
-                                    <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                  @else
-                                    <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                                  @endif
+                                    @if($classRoom->classTeacher==$teacher->teacherId)
+                                       <option value="{{$teacher->teacherId}}" selected>{{$teacher->firstName}} {{$teacher->lastName}}</option>
+                                    @else
+                                       <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
+                                    @endif
                                 @endforeach</td>
-                              <td>{{$classRoom->classTeacherSubject}} </td>
-                              <td>{{$classRoom->description}} </td>
-                              <td>{{$classRoom->capacity}} </td>
-                              <td>{{$classRoom->classTimeTableId}}</td>
-                              <td>
-                              {{Form::hidden('classroomId',$classRoom->classroomDetailId)}}
-
-                              <button class="btn btn-success btn-updateClassRoom">Submit</button>
+                              <td>{{$classRoom->description}}</td>
+                              <td>{{$classRoom->capacity}}</td>
+                              <td><button type="submit" class="btn btn-primary">Submit</button>
                               {{ Form::close()}}</td>
-                              <td>  <form action="{{route('deleteClassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
+                              <form action="{{route('classRoom.destroyclassRoom')}}" method="POST" name="deleteClassRoom" id="deleteClassRoom">
                                 {{ csrf_field() }}{{ method_field('POST') }}
-                                {{Form::open(array('route' => 'deleteClassRoom')) }}
-                              {{Form::hidden('classroomId',$classRoom->classroomDetailId)}}
 
-                              <button class="btn btn-success btn-deleteClassRoom">Delete</button>
+                                {{Form::hidden('classroomId',$classRoom->classroomDetailId,array('id'=>'classroomId'))}}
+                                <td><button type="submit" class="btn btn-primary">Delete</button>
                               {{ Form::close()}}</td>
                               </tr>
                         @endforeach
@@ -255,46 +196,17 @@
 
    -->
 
-
-   <script type="text/javascript">
-
-       $.ajaxSetup({
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           }
-       });
-
-       $(".createClassRoom").click(function(e){
-
-           e.preventDefault();
-
-           var form = $("#createClassRoom");
-
-           $.ajax({
-              type:'POST',
-              url:"{{ route('createClassRoom') }}",
-              data:form.serialize(),
-              success: function(response){
-        alert("jjjj");
-              }
-           });
-
-       });
-
-
-   </script>
-
     <div class="py-12" id="createClassRoom">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                   Create classroom
-                  <form action="{{route('createClassRoom')}}" method="POST" name="createClassRoom" id="createClassRoom">
+                  <form action="{{route('classRoom.createclassRoom')}}" method="POST" name="createClassRoom" id="createClassRoom">
                   {{ csrf_field() }}{{ method_field('POST') }}
                   {{Form::label('departments','Department')}}
                   <select name="departmentId">
-                    @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
-                      @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as $department)
+                    @if(count($departments = \App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($departments = \App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $department)
                         <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
                       @endforeach
                     @endif
@@ -303,8 +215,8 @@
                   <br>
                   {{Form::label('semesters','Semester')}}
                   <select name="semesterId">
-                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId->batchId)->get())>0)
-                      @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId->batchId)->get()) as $semester)
+                    @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach($semesters = \App\Models\semester::where('semesters.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get() as $semester)
                         <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
                       @endforeach
                     @endif
@@ -313,10 +225,10 @@
                   <br>
                   {{Form::label('classTeacher','Class Teacher')}}
                   <select name="classTeacher">
-                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
+                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
                       @foreach(($teachers = \App\Models\teacher::join('details','details.userId','=','teachers.userId')
                                           ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
-                                                              ->where('teachers.batchId','=',$currentBatchId)
+                                                              ->where('teachers.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)
                                           ->get()) as $teacher)
                         <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
                       @endforeach
@@ -326,8 +238,8 @@
                   <br>
                   {{Form::label('grade','Grade : ')}}
                   <select name="grade">
-                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
-                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get()) as $graded)
+                    @if(count($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($grades = \App\Models\grade::where('grades.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $graded)
                         <option value="{{$graded->gradeId}}">{{$graded->grade}}</option>
                         @endforeach
                     @endif
@@ -338,25 +250,12 @@
                   <br>
                   {{Form::label('sectionName','Section Name : ')}}
                   <select name="section">
-                    @if(count($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId)->get())>0)
-                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',$currentBatchId)->get()) as $section)
+                    @if(count($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get())>0)
+                      @foreach(($sections = \App\Models\section::where('sections.batchId','=',(\App\Models\batch::where('batches.status','=',1)->first())->batchId)->get()) as $section)
                         <option value="{{$section->sectionId}}">{{$section->sectionName}}</option>
                       @endforeach
                     @endif
                   </select>
-                  <br>
-                  {{Form::label('classTeacher','Class Teacher')}}
-                  <select name="classTeacher">
-                    @if(count($teachers = \App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
-                      @foreach(($teachers = \App\Models\teacher::join('details','details.userId','=','teachers.userId')
-                                          ->where('teachers.batchId','=',$currentBatchId)
-                                          ->select('details.firstname AS firstName','details.lastname AS lastName','teachers.teacherId AS teacherId')
-                                          ->get()) as $teacher)
-                        <option value="{{$teacher->teacherId}}">{{$teacher->firstName}} {{$teacher->lastName}}</option>
-                      @endforeach
-                    @endif
-                  </select>
-                  <br>
                   <br>
                   {{Form::label('description','Class Description')}}
                   {{Form::text('classDescription',null,array('placeholder'=>'Class description'))}}
@@ -372,7 +271,7 @@
                       @endforeach
                     </select>
                   @endisset
-                  <br><button class="btn btn-success btn-createClassRoom">Create Classroom</button>
+                  <br><button type="submit" class="btn btn-primary">Create Classroom</button>
                   {{ Form::close() }}
                 </div>
             </div>
@@ -384,4 +283,7 @@
     </div>
 
 
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+            <script src="{{ asset('js/Admin/classRoom.js') }}" defer></script>
 </x-app-layout>

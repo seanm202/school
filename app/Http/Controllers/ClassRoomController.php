@@ -8,8 +8,9 @@ use App\Models\grade;
 use App\Models\section;
 use App\Models\subject;
 use App\Models\teacher;
-use App\Models\student;
 use App\Models\batch;
+use App\Models\student;
+use App\Models\role;
 use Illuminate\Http\Request;
 
 class ClassRoomController extends Controller
@@ -38,7 +39,7 @@ class ClassRoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createclassRoom(Request $request)
     {
 
         $validated = $request->validate([
@@ -57,6 +58,8 @@ class ClassRoomController extends Controller
                $classRoom->grade =  $request->grade;
                $classRoom->roomNo =   $request->roomNo;
                $classRoom->section =  $request->section;
+               $classRoom->departmentId =   $request->departmentId;
+               $classRoom->semester =  $request->semesterId;
                $classRoom->classTeacher =    $request->classTeacher;
                $classRoom->description =$request->classDescription;
                $classRoom->capacity =$request->classCapacity;
@@ -109,13 +112,13 @@ class ClassRoomController extends Controller
      * @param  \App\Models\classRoom  $classRoom
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateclassRoom(Request $request)
     {
 
         //Update A Classroom
         classRoom::where('classroomDetailId', $request->classroomId)
       ->update(['classTeacher' => $request->teacherId]);
-        return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])>with('success', 'Updated successfully.');
+        return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])->with('success', 'Updated successfully.');
     }
 
     public function updateClassroomStudent(Request $request)
@@ -129,13 +132,27 @@ class ClassRoomController extends Controller
     }
 
 
+    public function updateClassroomTeacher(Request $request)
+    {
+       //Update A Classroom
+        $classRoom= classRoom::where('classroomDetailId','=',$request->classroomId)->first();
+        $classRoom->classTeacher=$request->teacherId;
+        $classRoom->save();
+       //return redirect()->route('AdminStudent');
+return redirect()->route('AdminClassRoom',['id'=>'viewEditClassrooms'])->with('success', 'Updated successfully.');
+    }
+
+
     public function assignClassroomStudent(Request $request)
     {
 
        //Update A Classroom
-       student::where('studentId', $request->studentId)
-     ->update(['studentClassroom' => $request->classroomDetailId,
-   'status'=>2]);
+        $batch= batch::where('status',1)->select('batchId')->first();
+       $student= student::where('students.studentId','=',$request->studentId)
+        ->where('students.batchId', $batch->batchId)->first();
+        $student->studentClassroom=$request->classroomDetailId;
+        $student->status=4;
+        $student->save();
        //return redirect()->route('AdminStudent');
 return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents'])->with('success', 'Updated successfully.');
     }
@@ -146,7 +163,7 @@ return redirect()->route('AdminStudent',['id'=>'assignClassRoomToStudents'])->wi
      * @param  \App\Models\classRoom  $classRoom
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroyclassRoom(Request $request)
     {
         $classRoom=classRoom::where('classroomDetailId','=',$request->classroomId)->first();
         $classRoom->delete();

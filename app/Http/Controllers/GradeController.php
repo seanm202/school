@@ -18,26 +18,26 @@ class GradeController extends Controller
     {
         //
     }
-
+    public function getGradeDetails()
+    {
+      $grades = \App\Models\grade::all();
+      return view("/Admin/details")->with('grades',$grades);
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function create(Request $request)
+     public function creategrade(Request $request)
      {
-
+$grade= new grade;
+$grade->grade=$request->gradeName;
+$grade->status=1;
+$grade->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+$grade->save();
            //Add An Entity
-                   $validated = $request->validate([
-                     'gradeName' => ['required'],
-                 [
-                 'gradeName.required'=> 'A name must be specified for the grade.',
-                 ]
-                 ]);
-         $gradeNameNew=$request->gradeName;
-         $batchId=batch::where('status',1)->select('batchId')->first()->batchId;
-          grade::updateOrCreate(['grade' => $gradeNameNew,'batchId'=>$batchId]);
-        return  returnredirect()->route('AdminGrade',['id'=>'createGradeByAdmin']);
+
+        return redirect()->route('AdminGrade',['id'=>'createGradeByAdmin']);
      }
     /**
      * Store a newly created resource in storage.
@@ -90,17 +90,13 @@ class GradeController extends Controller
      * @param  \App\Models\grade  $grade
      * @return \Illuminate\Http\Response
      */
-     public function update(Request $request)
+     public function updategrade(Request $request)
      {
          //Updating classroom details
-                 $validated = $request->validate([
-                   'gradeName' => ['required'],
-               [
-               'gradeName.required'=> 'A name must be specified for the grade.',
-               ]
-               ]);
-             grade::where('gradeId', $request->gradeId)->update(['grade' => $request->gradeName]);
-           return  returnredirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
+         $grade= grade::where('gradeId','=',$request->gradeId)->first();
+         $grade->grade=$request->gradeName;
+         $grade->save();
+           return redirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
      }
     /**
      * Remove the specified resource from storage.
@@ -108,10 +104,11 @@ class GradeController extends Controller
      * @param  \App\Models\grade  $grade
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroygrade(Request $request)
     {
       //Retrieve  details about grade
-      $grades = grade::where('gradeId','=',$request->gradeId)->delete();
-    return  returnredirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
+      $grade= grade::where('gradeId','=',$request->gradeId)->first();
+      $grade->delete();
+    return redirect()->route('AdminGrade',['id'=>'updateGradeByAdmin']);
     }
 }

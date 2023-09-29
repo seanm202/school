@@ -40,6 +40,28 @@ class dailyTeacherAllocationController extends Controller
           }
           }
 
+          $admins = admin::all();
+          $days=days::where('dayName','=',date('l'))->select('dayId')->first();
+          $batchId=batch::where('status',1)->select('batchId')->first();
+          foreach($admins as $admin)
+          {
+            $hours=hours::all();
+            foreach($hours as $hour)
+            {
+            $dailyTeacherAllocations=new dailyTeacherAllocation;
+            $dailyTeacherAllocations->classRoomId=0;
+            $dailyTeacherAllocations->teacherId=$admin->adminId;
+            $dailyTeacherAllocations->subjectId=0;
+            $dailyTeacherAllocations->dayId=$days->dayId;
+            $dailyTeacherAllocations->hourId=$hour->hourId;
+            $dailyTeacherAllocations->date=$request->dateSelected;
+            $dailyTeacherAllocations->subjectForSectionId=0;
+            $dailyTeacherAllocations->batchId=$batchId->batchId;
+            $dailyTeacherAllocations->status=1;
+            $dailyTeacherAllocations->save();
+          }
+          }
+
          return redirect()->route('Admin',['id'=>'generateAttendanceForTeachers'])->with('success', 'Updated successfully.');
       }
 

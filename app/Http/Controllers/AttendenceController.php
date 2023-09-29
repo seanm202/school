@@ -180,10 +180,9 @@ class AttendenceController extends Controller
    public function markTodaysAttendance(Request $request)
    {
      //View attendence details
-     $att = attendence::where('userId','=',auth()->user()->userId)
-                        ->where('userRole','=',$request->userRole)
-                        ->where('todaysDate','=', date('Y-m-d'))->first();
-     $att->yes_or_no = $request->inOrOut;
+     $att = attendence::where('attendanceDataId','=',$request->attendanceDataId)
+                        ->first();
+     $att->yes_or_no = 1;
      $att->save();
 return back()->with('success', 'Updated successfully.');
      // return Redirect::back();

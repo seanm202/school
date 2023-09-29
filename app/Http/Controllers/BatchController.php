@@ -18,49 +18,46 @@ class BatchController extends Controller
     {
         //
     }
+    public function getBatchDetails()
+    {
+      $batchs = \App\Models\batch::all();
+      return view("/Admin/admin")->with('batchs',$batchs);
+    }
+    public function getDetailsOfAdmins()
+    {
+      $admin = \App\Models\admin::all();
+      return redirect()->route('Admin')->with(compact($admin));
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createbatch(Request $request)
     {
-      $validated = $request->validate([
-        'batchName' => ['required'],
-          'batchStartingYear' => ['required','date'],
-            'batchEndingYear' => ['required','date'],
-   [
-    'batchName.required'=> 'A name must be specified for the batch.',
-     'batchStartingYear.required'=> 'Year of beginning of the batch should be specified',
-      'batchEndingYear.required'=> 'Year of end of the batch should be specified',
-       'batchStartingYear.date'=> 'Year should of the proper format',
-        'batchEndingYear.date'=> 'Year should of the proper format',
-   ]
-    ]);
           $batches= new batch;
           $batches->batchName=$request->batchName;
           $batches->batchStartingYear=$request->batchStartingYear;
           $batches->batchEndingYear=$request->batchEndingYear;
-          $batches->status=1;
+          $batches->status=0;
           $batches->save();
         // return Redirect::back();
-        return redirect()->route('Admin',['id'=>'createTheBatches'])->with('success', 'Created successfully.');
+        return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
 
         }
        public function currentBatch(Request $request)
        {
 
-             $batches= batch::where('batchId','=',$request->currentBatchId)->first();
+             $batches= batch::where('status','=',1)->first();
              $batches->status=0;
              $batches->save();
 
                  $batches= batch::where('batchId','=',$request->batchId)->first();
                  $batches->status=1;
                  $batches->save();
-           // return Redirect::back();
-           return redirect()->route('Admin',['id'=>'updateTheBatches'])
-->with('success', 'Created successfully.');
+            return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+
 
            }
 
@@ -104,18 +101,16 @@ class BatchController extends Controller
      * @param  \App\Models\batch  $batch
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updatebatch(Request $request)
     {
       $validated = $request->validate([
         'batchName' => ['required'],
-          'batchStartingYear' => ['required','date'],
-            'batchEndingYear' => ['required','date'],
+          'batchStartingYear' => ['required'],
+            'batchEndingYear' => ['required'],
    [
     'batchName.required'=> 'A name must be specified for the batch.',
      'batchStartingYear.required'=> 'Year of beginning of the batch should be specified',
       'batchEndingYear.required'=> 'Year of end of the batch should be specified',
-       'batchStartingYear.date'=> 'Year should of the proper format',
-        'batchEndingYear.date'=> 'Year should of the proper format',
    ]
     ]);
       $batches = batch::where('batchId','=',$request->batchId)->first();
@@ -123,9 +118,9 @@ class BatchController extends Controller
       $batches->batchStartingYear=$request->batchStartingYear;
       $batches->batchEndingYear=$request->batchEndingYear;
       $batches->save();
-      // return Redirect::back();
-      return redirect()->route('Admin',['id'=>'updateTheBatches'])
-->with('success', 'Updated successfully.');
+      return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
+//       return redirect()->route('Admin',['id'=>'updateTheBatches'])
+// ->with('success', 'Updated successfully.');
     }
 
     /**
@@ -134,10 +129,10 @@ class BatchController extends Controller
      * @param  \App\Models\batch  $batch
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroybatch(Request $request)
     {
       $batches = batch::where('batchId','=',$request->batchId)->first();
       $batches->delete();
-      return Redirect::back();
+      return redirect()->route('Admin',['id'=>'createTheAdmin'])->with('success', 'Admin created successfully.');
     }
 }

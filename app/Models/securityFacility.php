@@ -15,7 +15,7 @@ class securityFacility extends Model
      */
     protected $table = 'security_facilities';
     protected $primaryKey = 'securityId';
-    protected $attributes = [
+    protected $fillable = [
         'detail1' => '',
         'detail2' => '',
         'detail3' => '',

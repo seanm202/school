@@ -15,13 +15,13 @@ class SubjectTeacherForEachSections extends Model
    */
   protected $table = 'subject_teacher_for_each_sections';
   protected $primaryKey = 'subjectForSectionId';
-  protected $attributes = [
-      'teacherId' => 0,
-      'classRoomId' => 0,
-      'subjectId' => 0,
-      'departmentId' => 0,
-      'semesterId' => 0,
-      'status' => 0,
-        'batchId'=>0,
+  protected $fillable = [
+      'teacherId',
+      'classRoomId',
+      'subjectId',
+      'departmentId',
+      'semesterId',
+      'status',
+        'batchId'
   ];
 }

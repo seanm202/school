@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Response;
-use App\Models\SubjectTeacherForEachSections;
+use App\Models\subjectTeacherForEachSections;
 use App\Models\batch;
+use App\Models\role;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -19,7 +20,11 @@ class SubjectTeacherForEachSectionsController extends Controller
     {
         //
     }
-
+    public function getDetailsOfSubjectTeacherForEachSections()
+    {
+      $SubjectTeacherForEachSections = \App\Models\subjectTeacherForEachSections::all();
+      return view("/Admin/subjectTeachersForEachSection")->with('SubjectTeacherForEachSections',$SubjectTeacherForEachSections);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -36,21 +41,25 @@ class SubjectTeacherForEachSectionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function store(Request $request)
-     {
-         //Add An Entity
-         $validated = $request->validate([
 
-             'classRoomId' => ['required', 'confirmed'],
-             'subjectId' => ['required', 'confirmed'],
+     public function TeacherForClassSubject(Request $request)
+     {
+       $role = new role;
+       $role->roleName="Test";
+       $role->status=1;
+       $role->save();
+        //Add An Entity
+         $validated = $request->validate([
+             'classRoomId' => ['required'],
+             'teacherId' => ['required'],
         [
          'classRoomId.required'=> 'A cass room must be seleted',
-         'subjectId.required'=> 'A subject must be seleted',
+         'teacherId.required'=> 'A subject must be seleted',
         ]
          ]);
-         $subjectTeacherForEachSections = new SubjectTeacherForEachSections;
+         $subjectTeacherForEachSections = new subjectTeacherForEachSections;
            $subjectTeacherForEachSections->teacherId = $request->teacherId;
-           $subjectTeacherForEachSections->classRoomId =  $request->classroomDetailId;
+           $subjectTeacherForEachSections->classRoomId =  $request->classRoomId;
            $subjectTeacherForEachSections->subjectId =  $request->subjectId;
            $subjectTeacherForEachSections->departmentId = $request->departmentId;
            $subjectTeacherForEachSections->semesterId =  $request->semesterId;
@@ -62,26 +71,32 @@ class SubjectTeacherForEachSectionsController extends Controller
      }
 
 
-
-         public function update(Request $request)
+public function deleteEntryTeacher(Request $request)
+[
+  $role= new role;
+  $role->roleName="Test";
+  $role->status=1;
+  $role->save();
+  $SubjectTeacherForEachSections=SubjectTeacherForEachSections::where('subjectForSectionId',$request->subjectForSectionId)->first();
+  $SubjectTeacherForEachSections->delete();
+  return redirect()->route('AdminSubjectTeachersForEachSection');
+]
+         public function updateTeacherForClassSubject(Request $request)
          {
+           $role= new role;
+           $role->roleName="Test";
+           $role->status=1;
+           $role->save();
              //Updating classroom details
              $validated = $request->validate([
 
-                 'classRoomId' => ['required', 'confirmed'],
-                 'subjectId' => ['required', 'confirmed'],
+                 'teacherId' => ['required'],
             [
-             'classRoomId.required'=> 'A cass room must be seleted',
-             'subjectId.required'=> 'A subject must be seleted',
+             'teacherId.required'=> 'A teacher must be selected',
             ]
              ]);
-             $detail = SubjectTeacherForEachSections::where('subjectForSectionId', $request->subjectForSectionId)->first();
+             $subjectTeacherForEachSections = SubjectTeacherForEachSections::where('subjectForSectionId', $request->subjectForSectionId)->first();
              $subjectTeacherForEachSections->teacherId =  $request->teacherId;
-             $subjectTeacherForEachSections->classRoomId =  $request->classroomDetailId;
-             $subjectTeacherForEachSections->subjectId =  $request->subjectId;
-             $subjectTeacherForEachSections->departmentId = $request->departmentId;
-             $subjectTeacherForEachSections->semesterId =  $request->semesterId;
-             $subjectTeacherForEachSections->status = 1;
           $SubjectTeacherForEachSections->save();
 
 

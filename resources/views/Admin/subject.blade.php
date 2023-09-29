@@ -1,22 +1,19 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <script src="{{ asset('js/sidebar.js') }}"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-      <script src = "https://code.jquery.com/jquery-3.5.1.slim.min.js"
-      integrity = "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-      crossorigin = "anonymous">
-  </script>
-  <script src =
-"https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-      integrity =
-"sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-      crossorigin = "anonymous">
-  </script>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"
+               integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+               crossorigin="anonymous">
+</script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -31,6 +28,9 @@
 "sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
       crossorigin = "anonymous">
   </script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <!--
 
@@ -42,7 +42,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button>     {{ __('Subjects') }}   @if(Session::has('success'))
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>     {{ __('Subjects') }}   @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -70,11 +70,11 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
-          <a href="#createSubject" class="list-group-item list-group-item-action bg-light">Add Subjects</a>
+          <a href="#createASubject" class="list-group-item list-group-item-action bg-light">Add Subjects</a>
           <a href="#updateSubject" class="list-group-item list-group-item-action bg-light">Update Subjects</a>
         </li>
           </ul>
@@ -101,92 +101,64 @@
 
  -->
 
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".createSubject").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#createSubject");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createSubject') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
-
-    <div class="py-12" id="createSubject">
+    <div class="py-12" id="createASubject">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         Add Subject
                         <br>
 
- <form action="{{route('createSubject')}}" method="POST" name="createSubject" id="createSubject">
- {{ csrf_field() }}{{ method_field('POST') }}
+ <form action="{{route('subject.storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="createSubject">
+ @csrf
 
    <table>
  <thead>
 <tr>
 <th>Grade : </th>
-<td><select name="subjectGrade">
+<td><select name="subjectGrade" id="subjectGrade">
     <option value="0" selected>Select Grade : </option>
 @if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
  @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get()) as  $grade)
-     <option value={{$grade->gradeId}}>{{$grade->grade}}</option>
+     <option value="{{$grade->gradeId}}">{{$grade->grade}}</option>
  @endforeach
 @endif
 </select></td></tr>
    <tr>
 <th>Department : </th>
-<td><select name="departmentId">
+<td><select name="departmentId" id="departmentId">
     <option value="0" selected>Select Department : </option>
 @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
  @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as  $department)
-    <option value={{$department->departmentId}}>{{$department->departmentName}}</option>
+    <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
  @endforeach
 @endif
 </select></td></tr>
 
          <tr>
      <th>Semester : </th>
-   <td><select name="semesterId">
+   <td><select name="semesterId" id="semesterId">
       <option value="0" selected>Select Semester : </option>
      @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
        @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
-        <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
+        <option value="{{$semester->semesterId}}">{{$semester->semesterName}}</option>
        @endforeach
      @endif
      </select></td></tr>
    <tr>
        <th>Subject Name : </th>
-       <td>{{Form::text('subjectName',NULL,array('placeholder'=>'Enter Subject Name '))}}</td></tr>
+       <td>{{Form::text('subjectName',NULL,array('placeholder'=>'Enter Subject Name ','id'=>'subjectName'))}}</td></tr>
        <tr>
          <th>Subject Maximum Marks : </th>
-         <td>{{Form::number('subjectMaxMarks',NULL,array('placeholder'=>'Subject Maximum Marks'))}}</td></tr>
+         <td>{{Form::text('subjectMaxMarks',NULL,array('placeholder'=>'Subject Maximum Marks','id'=>'subjectMaxMarks'))}}</td></tr>
          <tr>
            <th>Subject Text Name : </th>
-           <td>{{Form::text('subjectTextName',NULL,array('placeholder'=>'Textbook Name'))}}</td></tr>
+           <td>{{Form::text('subjectTextName',NULL,array('placeholder'=>'Textbook Name','id'=>'subjectTextName'))}}</td></tr>
            <tr>
              <th>Submit</th>
-             <td><button class="btn btn-success btn-createSubject">Submit</button></td></tr>
+             <td><button type="submit" class="btn btn-primary">Save</button>{{Form::close()}}</td></tr>
 
 
-           {{Form::close()}}
+
 
          </thead>
          </table>
@@ -204,60 +176,6 @@
 
 
 
-        <script type="text/javascript">
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            $(".updateSubject").click(function(e){
-
-                e.preventDefault();
-
-                var form = $("#updateSubject");
-
-                $.ajax({
-                   type:'POST',
-                   url:"{{ route('updateSubject') }}",
-                   data:form.serialize(),
-                   success: function(response){
-             alert("jjjj");
-                   }
-                });
-
-            });
-
-
-        </script>
-                <script type="text/javascript">
-
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $(".deleteSubject").click(function(e){
-
-                        e.preventDefault();
-
-                        var form = $("#deleteSubject");
-
-                        $.ajax({
-                           type:'POST',
-                           url:"{{ route('deleteSubject') }}",
-                           data:form.serialize(),
-                           success: function(response){
-                     alert("jjjj");
-                           }
-                        });
-
-                    });
-
-
-                </script>
 
     <div class="py-12" id="updateSubject">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -318,7 +236,7 @@
                                                               </div>
                                                               <div class="modal-body" id="subjectsList">
 
-                                                                <form action="{{route('updateSubject')}}" method="POST" name="updateSubject" id="updateSubject">
+                                                                <form action="{{route('subject.updatesubject',['subject'=>$subject->subjectId])}}" method="POST" name="updateSubject" id="updateSubject">
                                                                 {{ csrf_field() }}{{ method_field('POST') }}
                                       {{Form::hidden('subjectId',$subject->subjectId)}}
                                          <h2>Subject Name : </h2>
@@ -360,17 +278,12 @@
                                       {{Form::number('subjectMaxMarks',$subject->subjectMaxMarks,array('placeholder'=>'Subject Maximum Marks'))}}<br>
                                      <h2>Subject Textbook Name : </h2>
                                      {{Form::text('subjectTextName',$subject->subjectTextName,array('placeholder'=>'Textbook Name'))}}<br>
-                                    <h2>Update Subject : </h2>{{Form::submit('Save',array('class'=>'btn btn-primary'))}}<br>
+                                    <h2>Update Subject : </h2>{<button type="submit" class="btn btn-primary">Save</button><br>
                                         {{Form::close()}}<br>
                                      <h2>Delete</h2>
-                                      {{Form::open(array('route' => 'deleteSubject')) }}
-                                      {{Form::hidden('subjectId',$subject->subjectId)}}
-                                      <button class="btn btn-success btn-updateSubject">Submit</button>
-                                        {{Form::close()}}<br>
-                                     <hr><hr>
-                                     <form action="{{route('deleteSubject')}}" method="POST" name="deleteSubject" id="deleteSubject">
-                                     {{ csrf_field() }}{{ method_field('POST') }}
-           {{Form::hidden('subjectId',$subject->subjectId)}}  <button class="btn btn-success btn-deleteSubject">Delete</button>
+                                      <form action="{{route('subject.destroysubject',['subject'=>$subject->subjectId])}}" method="POST" name="deleteSubject" id="deleteSubject">
+                                      {{ csrf_field() }}{{ method_field('POST') }}
+           {{Form::hidden('subjectId',$subject->subjectId)}}  <button type="submit" class="btn btn-primary">Delete</button>
                {{Form::close()}}<br>
             <hr><hr>
                                      <div class="modal-footer">
@@ -404,5 +317,8 @@
         <!--
 
        -->
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+       <script src="{{ asset('js/Admin/subject.js') }}" defer></script>
 
 </x-app-layout>

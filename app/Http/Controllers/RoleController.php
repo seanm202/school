@@ -19,13 +19,18 @@ class RoleController extends Controller
 
 
     }
+    public function getRoleDetails()
+    {
+      $roles = \App\Models\role::all();
+      return view("/Admin/role")->with('roles',$roles);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createRole(Request $request)
     {
 
           //Add An Entity
@@ -78,11 +83,13 @@ class RoleController extends Controller
      * @param  \App\Models\role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateRole(Request $request,role $role)
     {
         //Updating classroom details
-            role::where('roleId', $request->roleId)->update(['roleName' => $request->roleName]);
-          return view("/AdminRole",['id'=>'updateRoleByAdmin']));
+          $role= role::where('roles.roleId','=',$request->roleId)->first();
+          $role->roleName=$request->roleName;
+          $role->save();
+          return view("/Admin/role",['id'=>'updateRoleByAdmin']);
     }
 
     /**
@@ -91,7 +98,7 @@ class RoleController extends Controller
      * @param  \App\Models\role  $role
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroyRole(Request $request)
     {
 
 

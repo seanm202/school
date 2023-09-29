@@ -21,11 +21,12 @@ class StudentSubjectAttendanceController extends Controller
      */
 
 
-    public function index(Request $request)
+    public function indexstudentSubjectAttendance()
     {
-
+      $StudentSubjectAttendance=StudentSubjectAttendance::all();
+      return view('Teacher/Attendance')->with(compact('StudentSubjectAttendance'));
     }
-    public function store(Request $request)
+    public function storestudentSubjectAttendance(Request $request)
     {
       $dailyTeacherAllocations=dailyTeacherAllocation::where('daily_Teacher_AllocationId','=',$request->dailyTeacherAllocationId)->first();
       $dailyTeacherAllocations->status=2;
@@ -105,7 +106,7 @@ class StudentSubjectAttendanceController extends Controller
      * @param  \App\Models\studentSubjectAttendance  $studentSubjectAttendance
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, studentSubjectAttendance $studentSubjectAttendance)
+    public function updatestudentSubjectAttendance(Request $request)
     {
 
 $inputs = $request->input('id');

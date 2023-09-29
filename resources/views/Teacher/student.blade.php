@@ -40,33 +40,7 @@
 Add students
  -->
 
- <script type="text/javascript">
 
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".btn-submit").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#formIdNow");
-
-         $.ajax({
-            type:'POST',
-            url:"{{route('addStudentTeacher')}}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
  <div class="py-12" id="teacherStudentAddStudent">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -83,7 +57,7 @@ Add students
         </div>
         @endif
 
-               <form action="{{route('addStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
+               <form data-action="{{route('detail.createStudentTeacher')}}" method="POST" name="formIdNow" id="formIdNow">
               {{ csrf_field() }}{{ method_field('POST') }}
                  <table>
                <thead>
@@ -150,7 +124,7 @@ Add students
                  </thead>
                </table>
                <!-- {{Form::submit('Save',array('class'=>'btn btn-primary'))}} -->
-<button class="btn btn-success btn-submit">Submit</button>
+  <button type="submit" class="btn btn-primary" >Submit</button>
                                      {{Form::close()}}
              </div>
          </div>
@@ -176,33 +150,6 @@ Edit student details
 Edit student details
  -->
 
-  <script type="text/javascript">
-
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
-
-      $(".updateMarksTeacher").click(function(e){
-
-          e.preventDefault();
-
-          var form = $("#updateMarksTeacher");
-
-          $.ajax({
-             type:'POST',
-             url:"{{ route('updateMarksTeacher') }}",
-             data:form.serialize(),
-             success: function(response){
-       alert("jjjj");
-             }
-          });
-
-      });
-
-
-  </script>
 
      <div class="py-12" id="teacherStudentAddStudentMarks">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -267,6 +214,7 @@ Edit student details
                              'grades.grade AS gradeName',
                              'grades.gradeId AS gradeId',
                              'teachers.teacherId AS teacherId',
+                             'student_marks.studentMarks AS studentMarks',
                              'class_rooms.classroomDetailId AS classroomDetailId'
                              )
                              ->groupBy('students.studentId')
@@ -313,7 +261,7 @@ Edit student details
                                  </tr>
                                </thead>
                                  <tbody>
-                                   <form action="{{route('updateMarksTeacher')}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
+                                   <form data-action="{{route('studentMarks.updateMarksTeacher',['studentMarks'=>$studentDetail->student_marksId])}}" method="POST" name="updateMarksTeacher" id="updateMarksTeacher">
                                    {{ csrf_field() }}{{ method_field('POST')}}
                                @foreach(($studentMarks = \App\Models\studentMarks::join('subjects','subjects.subjectId','=','student_marks.subjectId')
                                                  ->join('subject_teacher_for_each_sections','subject_teacher_for_each_sections.classRoomId','=','student_marks.classRoomId')
@@ -335,7 +283,7 @@ Edit student details
                                @endforeach
                              </tbody>
                            </table>
-                             <button class="btn btn-success btn-updateMarksTeacher">Submit</button>{{Form::close()}}
+                             <button type="submit" class="btn btn-primary" >Submit</button>{{Form::close()}}
                                                                            </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -360,4 +308,7 @@ Marks Creation
 
 
 
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+        <script src="{{ asset('js/Teacher/student.js') }}" defer></script>
 </x-app-layout>

@@ -15,6 +15,12 @@ class DepartmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+     public function getDepartmentDetails()
+     {
+       $departments = \App\Models\Department::all();
+       return view("/Admin/admin")->with('departments',$departments);
+     }
+
     public function index()
     {
         //
@@ -36,7 +42,7 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-     public function store(Request $request)
+     public function storeDepartment(Request $request)
      {
              $validated = $request->validate([
                'departmentName' => ['required'],
@@ -73,7 +79,7 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function editDepartment(Request $request)
     {
             $validated = $request->validate([
               'departmentName' => ['required'],
@@ -107,7 +113,7 @@ class DepartmentController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroyDepartment(Request $request)
     {
         //
         $department = Department::where('departmentId', $request->departmentId)->first();

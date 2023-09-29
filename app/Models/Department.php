@@ -10,9 +10,9 @@ class Department extends Model
     use HasFactory;
    protected $table = 'departments';
    protected $primaryKey = 'departmentId';
-   protected $attributes = [
-       'departmentId' => 0,
-           'departmentName' => 0,
-             'batchId'=>0,
+   protected $fillable = [
+       'departmentId',
+           'departmentName',
+             'batchId'
    ];
 }

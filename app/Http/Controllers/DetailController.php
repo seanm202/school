@@ -10,6 +10,7 @@ use App\Models\admin;
 use App\Models\ConstantController;
 use App\Models\student;
 use App\Models\teacher;
+use App\Models\role;
 use App\Models\attendence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -212,6 +213,11 @@ $userId=$request->userId;
       $users = \App\Models\User::all();
       return view("/Admin/details")->with('users',$users);
     }
+        public function getDetailsToTeacher()
+        {
+          $users = \App\Models\User::all();
+          return view("/Admin/teacher")->with('users',$users);
+        }
 
     public function addToAdminTable($userId,$adminDetailId)
     {
@@ -219,17 +225,17 @@ $userId=$request->userId;
       $admin->userId=$userId;
       $admin->notifications_Posted="";
       $admin->adminDetailId=$adminDetailId;
-      $admin->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+      $admin->batchId=batch::where('status','=',1)->select('batchId')->first()->batchId;
       $admin->save();
       return;
     }
 
 
-    public function addToTeacherTable($userId,$request)
+    public function addToTeacherTable($userId,$detailId)
     {
-      $batchIds=batch::where('status',1)->select('batchId')->first()->batchId;
-      $teacher= teacher::where('userId',$request->userId)->where('batchId','=',$request->userId)->first();
-      $teacher->teacherDetailId=$request->detailId;
+      $batchIds=batch::where('status',1)->select('batchId')->first();
+      $teacher= teacher::where('userId','=',$userId)->where('batchId','=',$batchIds->batchId)->first();
+      $teacher->teacherDetailId=$detailId;
       $teacher->batchId=$batchIds;
       $teacher->save();
       return;
@@ -369,15 +375,14 @@ $userId=$request->userId;
         $detail->guardianName = $request->guardianName;
         $detail->status = 1;
         $detail->save();
-        $detailsId=$detail->detailId;
-        \App\Http\Controllers\DetailController::addToTeacherTable($request->userId,$detailsId);
+        \App\Http\Controllers\DetailController::addToTeacherTable($request->userId,$request->detailId);
 
      \App\Http\Controllers\DetailController::updateRoleInUsers($request->userId,$request->roleId);
 
       return redirect()->route('AdminDetails',['id'=>'createOrUpdateTeacherDetails'])->with('success', 'User details updated successfully.');
     }
 
-    public function updateStudentDetails($request)
+    public function updateStudentDetails(Request $request)
     {
         //Updating classroom details
          $validated = $request->validate([
@@ -443,49 +448,50 @@ $userId=$request->userId;
 
     public function createTeacher(Request $request)
     {
-      $validated = $request->validate([
-        'password' => ['required', Password::defaults()],
-        'email' => ['email' => 'email'],
-        'phone' => ['required', 'numeric'],
-        'firstName' => ['required'],
-        'lastName' => ['required'],
-        'age' => ['required', 'numeric'],
-        'dob' => ['required', 'date'],
-        'contactNumber' => ['required', 'numeric'],
-        'alternateContactNumber' => ['required','numeric'],
-        'address' => ['required'],
-        'bloodGroup' => ['required'],
-        'identificationMark' => ['required'],
-        'parentNumber' => ['required', 'numeric'],
-        'homePhoneNumber' => ['required', 'numeric'],
-        'fatherSpouseName' => ['required'],
-        'motherName' => ['required'],
-        'guardianName' => ['required'],
-   [
-    'phone.required'=> 'Your Phone Number is Required',
-    'phone.numeric'=> 'Phone number must be numeric',
-    'firstName.required'=> 'Your First Name is Required',
-    'lastName.required'=> 'Your Last Name is Required',
-    'age.numeric'=> 'Age should be numeric',
-    'dob.required'=> 'Your date of birth is Required',
-    'contactNumber.required'=> 'Your Contact Number is Required',
-    'contactNumber.numeric'=> 'Contact Number Should be numeric',
-    'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
-    'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
-    'address.required'=> 'Address is required',
-    'bloodGroup.required'=> 'Your blood group is Required',
-    'identificationMark.required'=> 'Please provide an identification mark',
-    'parentNumber.required'=> 'Contact number of your parents is required',
-    'homePhoneNumber.required'=> 'Home phone number is required',
-    'fatherSpouseName.required'=> 'Contact number of your father or spouse is Required',
-    'motherName.required'=> 'Name of your mother is Required',
-    'guardianName.required'=> 'Name of your guardian is Required',
-   ]
-    ]);
-    $passwords = DB::table('constant_controllers')
-          ->where('constantName','=','defaultPassword')
-          ->select('constantValue')
-          ->first();
+        $validated = $request->validate([
+          'password' => ['required', Password::defaults()],
+          'email' => ['email' => 'email'],
+          'phone' => ['required', 'numeric'],
+          'firstName' => ['required'],
+          'lastName' => ['required'],
+          'age' => ['required', 'numeric'],
+          'dob' => ['required', 'date'],
+          'contactNumber' => ['required', 'numeric'],
+          'alternateContactNumber' => ['required','numeric'],
+          'address' => ['required'],
+          'bloodGroup' => ['required'],
+          'identificationMark' => ['required'],
+          'parentNumber' => ['required', 'numeric'],
+          'homePhoneNumber' => ['required', 'numeric'],
+          'fatherSpouseName' => ['required'],
+          'motherName' => ['required'],
+          'guardianName' => ['required'],
+     [
+      'phone.required'=> 'Your Phone Number is Required',
+      'phone.numeric'=> 'Phone number must be numeric',
+      'firstName.required'=> 'Your First Name is Required',
+      'lastName.required'=> 'Your Last Name is Required',
+      'age.numeric'=> 'Age should be numeric',
+      'dob.required'=> 'Your date of birth is Required',
+      'contactNumber.required'=> 'Your Contact Number is Required',
+      'contactNumber.numeric'=> 'Contact Number Should be numeric',
+      'alternateContactNumber.required'=> 'An Alternate Contact Number is Required',
+      'alternateContactNumber.numeric'=> 'Alternate Contact Number Should be numeric',
+      'address.required'=> 'Address is required',
+      'bloodGroup.required'=> 'Your blood group is Required',
+      'identificationMark.required'=> 'Please provide an identification mark',
+      'parentNumber.required'=> 'Contact number of your parents is required',
+      'homePhoneNumber.required'=> 'Home phone number is required',
+      'fatherSpouseName.required'=> 'Contact number of your father or spouse is Required',
+      'motherName.required'=> 'Name of your mother is Required',
+      'guardianName.required'=> 'Name of your guardian is Required',
+     ]
+      ]);
+
+      $passwords = DB::table('constant_controllers')
+            ->where('constantName','=','defaultPassword')
+            ->select('constantValue')
+            ->first();
       $user=new User;
       $user->email=$request->email;
       $user->password=Hash::make($passwords->constantValue);
@@ -513,22 +519,23 @@ $userId=$request->userId;
        $details->homePhoneNumber = $request->homePhoneNumber;
        $details->fatherSpouseName = $request->fatherSpouseName;
        $details->motherName = $request->motherName;
-       $details->guardianName = $request->guardianName;
        $details->status = 1;
        $details->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $details->guardianName = $request->guardianName;
        $details->save();
        $detailsId=$details->detailId;
-       $roleIdForRoleDetailIdUpdation=2;
-       $teacher =new teacher;
-       $teacher->userId	=$userId;
-       $teacher->teacherDetailId=$detailsId;
-       $teacher->status=1;
-       $teacher->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
-       $teacher->save();
+       $roleIdForRoleDetailIdUpdation=3;
+       $teachers=new teacher;
+       $teachers->userId=$userId;
+       $teachers->teacherDetailId=$detailsId;
+       $teachers->status = 1;
+       $teachers->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+       $teachers->save();
        \App\Http\Controllers\DetailController::updateUserDetailsId($detailsId,$userId);
        \App\Http\Controllers\DetailController::updateRoleInUsers($userId,2);
-       redirect()->route('AdminTeacher',['id'=>'addTeacherAdmin'])->with('success', 'Teacher added successfully.');
+        return redirect()->route('AdminTeacher',['id'=>'addTeachersAdmin'])->with('success', 'Teacher created successfully.');
     }
+
 
     public function createAdmin(Request $request)
     {
@@ -720,7 +727,6 @@ $userId=$request->userId;
     }
         public function createStudentAdmin(Request $request)
         {
-
             $validated = $request->validate([
               'password' => ['required', Password::defaults()],
               'email' => ['email' => 'email'],

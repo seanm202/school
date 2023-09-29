@@ -1,4 +1,6 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -33,7 +35,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button> {{ __('Admin') }}
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> <h2>{{ __('Admin') }}</h
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -53,7 +55,7 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -92,33 +94,6 @@
 
 
 
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".addAdminAdmin").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#addAdminAdmin");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('addAdminAdmin') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
 <div>
     <div class="py-12" id="createTheAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -133,166 +108,80 @@
             @endphp
         </div>
         @endif
-                  <form action="{{route('addAdminAdmin')}}" method="POST" name="addAdminAdmin" id="addAdminAdmin">
-                  {{ csrf_field() }}{{ method_field('POST') }}
+                  <form  action="{{route('detail.createAdmin')}}" method="POST"  enctype="multipart/form-data" name="addAdminAdmin" id="addAdminAdmin">
+                  @csrf
                     <table>
                   <thead>
 
                     <tr>
                       <th>First Name</th>
-                    <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name'))}} </td>
+                    <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','id'=>'firstName'))}} </td>
                     </tr>
                     <tr>
                       <th>Last name</th>
-                    <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name'))}} </td></tr>
+                    <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name','id'=>'lastName'))}} </td></tr>
                     <tr>
                       <th>Email</th>
-                    <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id'))}} </td></tr>
+                    <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id','id'=>'email'))}} </td></tr>
                     <tr>
                       <th>Phone</th>
-                    <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number'))}} </td></tr>
+                    <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','id'=>'phone'))}} </td></tr>
                       <tr>
                       <th>Age</th>{{Form::hidden('password',(\App\Models\ConstantController::where('constantName','defaultPassword')->select('constantValue')->first()))}}
-                    <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age'))}}</td></tr>
+                    <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','id'=>'age'))}}</td></tr>
                       <tr>
                       <th>Date of birth</th>
-                    <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth'))}}</td></tr>
+                    <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth','id'=>'dob'))}}</td></tr>
                       <tr>
                         <th>Contact Number</th>
-                        <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number'))}}</td></tr>
+                        <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number','id'=>'contactNumber'))}}</td></tr>
                         <tr>
                           <th>Alternate Contact Number</th>
-                          <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
+                          <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number','id'=>'alternateContactNumber'))}}</td></tr>
                     <tr>
                         <th>Address</th>
-                        <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address'))}}</td>
+                        <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address','id'=>'address'))}}</td>
                       </tr>
 
         <tr>
             <th>Blood Group</th>
-            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group'))}}</td>
+            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group','id'=>'bloodGroup'))}}</td>
           </tr>
 
 
     <tr>
         <th>Identification Mark</th>
-        <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter Identification Mark'))}}</td>
+        <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter Identification Mark','id'=>'identificationMark'))}}</td>
       </tr>
 <tr>
     <th>Parent's Number</th>
-    <td>{{Form::text('parentNumber',NULL,array('placeholder'=>'Enter Parent\'s Number'))}}</td>
+    <td>{{Form::text('parentNumber',NULL,array('placeholder'=>'Enter Parent\'s Number','id'=>'parentNumber'))}}</td>
   </tr>
 <tr>
 <th>Home Phone Number</th>
-<td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Home Phone Number'))}}</td>
+<td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Home Phone Number','id'=>'homePhoneNumber'))}}</td>
 </tr>
 <tr>
 <th>Father's / Spouse's Name</th>
-<td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>'Father\'s/Spouse\'s Name'))}}</td>
+<td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>'Father\'s/Spouse\'s Name','id'=>'fatherSpouseName'))}}</td>
 </tr>
 <tr>
 <th>Mother's Name</th>
-<td>{{Form::text('motherName',NULL,array('placeholder'=>'Mother\'s Name'))}}</td>
+<td>{{Form::text('motherName',NULL,array('placeholder'=>'Mother\'s Name','id'=>'motherName'))}}</td>
 </tr>
 <tr>
 <th>Guardian Name</th>
-<td>{{Form::text('guardianName',NULL,array('placeholder'=>'Guardian Name'))}}</td>
+<td>{{Form::text('guardianName',NULL,array('placeholder'=>'Guardian Name','id'=>'guardianName'))}}</td>
 </tr>
                     </thead>
-                  </table><button class="btn btn-success btn-addAdminAdmin">Save</button>
+                  </table>
+                      <button type="submit" class="btn btn-primary">Save</button>
 
                                         {{Form::close()}}
                 </div>
             </div>
         </div>
     </div>
-
-     <script type="text/javascript">
-
-         $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-         });
-
-         $(".updateBatches").click(function(e){
-
-             e.preventDefault();
-
-             var form = $("#updateBatches");
-
-             $.ajax({
-                type:'POST',
-                url:"{{ route('updateBatches') }}",
-                data:form.serialize(),
-                success: function(response){
-          alert("jjjj");
-                }
-             });
-
-         });
-
-
-     </script>
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".deleteBatches").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#deleteBatches");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('deleteBatches') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
-
-
-         <script type="text/javascript">
-
-             $.ajaxSetup({
-                 headers: {
-                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 }
-             });
-
-             $(".currentBatch").click(function(e){
-
-                 e.preventDefault();
-
-                 var form = $("#currentBatch");
-
-                 $.ajax({
-                    type:'POST',
-                    url:"{{ route('currentBatch') }}",
-                    data:form.serialize(),
-                    success: function(response){
-              alert("jjjj");
-                    }
-                 });
-
-             });
-
-
-         </script>
-
-
 
  <div class="py-12" id="updateTheBatches">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -308,12 +197,12 @@
                <tbody>
                @foreach(($batches = \App\Models\batch::all()) as $batch)
                   @if($batch->status!=1)
-                     <tr><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
-                     <td>{{$batch->batchName}}</td>
+                     <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
+                       <td>{{$batch->batchName}}</td>
                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
                    </tr>
                 @else
-                 <tr style="background:green;color:white;"><form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
+                 <tr style="background:green;color:white;">
                    <td>{{$batch->batchName}}</td>
                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
                   </tr>
@@ -330,14 +219,16 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                          <form action="{{route('updateBatches')}}" method="POST" name="updateBatches" id="updateBatches">{{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
-                          {{Form::label('batchName','Batch Name : ')}}{{Form::text('batchName',$batch->batchName)}}
-                          {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchName',$batch->batchStartingYear)}}
-                          {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchName',$batch->batchEndingYear)}}
-                          <button class="btn btn-success btn-updateBatches">Update</button>{{Form::close()}}
-                          <form action="{{route('currentBatch')}}" method="POST" name="currentBatch" id="currentBatch">{{ csrf_field() }}{{ method_field('POST') }}
-                            {{Form::hidden('batchId',$batch->batchId)}}
-                          <button class="btn btn-success btn-currentBatch">Assign</button>{{Form::close()}}
+                          <form action="{{route('batch.updatebatch',['batch'=>$batch->batchId])}}" method="POST"  enctype="multipart/form-data"  name="updateBatches" id="updateBatches">
+                          {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId,array('id'=>'batchId'))}}
+                          {{Form::label('batchName','Batch Name : ')}}{{Form::text('batchName',$batch->batchName,array('id'=>'batchName'))}}
+                          {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchStartingYear',$batch->batchStartingYear,array('id'=>'batchStartingYear'))}}
+                          {{Form::hidden('status',$batch->status,array('id'=>'status'))}}
+                          {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchEndingYear',$batch->batchEndingYear,array('id'=>'batchEndingYear'))}}
+                        <button type="submit" class="btn btn-primary">Update</button>{{Form::close()}}
+                          <form action="{{route('batch.currentBatch',['batch'=>$batch->batchId])}}" method="POST"   enctype="multipart/form-data" name="currentBatch" id="currentBatch">
+                            {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
+                          <button type="submit" class="btn btn-primary">Assign</button>{{Form::close()}}
 
                         </div>
 
@@ -365,37 +256,14 @@
 
  -->
 
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-     $('#createBatches').submit(function (event) {
-        event.preventDefault();
-        $.ajax({
-           type: "POST",
-           url: "{{ route('createBatches') }}",
-           data: $(this).serialize(),
-            success: function (data) {
-              console.log("hi");
-            // $('.result').html(data);
-           }
-         });
-     });
-
-
- </script>
-
 
  <div class="py-12" id="createTheBatches">
   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div class="p-6 text-gray-900">
             Add Batches
-            <form action="{{route('createBatches')}}" method="post" name="createBatches" id="createBatches">
-            {{ csrf_field() }}{{ method_field('POST') }}
+            <form action="{{route('batch.createbatch')}}" method="post" enctype="multipart/form-data" name="createBatches" id="createBatches">
+            {{ csrf_field() }}
 
                     <div>
                       <div>{{Form::label('Batch Name','Batch Name')}}</div>
@@ -404,7 +272,7 @@
                     <div>{{Form::text('batchStartingYear',NULL,array('placeholder'=>'Enter Starting Year','id'=>'batchStartingYear'))}}</div><div style="padding:20px;"></div>
                    <div> {{Form::label('Batch Ending Year','Batch Ending Year')}}</div>
                     <div>{{Form::text('batchEndingYear',NULL,array('placeholder'=>'Enter Ending Year','id'=>'batchEndingYear'))}}</div><div style="padding:20px;"></div>
-                    <div><button type="submit" onsubmit="submitBatch()" class="btn btn-success btn-createBatches">Create</button></div></div>
+                    <div><button type="submit" class="btn btn-primary">Create</button></div></div>
                     {{Form::close()}}
           </div>
       </div>
@@ -420,62 +288,6 @@
     <!--
 
    -->
-
-   <script type="text/javascript">
-
-       $.ajaxSetup({
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           }
-       });
-
-       $(".updateDepartment").click(function(e){
-
-           e.preventDefault();
-
-           var form = $("#updateDepartment");
-
-           $.ajax({
-              type:'POST',
-              url:"{{ route('updateDepartment') }}",
-              data:form.serialize(),
-              success: function(response){
-        alert("jjjj");
-              }
-           });
-
-       });
-
-
-   </script>
-
-      <script type="text/javascript">
-
-          $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-              }
-          });
-
-          $(".deleteDepartment").click(function(e){
-
-              e.preventDefault();
-
-              var form = $("#deleteDepartment");
-
-              $.ajax({
-                 type:'POST',
-                 url:"{{ route('deleteDepartment') }}",
-                 data:form.serialize(),
-                 success: function(response){
-           alert("jjjj");
-                 }
-              });
-
-          });
-
-
-      </script>
     <div class="py-12" id="deleteTheDepartments">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -506,13 +318,13 @@
 
                                  <!-- Modal body -->
                                  <div class="modal-body">
-                                   <form action="{{route('updateDepartment')}}" method="POST" name="updateDepartment" id="updateDepartment">
+                                   <form action="{{route('Department.editDepartment',['Department'=>$department->departmentId])}}" method="POST" enctype="multipart/form-data" name="updateDepartment" id="updateDepartment">
                                          {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                                         {{Form::label('departmentId',$department->departmentName)}} {{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : '))}}
-                                         <button class="btn btn-success btn-updateDepartment">Update</button>{{Form::close()}}
-                                         <form action="{{route('deleteDepartment')}}" method="POST" name="deleteDepartment" id="deleteDepartment">
+                                         {{Form::label('departmentId','Department Name : ')}} {{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : '))}}
+                                         <button type="submit" class="btn btn-primary">Update</button>{{Form::close()}}
+                                         <form action="{{route('Department.destroyDepartment',['Department'=>$department->departmentId])}}" method="POST" name="deleteDepartment" id="deleteDepartment">
                                              {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                                             <button class="btn btn-success btn-deleteDepartment">Delete</button>{{Form::close()}}
+                                             <button type="submit" class="btn btn-primary">Delete</button>{{Form::close()}}
 
                                  </div>
 
@@ -536,45 +348,16 @@
     </div>
 
 
-
-       <script type="text/javascript">
-
-           $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-           });
-
-           $(".createDepartment").click(function(e){
-
-               e.preventDefault();
-
-               var form = $("#createDepartment");
-
-               $.ajax({
-                  type:'POST',
-                  url:"{{ route('createDepartment') }}",
-                  data:form.serialize(),
-                  success: function(response){
-            alert("jjjj");
-                  }
-               });
-
-           });
-
-
-       </script>
-
         <div class="py-12" id="addTheDepartments">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                       Add Departments
-                      <form action="{{route('createDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
+                      <form action="{{route('Department.storeDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('departmentName','Department Name : ')}}
                               {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : '))}}<br><br><hr><br>
-                              <button class="btn btn-success btn-createDepartment">Create</button>
+                              <button type="submit" class="btn btn-primary">Create</button>
                               {{Form::close()}}
                     </div>
                 </div>
@@ -586,34 +369,6 @@
  -->
 
 
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".updateSemester").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#updateSemester");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('updateSemester') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
     <div class="py-12"  id="editTheSemesters">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -630,12 +385,12 @@
                     </thead>
                     <tbody>
                         @foreach(($semesters = (\App\Models\semester::all())) as $semester)
-                          <form action="{{route('updateSemester')}}" method="POST" name="updateSemester" id="updateSemester">
+                          <form action="{{route('semester.updatesemester',['semester'=>$semester->semesterId])}}" method="POST" name="updateSemester" id="updateSemester">
                             {{ csrf_field() }}{{ method_field('POST') }}
 
                             {{Form::hidden('semesterId',$semester->semesterId)}}
                             <tr><td>{{Form::text('semesterName',$semester->semesterName,array('placeholder'=>'Enter Semester Name : '))}}</td>
-                              <td><button class="btn btn-success btn-updateSemester">Update</button></td></tr>
+                              <td><button type="submit" class="btn btn-primary">Update</button></td></tr>
                           {{Form::close()}}
                         @endforeach
                       </body>
@@ -649,44 +404,18 @@
     </div>
 
 
-     <script type="text/javascript">
 
-         $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-         });
-
-         $(".createSemester").click(function(e){
-
-             e.preventDefault();
-
-             var form = $("#createSemester");
-
-             $.ajax({
-                type:'POST',
-                url:"{{ route('createSemester') }}",
-                data:form.serialize(),
-                success: function(response){
-          alert("jjjj");
-                }
-             });
-
-         });
-
-
-     </script>
         <div class="py-12" id="addTheSemesters">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         Add Semester
 
-                        <form action="{{route('createSemester')}}" method="POST" name="createSemester" id="createSemester">
+                        <form action="{{route('semester.storesemester')}}" method="POST" name="createSemester" id="createSemester">
                         {{ csrf_field() }}{{ method_field('POST') }}
                               {{Form::label('semesterName','Semester Name : ')}}
                               {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name'))}}<br><br><hr><br>
-                              <button class="btn btn-success btn-createSemester">Create</button>
+                              <button type="submit" class="btn btn-primary">Create</button>
                               {{Form::close()}}
                     </div>
                 </div>
@@ -697,39 +426,13 @@ Day creation and updation
  -->
 
 
- <script type="text/javascript">
 
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".updateDayDetails").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#updateDayDetails");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('updateDayDetails') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
-
-
- </script>
  <div class="py-12" id="editDayName">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
                Edit Day Name
-               <table>
+               <table class="daysTable" id="daysTable">
                <thead>
                  <tr>
                    <th>Day ID</th>
@@ -738,16 +441,16 @@ Day creation and updation
                  </tr>
                </thead>
              <tbody>
-                 @foreach(($days=(\App\Models\days::all())) as $day)
+            @foreach(($days=(\App\Models\days::all())) as $day)
                  <tr>
-                 <form action="{{route('updateDayDetails')}}" method="POST" name="updateDayDetails" id="updateDayDetails">
-                 {{ csrf_field() }}{{ method_field('POST') }}
-                   <td>{{$day->dayId}}</td>{{Form::hidden('dayId',$day->dayId)}}
-                 <td>{{Form::text('dayName',$day->dayName,array('placeholder'=>'Enter Day Name'))}} </td>
-                 <td><button class="btn btn-success btn-updateDayDetails">Save</button>
+                 <form action="{{route('admin.updateDayName',['day'=>$day->dayId])}}" method="POST" name="updateDayDetails" id="updateDayDetails">
+                   {{ csrf_field() }}{{ method_field('POST') }}
+                   <td>{{$day->dayId}}</td>{{Form::hidden('dayId',$day->dayId,array('id'=>'dayId'))}}
+                 <td>{{Form::text('dayName',$day->dayName,array('placeholder'=>'Enter Day Name','id'=>'dayName'))}} </td>
+                 <td><button type="submit" class="btn btn-primary">Update</button>
                    {{Form::close()}}</td>
                </tr>
-                 @endforeach
+           @endforeach
              </tbody>
                </table>
              </div>
@@ -760,43 +463,16 @@ Day creation and updation
 
    -->
 
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".createDay").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#createDay");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('createDay') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
 
    <div class="py-12" id="addTheDay">
        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                <div class="p-6 text-gray-900">
                  Add Day
-                   <div>Day Name : <form action="{{route('createDay')}}" method="POST" name="createDay" id="createDay">
+                   <div>Day Name : <form action="{{route('admin.addDayName')}}" method="POST" name="createDay" id="createDay">
                      {{ csrf_field() }}{{ method_field('POST') }}
                    {{Form::text('dayName',NULL,array('placeholder'=>'Enter day name'))}}<br><br><hr><br>
-                   <button class="btn btn-success btn-createDay">Submit</button>
+                   <button type="submit" class="btn btn-primary">Submit</button>
                      {{Form::close()}}
                    </div>
                </div>
@@ -811,62 +487,6 @@ Hour creation
 <!--
 
 -->
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".updateHourDetails").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#updateHourDetails");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('updateHourDetails') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
-
-    <script type="text/javascript">
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(".deleteHour").click(function(e){
-
-            e.preventDefault();
-
-            var form = $("#deleteHour");
-
-            $.ajax({
-               type:'POST',
-               url:"{{ route('deleteHour') }}",
-               data:form.serialize(),
-               success: function(response){
-         alert("jjjj");
-               }
-            });
-
-        });
-
-
-    </script>
 
 <div class="py-12" id="editTheHourName">
    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -900,15 +520,15 @@ Hour creation
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                          <form action="{{route('updateHourDetails')}}" method="POST" name="updateHourDetails" id="updateHourDetails">
+                          <form action="{{route('admin.updateHourName',['hour'=>$hour->hourId])}}" method="POST" name="updateHourDetails" id="updateHourDetails">
                           {{ csrf_field() }}{{ method_field('POST') }}
                           {{Form::label('hourName',"Hour Name")}}{{Form::hidden('hourId',$hour->hourId)}}
-                          {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name'))}}
-                          {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime)}}
-                          <button class="btn btn-success btn-updateHourDetails">Save</button>{{Form::close()}}
-                        <form action="{{route('deleteHour')}}" method="POST" name="deleteHour" id="deleteHour">
+                          {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name','id'=>'hourName'))}}
+                          {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime,array('id'=>'hourStartingTime'))}}
+                           <button type="submit" class="btn btn-primary">Save</button>{{Form::close()}}
+                        <form action="{{route('admin.deleteHour',['hour'=>$hour->hourId])}}" method="POST" name="deleteHour" id="deleteHour">
                           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',$hour->hourId)}}
-                        <button class="btn btn-success btn-deleteHour">Delete</button>
+                       <button type="submit" class="btn btn-primary">Delete</button>
                               {{Form::close()}}
 
                         </div>
@@ -938,84 +558,33 @@ Hour creation
  -->
 
 
-     <script type="text/javascript">
 
-         $.ajaxSetup({
-             headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-             }
-         });
-
-         $(".createHour").click(function(e){
-
-             e.preventDefault();
-
-             var form = $("#createHour");
-
-             $.ajax({
-                type:'POST',
-                url:"{{ route('createHour') }}",
-                data:form.serialize(),
-                success: function(response){
-          alert("jjjj");
-                }
-             });
-
-         });
-
-
-     </script>
  <div class="py-12" id="addTheHour">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
                Add Hour
-                 <div><form action="{{route('createHour')}}" method="POST" name="createHour" id="createHour">
-                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('houryName',NULL,array('placeholder'=>'Enter first name'))}}<br><br>
-                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStarTime',NULL)}}<br><br>
-                 <button class="btn btn-success btn-createHour">Add</button>{{Form::close()}}
+                 <div><form action="{{route('admin.addHourName')}}" method="POST" name="createHour" id="createHour">
+                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('hourName',NULL,array('placeholder'=>'Enter first name'))}}<br><br>
+                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStartingTime',NULL)}}<br><br>
+                 <button type="submit" class="btn btn-primary">Add</button>{{Form::close()}}
                 </div>
              </div>
          </div>
      </div>
  </div>
- <script type="text/javascript">
-
-     $.ajaxSetup({
-         headers: {
-             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-         }
-     });
-
-     $(".createDailyAttendance").click(function(e){
-
-         e.preventDefault();
-
-         var form = $("#createDailyAttendance");
-
-         $.ajax({
-            type:'POST',
-            url:"{{ route('createDailyAttendance') }}",
-            data:form.serialize(),
-            success: function(response){
-      alert("jjjj");
-            }
-         });
-
-     });
 
 
- </script>
  <div class="py-12" id="generateAttendanceForTeachers">
      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
                Generate students teacher enabled daily attendance
-               <form action="{{route('createDailyAttendance')}}" method="POST" name="createDailyAttendance" id="createDailyAttendance">
+               <form action="{{route('dailyTeacherAllocation.createDailyAttendanceForAllTeachers')}}" method="POST" name="createDailyAttendance" id="createDailyAttendance">
                {{ csrf_field() }}{{ method_field('POST') }}
                 {{Form::label('Select date to generate attendance : ') }}
                 {{Form::date('dateSelected') }}<br><br><hr><br>
-                <button class="btn btn-success btn-createDailyAttendance">Generate</button>{{Form::close()}}
+                <button type="submit" class="btn btn-primary">Generate</button>{{Form::close()}}
 
              </div>
          </div>
@@ -1029,13 +598,13 @@ Hour creation
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                   <div class="p-6 text-gray-900">
                     View Status
-                    <table>
+                    <table class="statusTable" id="statusTable">
                       <thead><tr>
                         <th>Status Name</th>
                         <th>View </th>
                       </thead>
                       <tbody>
-                    @foreach($statuses=\App\Models\Status::all() as $status)
+                    @foreach($statuse=\App\Models\Status::all() as $status)
                       <tr><td>{{$status->statusName}}</td>
                           <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateStatus{{$status->statusId}}">View</button></td>
                         </tr>
@@ -1052,21 +621,22 @@ Hour creation
 
                                <!-- Modal body -->
                                <div class="modal-body">
-                                 <form action="{{route('updateStatusDetails')}}" method="POST" name="updateStatusDetails" id="updateStatusDetails">
-                                 {{ csrf_field() }}{{ method_field('POST') }}
-                              {{Form::hidden('statusId',$status->statusId)}}
-                                  {{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name'))}}
-                                   <select name="roleForStatus">
+                                 <form action="{{route('Status.updateStatus',['Status'=>$status->statusId])}}" method="POST" id="updateStatusDetails">
+                                 @csrf
+                              {{Form::hidden('statusId',$status->statusId,array('id'=>'statusId'))}}
+                                  {{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name','id'=>'statusName'))}}
+                                   <select name="roleForStatus" id="roleForStatus">
                                    @foreach(($roles=\App\Models\role::all()) as $role)
                                     <option value="{{$role->roleId}}">{{$role->roleName}}</option>
                                      @endforeach
                                    </select>
-                                   <button class="btn btn-success btn-updateStatusDetails">Update</button>
+                                   <button type="submit" class="btn btn-primary">Update</button>
                                   {{Form::hidden('statusId',$status->statusId)}}
-                                   {{Form::close()}}<form action="{{route('deleteStatusDetails')}}" method="POST" name="deleteStatusDetails" id="deleteStatusDetails">
-                                   <button class="btn btn-success btn-deleteStatusDetails">Delete</button>
+                                   {{Form::close()}}
+                                   <form action="{{route('Status.destroyStatus',['Status'=>$status->statusId])}}" method="POST" id="deleteStatusDetails">
+                                   <button type="submit" class="btn btn-primary">Delete</button>
                                      {{ csrf_field() }}{{ method_field('POST') }}
-                                  {{Form::hidden('statusId',$status->statusId)}}
+                                  {{Form::hidden('statusId',$status->statusId,array('id'=>'statusId'))}}
                                    {{Form::close()}}
 
                                </div>
@@ -1088,61 +658,32 @@ Hour creation
       </div>
 
 
-  <script type="text/javascript">
-
-      $.ajaxSetup({
-          headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          }
-      });
-
-      $(".statusAddAdmin").click(function(e){
-
-          e.preventDefault();
-
-          var form = $("#statusAddAdmin");
-
-          $.ajax({
-             type:'POST',
-             url:"{{ route('statusAddAdmin') }}",
-             data:form.serialize(),
-             success: function(response){
-       alert("jjjj");
-             }
-          });
-
-      });
-
-
-  </script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
 
      <div class="py-12" id="createTheStatus">
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
              <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                  <div class="p-6 text-gray-900">
                    Add Status
-                   <form action="{{route('statusAddAdmin')}}" method="POST" name="statusAddAdmin" id="statusAddAdmin">
-                   {{ csrf_field() }}{{ method_field('POST') }}
+                   <form action="{{route('Status.createStatus')}}" method="POST" name="statusAddAdmin" id="statusAddAdmin">
+                     {{ csrf_field() }}{{ method_field('POST') }}
                      <table>
                    <thead>
-
                      <tr>
                        <th>Status Name</th>
-                     <td>{{Form::text('statusName',NULL,array('placeholder'=>'Enter Status Name'))}} </td>
+                     <td>{{Form::text('statusName',NULL,array('placeholder'=>'Enter Status Name','id'=>'statusName'))}} </td>
                      </tr>
                      <tr>
                        <th>Status for role </th>
                      <td>
-                       <select name="roleForStatus">
+                       <select name="roleForStatus" id="roleForStatus">
                        @foreach(($roles=\App\Models\role::all()) as $role)
                         <option value="{{$role->roleId}}">{{$role->roleName}}</option>
                          @endforeach
                        </select>
                       </td></tr>
                      </thead>
-                   </table><button class="btn btn-success btn-statusAddAdmin">Save</button>
-
-                                         {{Form::close()}}
+                   </table><button type="submit" class="btn btn-primary">Submit</button>{{Form::close()}}
                  </div>
              </div>
          </div>
@@ -1153,4 +694,7 @@ Hour creation
 
      <!-- /#sidebar-wrapper -->
 
+         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+         <script src="{{ asset('js/Admin/admin.js') }}" defer></script>
 </x-app-layout>

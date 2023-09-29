@@ -15,16 +15,16 @@ class classRoom extends Model
      */
     protected $table = 'class_rooms';
     protected $primaryKey = 'classroomDetailId';
-    protected $attributes = [
-        'grade' => 0,
-        'roomNo' => 0,
-        'section' => '',
-        'departmentId' => 0,
-        'semester' => '',
-        'classTeacher' => '',
-        'description' => 'Welcome',
-        'capacity' => 0,
-        'classTimeTableId' => 0,
-          'batchId'=>0,
+    protected $fillable = [
+        'grade',
+        'roomNo',
+        'section',
+        'departmentId',
+        'semester',
+        'classTeacher',
+        'description',
+        'capacity',
+        'classTimeTableId',
+          'batchId'
     ];
 }

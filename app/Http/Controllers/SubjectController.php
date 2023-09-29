@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Response;
 use App\Models\subject;
 use App\Models\batch;
+use App\Models\role;
 use Illuminate\Http\Request;
 use Session;
 
@@ -17,7 +18,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+      $subjects = \App\Models\subject::all();
+      return view("/Admin/subject")->with('subjects',$subjects);
     }
     // public function getSubjects()
     // {
@@ -53,42 +55,43 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function storeSubject(Request $request)
     {
+      $role = new role;
+           $role->roleName = "Test";
+           $role->status = 1;
+  $role->save();
+
       //Add A Subject
-          $subjects = new subject;
           $validated = $request->validate([
 
-              'semesterId' => ['required', 'confirmed'],
-              'departmentId' => ['required', 'confirmed'],
-              'subjectName' => ['required',  'confirmed'],
-              'subjectGrade' => ['required',  'confirmed'],
-              'subjectMaxMarks' => ['required', 'numeric', 'confirmed'],
+              'semesterId' => ['required'],
+              'departmentId' => ['required'],
+              'subjectName' => ['required'],
+              'subjectGrade' => ['required'],
+              'subjectMaxMarks' => ['required'],
          [
           'semesterId.required'=> 'Semester must be seleted',
           'departmentId.required'=> 'Department must be seleted',
           'subjectName.required'=> 'Subject name must be filled in',
           'subjectGrade.required'=> 'Subject grade must be entered.',
-          'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.',
-          'subjectMaxMarks.numeric'=> 'Subject maximum marks should be numeric',
+          'subjectMaxMarks.required'=> 'Subject maximum marks must be filled in.'
          ]
           ]);
-                   $subjects->semesterId = $request->semesterId;
-                   $subjects->departmentId = $request->departmentId;
-         $subjects->subjectName = $request->subjectName;
-         $subjects->subjectGrade = $request->subjectGrade;
-         $subjects->subjectMaxMarks = $request->subjectMaxMarks;
-         $subjects->subjectTextName = $request->subjectTextName;
-         $subjects->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
-         $subjects->save();
 
-      return redirect()->route('AdminSubject',['id'=>'createSubject']);
+              $subject = new subject;
+                   $subject->semesterId = $request->semesterId;
+                   $subject->departmentId = $request->departmentId;
+         $subject->subjectName = $request->subjectName;
+         $subject->subjectGrade = $request->subjectGrade;
+         $subject->subjectMaxMarks = $request->subjectMaxMarks;
+         $subject->subjectTextName = $request->subjectTextName;
+         $subject->status = 1;
+         $subject->batchId=batch::where('status',1)->select('batchId')->first()->batchId;
+         $subject->save();
+
+      return redirect()->route('AdminSubject',['id'=>'createASubject'])->with('success', 'Subject created successfully.');
     }
 
     /**
@@ -125,7 +128,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
      * @param  \App\Models\subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updatesubject(Request $request)
     {$validated = $request->validate([
 
         'semesterId' => ['required', 'confirmed'],
@@ -159,7 +162,7 @@ Session::put('subjectWithSelectedConditions', $subjectWithSelectedConditions);
      * @param  \App\Models\subject  $subject
      * @return \Illuminate\Http\Response
      */
-     public function destroy(Request $request)
+     public function destroysubject(Request $request)
      {
        //Delete Subject
       $subject = subject::where('subjectId', $request->subjectId)->first();

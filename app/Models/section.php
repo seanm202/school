@@ -15,10 +15,9 @@ class section extends Model
      */
     protected $table = 'sections';
     protected $primaryKey = 'sectionId';
-    protected $attributes = [
-        'sectionName' => '',
-        'status'=>0,
-          'batchId'=>0,
+    protected $fillable = [
+        'sectionName',
+        'status',
+          'batchId'
     ];
-    protected $fillable = ['secionName'];
 }

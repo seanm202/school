@@ -15,8 +15,8 @@ class Status extends Model
    */
   protected $table = 'statuses';
   protected $primaryKey = 'statusId';
-  protected $attributes = [
-      'statusName' => '',
-      'statusForRoles' => 0,
+  protected $fillable = [
+      'statusName',
+      'statusForRoles'
   ];
 }

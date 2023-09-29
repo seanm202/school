@@ -11,15 +11,15 @@ class dailyTeacherAllocation extends Model
 
     protected $table = 'daily_Teacher_Allocation';
     protected $primaryKey = 'daily_Teacher_AllocationId';
-    protected $attributes = [
-    'classRoomId' => '',
-        'teacherId' => 0,
-        'subjectId' => '',
-        'dayId' => 0,
-        'hourId' => 0,
-        'date' => 0,
-        'status' => 0,
-          'batchId'=>0,
-          'subjectForSectionId'=>0,
+    protected $fillable = [
+    'classRoomId',
+        'teacherId',
+        'subjectId',
+        'dayId',
+        'hourId',
+        'date',
+        'status',
+          'batchId',
+          'subjectForSectionId'
     ];
 }

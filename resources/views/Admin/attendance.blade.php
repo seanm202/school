@@ -1,4 +1,6 @@
-<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+  <script src="https://malsup.github.io/jquery.form.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -20,7 +22,7 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-              <button class="btn btn-primary" id="menu-toggle" style="position:fixed;">Toggle Menu</button> {{ __('Attendance') }}
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> {{ __('Attendance') }}
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -40,7 +42,7 @@
 
 
     <div class="bg-light border-right" id="sidebar-wrapper" style="position: fixed;background-color:red;">
-      <div class="sidebar-heading">Therichpost </div>
+      <div class="sidebar-heading">MySchool </div>
       <div class="list-group list-group-flush" style="max-height: 330px;overflow-y:scroll;">
         <ul>
           <li>
@@ -62,33 +64,7 @@
       window.location = "{{url('logout')}}";//here double curly bracket
       </script>
     @endif
-       <script type="text/javascript">
 
-           $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-           });
-
-           $(".showTodaysAbsentees").click(function(e){
-
-               e.preventDefault();
-
-               var form = $("#showTodaysAbsentees");
-
-               $.ajax({
-                  type:'POST',
-                  url:"{{ route('showTodaysAbsentees') }}",
-                  data:form.serialize(),
-                  success: function(response){
-            alert("jjjj");
-                  }
-               });
-
-           });
-
-
-       </script>
     <div class="py-12" id="todaysAbsentees">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -105,7 +81,7 @@
 
                     <form action="{{route('showTodaysAbsentees')}}" method="POST" name="showTodaysAbsentees" id="showTodaysAbsentees">
                     {{ csrf_field() }}{{ method_field('POST') }}
-                  <button class="btn btn-success btn-showTodaysAbsentees">Submit</button>
+                  <button type="submit" class="btn btn-primary">Submit</button>
                     {{ Form::close() }}
 <br>
 
@@ -146,34 +122,6 @@
    -->
 
 
-   <script type="text/javascript">
-
-       $.ajaxSetup({
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           }
-       });
-
-       $(".showAbsenteesOn").click(function(e){
-
-           e.preventDefault();
-
-           var form = $("#showAbsenteesOn");
-
-           $.ajax({
-              type:'POST',
-              url:"{{ route('showAbsenteesOn') }}",
-              data:form.serialize(),
-              success: function(response){
-        alert("jjjj");
-              }
-           });
-
-       });
-
-
-   </script>
-
     <div class="py-12" id="daysAbsentees">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -183,7 +131,7 @@
                     <form action="{{route('showAbsenteesOn')}}" method="POST" name="showAbsenteesOn" id="showAbsenteesOn">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::date('selectedDate', 'Select date : ')}}
-                    <button class="btn btn-success btn-showAbsenteesOn">Show</button>
+                    <button type="submit" class="btn btn-primary">Show</button>
                     {{ Form::close() }}
 
                     <br>
@@ -222,33 +170,6 @@
    -->
 
 
-   <script type="text/javascript">
-
-       $.ajaxSetup({
-           headers: {
-               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-           }
-       });
-
-       $(".showAbsenteesBetween").click(function(e){
-
-           e.preventDefault();
-
-           var form = $("#showAbsenteesBetween");
-
-           $.ajax({
-              type:'POST',
-              url:"{{ route('showAbsenteesBetween') }}",
-              data:form.serialize(),
-              success: function(response){
-        alert("jjjj");
-              }
-           });
-
-       });
-
-
-   </script>
 
     <div class="py-12" id="showAbsenteesBetween">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -262,7 +183,7 @@
                     {{Form::date('fromDate')}}<br><br>
                     {{Form::label('tillDate','To :')}}
                     {{Form::date('tillDate')}}
-                  <button class="btn btn-success btn-showAbsenteesBetween">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
                     {{ Form::close() }}
 <br>
                                         <hr>
@@ -302,4 +223,7 @@
     </div>
     </div>
 
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+        <script src="{{ asset('js/Admin/attendance.js') }}" defer></script>
 </x-app-layout>

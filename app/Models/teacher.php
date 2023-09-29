@@ -16,8 +16,12 @@ class teacher extends Model
     protected $table = 'teachers';
     protected $primaryKey = 'teacherId';
     protected $attributes = [
-        'userId'=>'',
-        'teacherDetailId'=>0,
-          'batchId'=>0,
+        'status'=>1
+    ];
+    protected $fillable = [
+        'userId',
+        'teacherDetailId',
+        'status',
+          'batchId'
     ];
 }

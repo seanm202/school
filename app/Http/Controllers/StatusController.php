@@ -13,9 +13,10 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getDetailsOfStatus()
     {
-
+      $statuses = Status::all();
+      return view('/Admin/admin');
 
     }
 
@@ -24,12 +25,12 @@ class StatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createStatus(Request $request)
     {
-        $status=new Status;
-        $status->statusName=$request->statusName;
-        $status->statusForRoles=$request->roleForStatus;;
-        $status->save();
+        $statuses=new Status;
+        $statuses->statusName=$request->statusName;
+        $statuses->statusForRoles=$request->roleForStatus;
+        $statuses->save();
         return redirect()->route('Admin',['id'=>'createTheStatus']);
     }
 
@@ -73,12 +74,12 @@ class StatusController extends Controller
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Status $status)
+    public function updateStatus(Request $request)
     {
 
           $status=Status::where('statusId','=',$request->statusId)->first();
           $status->statusName=$request->statusName;
-          $status->statusForRoles=$request->roleForStatus;;
+          $status->statusForRoles=$request->roleForStatus;
           $status->save();
           return redirect()->route('Admin',['id'=>'updateTheStatus']);
     }
@@ -89,11 +90,12 @@ class StatusController extends Controller
      * @param  \App\Models\Status  $status
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroyStatus(Request $request)
     {
 
-      $status=Status::where('statusId','=',$request->statusId)->first();
-      $status->delete();
-      return redirect()->route('Admin',['id'=>'updateTheStatus']);
+      $statuses=Status::where('statusId','=',$request->statusId)->first();
+      $statuses->delete();
+      return redirect()->route('Admin',['id'=>'editDayName'])
+->with('success', 'Details updated successfully.');
     }
 }

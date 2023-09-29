@@ -27,7 +27,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-          return view('/Admin/dashboard');
+          return view('/Admin/admin');
     }
 
     /**
@@ -123,6 +123,7 @@ class AdminController extends Controller
         $days = new days;
 
        $days->dayName = $request->dayName;
+       $days->status = 1;
        $days->save();
 
       return redirect()->route('Admin',['id'=>'addTheDay'])
@@ -146,12 +147,12 @@ class AdminController extends Controller
     public function updateDayName(Request $request)
     {
         //Store or add admin
-        $days =days::where('dayId','=',$request->dayId)->first();
+        $days = days::where('dayId','=',$request->dayId)->first();
         $days->dayName = $request->dayName;
+        $days->status = 1;
         $days->save();
 
-              return redirect()->route('Admin',['id'=>'editDayName'])
-        ->with('success', 'Details updated successfully.');
+            return redirect()->route('Admin',['id'=>'editDayName']);
     }
 
 
@@ -162,16 +163,17 @@ class AdminController extends Controller
           $validated = $request->validate([
             'hourName' => ['required'],
        [
-        'phone.required'=> 'A name for the hour is required',
+        'hourName.required'=> 'A name for the hour is required',
        ]
         ]);
-        $hours = hours::where('hourId',$request->hourId)->first();
+        $hours = new hours;
 
        $hours->hourName = $request->hourName;
        $hours->hourStartingTime = $request->hourStartingTime;
+       $hours->status = 1;
        $hours->save();
 
-       return redirect()->route('Admin',['id'=>'addTheHour'])
+       return redirect()->route('Admin',['id'=>'addTheHour']);
     }
 
 
@@ -179,11 +181,13 @@ class AdminController extends Controller
     public function updateHourName(Request $request)
     {
         //Store or add admin
-        $hours =hours::where('hourId','=',$request->hourId)->first();
+        $hours = hours::where('hourId','=',$request->hourId)->first();
         $hours->hourName = $request->hourName;
+        $hours->hourStartingTime = $request->hourStartingTime;
+        $hours->status = 1;
         $hours->save();
 
-        return redirect()->route('Admin',['id'=>'editTheHourName'])
+        return redirect()->route('Admin',['id'=>'editTheHourName']);
 
     }
 
@@ -194,7 +198,7 @@ class AdminController extends Controller
 
         $hours->delete();
 
-        return redirect()->route('Admin',['id'=>'editTheHourName'])
+        return redirect()->route('Admin',['id'=>'editTheHourName']);
 
     }
 

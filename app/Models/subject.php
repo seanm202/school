@@ -16,12 +16,16 @@ class subject extends Model
     protected $table = 'subjects';
     protected $primaryKey = 'subjectId';
     protected $attributes = [
-        'departmentId' => 0,
-            'semesterId' => 0,
-        'subjectName' => 0,
-        'subjectGrade' => 0,
-        'subjectMaxMarks' => 0,
-        'subjectTextName'=>'',
-          'batchId'=>0,
+        'status'=>1,
+    ];
+    protected $fillable = [
+        'departmentId',
+            'semesterId',
+        'subjectName',
+        'subjectGrade',
+        'subjectMaxMarks',
+        'subjectTextName',
+          'status',
+            'batchId',
     ];
 }

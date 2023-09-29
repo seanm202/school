@@ -15,7 +15,8 @@ class days extends Model
      */
     protected $table = 'days';
     protected $primaryKey = 'dayId';
-    protected $attributes = [
-        'dayName'=>'',
+    protected $fillable = [
+      'dayId',
+        'dayName',
     ];
 }

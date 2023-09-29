@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Response;
 use App\Models\student;
 use App\Models\subject;
+use App\Models\role;
 use App\Models\studentMarks;
 use Illuminate\Http\Request;
 use App\Models\batch;
@@ -16,22 +17,22 @@ class StudentMarksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function createMarkEntry(Request $request)
     {
-
-        $students = student::all();
         $batchId=batch::where('status',1)->select('batchId')->first();
-        foreach($students as $student)
+      $students = student::where('students.batchId','=',$batchId->batchId)->get();
+      $i=1;
+    foreach($students as $student)
         {
-          $subjects = subject::where('semesterId','=',$student->studentSemester)
-                              ->where('departmentId','=',$student->studentDepartmentId)
-                              ->where('batchId',1)->get();
+          $subjects = subject::where('subjects.semesterId','=',$student->studentSemester)
+                              ->where('subjects.departmentId','=',$student->studentDepartmentId)
+                              ->where('subjects.subjectGrade','=',$student->studentGrade)
+                              ->where('subjects.batchId','=',$student->batchId)->get();
+
           foreach($subjects as $subject)
           {
-            $studentMark=new studentMarks;
-
-
-              $studentMark->userId = $student->userId;
+            $studentMark= new studentMarks;
+            $studentMark->userId = $student->userId;
               $studentMark->studentId = $student->studentId;
               $studentMark->classRoomId = $student->studentClassroom;
               $studentMark->subjectId = $subject->subjectId;
@@ -104,7 +105,7 @@ class StudentMarksController extends Controller
      * @param  \App\Models\studentMarks  $studentMarks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, studentMarks $studentMarks)
+    public function update(Request $request)
     {
 
       $inputs = $request->input('student_marksId');

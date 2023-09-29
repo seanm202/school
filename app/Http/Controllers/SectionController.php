@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Response;
 use App\Models\batch;
+use App\Models\role;
 use App\Models\section;
 use Illuminate\Http\Request;
 
@@ -18,13 +19,18 @@ class SectionController extends Controller
     {
         //
     }
+    public function getDetails()
+    {
+      $sections = \App\Models\section::all();
+      return view("/Admin/section")->with('sections',$sections);
+    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-     public function create(Request $request)
+     public function createSection(Request $request)
      {
 
                $validated = $request->validate([
@@ -99,15 +105,16 @@ class SectionController extends Controller
      * @param  \App\Models\section  $section
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, section $section)
-    {  //Updating classroom details
+    public function updateSection(Request $request, section $section)
+    { 
+    //Updating classroom details
                    $validated = $request->validate([
                      'sectionName' => ['required'],
                  [
                  'sectionName.required'=> 'A name must be specified for the section/division.',
                  ]
                  ]);
-      $section=section::where('sectionId', $request->sectionId)->first();
+      $section=section::where('sections.sectionId','=',$request->sectionId)->first();
       $section->sectionName=$request->sectionName;
       $section->save();
     return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
@@ -119,10 +126,11 @@ class SectionController extends Controller
      * @param  \App\Models\section  $section
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroySection(Request $request)
     {
       //Delete self - details
-      $section = section::where('sectionId','=',$request->sectionId)->delete();
+      $section = section::where('sections.sectionId','=',$request->sectionId)->first();
+      $section->delete();
 
       return redirect()->route('AdminSection',['id'=>'updateSectionByAdmin']);
     }
