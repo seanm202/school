@@ -1,3 +1,10 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -22,7 +29,10 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> {{ __('Attendance') }}
+          {{ __('Attendance') }}
+          <br>
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -81,7 +91,7 @@
 
                     <form action="{{route('showTodaysAbsentees')}}" method="POST" name="showTodaysAbsentees" id="showTodaysAbsentees">
                     {{ csrf_field() }}{{ method_field('POST') }}
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary form-control">Submit</button>
                     {{ Form::close() }}
 <br>
 
@@ -89,7 +99,7 @@
 
                       @isset($todaysAttendences)
                         @if(count($todaysAttendences)>0)
-                          <table>
+                          <table class="table">
                               <thead>
                                 <tr>
                                   <th>Name</th>
@@ -130,8 +140,8 @@
 
                     <form action="{{route('showAbsenteesOn')}}" method="POST" name="showAbsenteesOn" id="showAbsenteesOn">
                     {{ csrf_field() }}{{ method_field('POST') }}
-                    {{Form::date('selectedDate', 'Select date : ')}}
-                    <button type="submit" class="btn btn-primary">Show</button>
+                    {{Form::date('selectedDate', 'Select date : ',array('class'=>'form-control'))}}
+                    <button type="submit" class="btn btn-primary form-control">Show</button>
                     {{ Form::close() }}
 
                     <br>
@@ -139,7 +149,7 @@
 
                                       @isset($attendences)
                                           @if(count($attendences)>0)
-                                            <table>
+                                            <table class="table">
                                               <thead>
                                                 <tr>
                                                   <th>Name</th>
@@ -180,17 +190,17 @@
                     <form action="{{route('showAbsenteesBetween')}}" method="POST" name="showAbsenteesBetween" id="showAbsenteesBetween">
                     {{ csrf_field() }}{{ method_field('POST') }}
                     {{Form::label('fromDate', 'From :')}}
-                    {{Form::date('fromDate')}}<br><br>
+                    {{Form::date('fromDate',NULL,array('class'=>'form-control'))}}<br><br>
                     {{Form::label('tillDate','To :')}}
-                    {{Form::date('tillDate')}}
-                <button type="submit" class="btn btn-primary">Submit</button>
+                    {{Form::date('tillDate',NULL,array('class'=>'form-control'))}}
+                <button type="submit" class="btn btn-primary form-control">Submit</button>
                     {{ Form::close() }}
 <br>
                                         <hr>
 
                                       @isset($attendencesBetweens)
                                         @if(count($attendencesBetweens)>0)
-                                          <table>
+                                          <table class="table">
                                               <thead>
                                                 <tr>
                                                   <th>Name</th>

@@ -1,3 +1,12 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -35,7 +44,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> <h2>{{ __('Admin') }}</h
+          <h2>{{ __('Admin') }}</h2>
+          <br>
+          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
             @if ($errors->any())
                <div class="alert alert-danger">
                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -98,7 +109,7 @@
     <div class="py-12" id="createTheAdmin">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+                <div class="p-6 text-gray-900"  style="overflow-x:scroll;">
                   Add Admin   @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -108,74 +119,74 @@
             @endphp
         </div>
         @endif
-                  <form  action="{{route('detail.createAdmin')}}" method="POST"  enctype="multipart/form-data" name="addAdminAdmin" id="addAdminAdmin">
+                  <form action="{{route('detail.createAdmin')}}" method="POST"  enctype="multipart/form-data" name="addAdminAdmin" id="addAdminAdmin">
                   @csrf
-                    <table>
+                    <table class="table">
                   <thead>
 
                     <tr>
                       <th>First Name</th>
-                    <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','id'=>'firstName'))}} </td>
+                    <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}} </td>
                     </tr>
                     <tr>
                       <th>Last name</th>
-                    <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name','id'=>'lastName'))}} </td></tr>
+                    <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name','class'=>'form-control','id'=>'lastName'))}} </td></tr>
                     <tr>
                       <th>Email</th>
-                    <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id','id'=>'email'))}} </td></tr>
+                    <td>{{Form::text('email',NULL,array('placeholder'=>'Enter Email Id','class'=>'form-control','id'=>'email'))}} </td></tr>
                     <tr>
                       <th>Phone</th>
-                    <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','id'=>'phone'))}} </td></tr>
+                    <td>{{Form::text('phone',NULL,array('placeholder'=>'Enter Phone Number','class'=>'form-control','id'=>'phone'))}} </td></tr>
                       <tr>
                       <th>Age</th>{{Form::hidden('password',(\App\Models\ConstantController::where('constantName','defaultPassword')->select('constantValue')->first()))}}
-                    <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','id'=>'age'))}}</td></tr>
+                    <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control','id'=>'age'))}}</td></tr>
                       <tr>
                       <th>Date of birth</th>
-                    <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth','id'=>'dob'))}}</td></tr>
+                    <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth','class'=>'form-control','id'=>'dob'))}}</td></tr>
                       <tr>
                         <th>Contact Number</th>
-                        <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number','id'=>'contactNumber'))}}</td></tr>
+                        <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number','class'=>'form-control','id'=>'contactNumber'))}}</td></tr>
                         <tr>
                           <th>Alternate Contact Number</th>
-                          <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number','id'=>'alternateContactNumber'))}}</td></tr>
+                          <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control','id'=>'alternateContactNumber'))}}</td></tr>
                     <tr>
                         <th>Address</th>
-                        <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address','id'=>'address'))}}</td>
+                        <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address','class'=>'form-control','id'=>'address'))}}</td>
                       </tr>
 
         <tr>
             <th>Blood Group</th>
-            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group','id'=>'bloodGroup'))}}</td>
+            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group','class'=>'form-control','id'=>'bloodGroup'))}}</td>
           </tr>
 
 
     <tr>
         <th>Identification Mark</th>
-        <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter Identification Mark','id'=>'identificationMark'))}}</td>
+        <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter Identification Mark','class'=>'form-control','id'=>'identificationMark'))}}</td>
       </tr>
 <tr>
     <th>Parent's Number</th>
-    <td>{{Form::text('parentNumber',NULL,array('placeholder'=>'Enter Parent\'s Number','id'=>'parentNumber'))}}</td>
+    <td>{{Form::text('parentNumber',NULL,array('placeholder'=>'Enter Parent\'s Number','class'=>'form-control','id'=>'parentNumber'))}}</td>
   </tr>
 <tr>
 <th>Home Phone Number</th>
-<td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Home Phone Number','id'=>'homePhoneNumber'))}}</td>
+<td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Home Phone Number','class'=>'form-control','id'=>'homePhoneNumber'))}}</td>
 </tr>
 <tr>
 <th>Father's / Spouse's Name</th>
-<td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>'Father\'s/Spouse\'s Name','id'=>'fatherSpouseName'))}}</td>
+<td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>'Father\'s/Spouse\'s Name','class'=>'form-control','id'=>'fatherSpouseName'))}}</td>
 </tr>
 <tr>
 <th>Mother's Name</th>
-<td>{{Form::text('motherName',NULL,array('placeholder'=>'Mother\'s Name','id'=>'motherName'))}}</td>
+<td>{{Form::text('motherName',NULL,array('placeholder'=>'Mother\'s Name','class'=>'form-control','id'=>'motherName'))}}</td>
 </tr>
 <tr>
 <th>Guardian Name</th>
-<td>{{Form::text('guardianName',NULL,array('placeholder'=>'Guardian Name','id'=>'guardianName'))}}</td>
+<td>{{Form::text('guardianName',NULL,array('placeholder'=>'Guardian Name','class'=>'form-control','id'=>'guardianName'))}}</td>
 </tr>
                     </thead>
                   </table>
-                      <button type="submit" class="btn btn-primary">Save</button>
+                      <button type="submit" class="btn btn-primary form-control form-control">Save</button>
 
                                         {{Form::close()}}
                 </div>
@@ -189,7 +200,7 @@
              <div class="p-6 text-gray-900">
               @if(count($batches = \App\Models\batch::all())>0)
                Update Batch Details / Delete Batch
-               <table>
+               <table class="table">
                <thead>
                <th>Batch Name</th>
                <th>View</th>
@@ -199,12 +210,12 @@
                   @if($batch->status!=1)
                      <tr>{{Form::hidden('currentBatchId',$batch->batchId,array('id'=>'batchId'))}}
                        <td>{{$batch->batchName}}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
+                   <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
                    </tr>
                 @else
                  <tr style="background:green;color:white;">
                    <td>{{$batch->batchName}}</td>
-                   <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
+                   <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateBatches{{$batch->batchId}}">View</button></td>
                   </tr>
                 @endif
                  <div class="modal fade" id="myModalUpdateBatches{{$batch->batchId}}">
@@ -221,14 +232,14 @@
                         <div class="modal-body">
                           <form action="{{route('batch.updatebatch',['batch'=>$batch->batchId])}}" method="POST"  enctype="multipart/form-data"  name="updateBatches" id="updateBatches">
                           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId,array('id'=>'batchId'))}}
-                          {{Form::label('batchName','Batch Name : ')}}{{Form::text('batchName',$batch->batchName,array('id'=>'batchName'))}}
-                          {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchStartingYear',$batch->batchStartingYear,array('id'=>'batchStartingYear'))}}
+                          {{Form::label('batchName','Batch Name : ')}}{{Form::text('batchName',$batch->batchName,array('class'=>'form-control','id'=>'batchName'))}}
+                          {{Form::label('startingYear','Starting Year : ')}}{{Form::text('batchStartingYear',$batch->batchStartingYear,array('class'=>'form-control','id'=>'batchStartingYear'))}}
                           {{Form::hidden('status',$batch->status,array('id'=>'status'))}}
-                          {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchEndingYear',$batch->batchEndingYear,array('id'=>'batchEndingYear'))}}
-                        <button type="submit" class="btn btn-primary">Update</button>{{Form::close()}}
+                          {{Form::label('endingYear','Ending Year : ')}}{{Form::text('batchEndingYear',$batch->batchEndingYear,array('class'=>'form-control','id'=>'batchEndingYear'))}}
+                        <button type="submit" class="btn btn-primary form-control">Update</button>{{Form::close()}}
                           <form action="{{route('batch.currentBatch',['batch'=>$batch->batchId])}}" method="POST"   enctype="multipart/form-data" name="currentBatch" id="currentBatch">
                             {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('batchId',$batch->batchId)}}
-                          <button type="submit" class="btn btn-primary">Assign</button>{{Form::close()}}
+                          <button type="submit" class="btn btn-primary form-control">Assign</button>{{Form::close()}}
 
                         </div>
 
@@ -267,12 +278,12 @@
 
                     <div>
                       <div>{{Form::label('Batch Name','Batch Name')}}</div>
-                    <div>{{Form::text('batchName',NULL,array('placeholder'=>'Enter Batch Name : ','id'=>'batchName'))}}</div><div style="padding:20px;"></div>
+                    <div>{{Form::text('batchName',NULL,array('placeholder'=>'Enter Batch Name : ','class'=>'form-control','id'=>'batchName'))}}</div><div style="padding:20px;"></div>
                     <div>{{Form::label('Batch StartingYear','Batch Starting Year')}}</div>
-                    <div>{{Form::text('batchStartingYear',NULL,array('placeholder'=>'Enter Starting Year','id'=>'batchStartingYear'))}}</div><div style="padding:20px;"></div>
+                    <div>{{Form::text('batchStartingYear',NULL,array('placeholder'=>'Enter Starting Year','class'=>'form-control','id'=>'batchStartingYear'))}}</div><div style="padding:20px;"></div>
                    <div> {{Form::label('Batch Ending Year','Batch Ending Year')}}</div>
-                    <div>{{Form::text('batchEndingYear',NULL,array('placeholder'=>'Enter Ending Year','id'=>'batchEndingYear'))}}</div><div style="padding:20px;"></div>
-                    <div><button type="submit" class="btn btn-primary">Create</button></div></div>
+                    <div>{{Form::text('batchEndingYear',NULL,array('placeholder'=>'Enter Ending Year','class'=>'form-control','id'=>'batchEndingYear'))}}</div><div style="padding:20px;"></div>
+                    <div><button type="submit" class="btn btn-primary form-control">Create</button></div></div>
                     {{Form::close()}}
           </div>
       </div>
@@ -294,7 +305,7 @@
                 <div class="p-6 text-gray-900">
                       Edit / Delete Departments
                   @if(count($departments = (\App\Models\Department::where('departments.batchId','=',(\App\Models\batch::where('status',1)->select('batchId')->first())->batchId)->get()))>0)
-                       <table>
+                       <table class="table">
                          <thead>
                            <tr>
                              <th>Department Name</th>
@@ -304,7 +315,7 @@
                          <tbody>
                         @foreach(($departments = (\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())) as $department)
                           <tr><td>{{$department->departmentName}}</td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalUpdateDepartment{{$department->departmentId}}">View</button></td>
+                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModalUpdateDepartment{{$department->departmentId}}">View</button></td>
                           </tr>
                           <div class="modal fade" id="myModalUpdateDepartment{{$department->departmentId}}">
                              <div class="modal-dialog modal-sm">
@@ -320,11 +331,11 @@
                                  <div class="modal-body">
                                    <form action="{{route('Department.editDepartment',['Department'=>$department->departmentId])}}" method="POST" enctype="multipart/form-data" name="updateDepartment" id="updateDepartment">
                                          {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                                         {{Form::label('departmentId','Department Name : ')}} {{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : '))}}
-                                         <button type="submit" class="btn btn-primary">Update</button>{{Form::close()}}
+                                         {{Form::label('departmentId','Department Name : ')}} {{Form::text('departmentName',$department->departmentName,array('placeholder'=>'Enter Department Name : ','class'=>'form-control'))}}
+                                         <button type="submit" class="btn btn-primary form-control">Update</button>{{Form::close()}}
                                          <form action="{{route('Department.destroyDepartment',['Department'=>$department->departmentId])}}" method="POST" name="deleteDepartment" id="deleteDepartment">
                                              {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('departmentId',$department->departmentId)}}
-                                             <button type="submit" class="btn btn-primary">Delete</button>{{Form::close()}}
+                                             <button type="submit" class="btn btn-primary form-control">Delete</button>{{Form::close()}}
 
                                  </div>
 
@@ -356,8 +367,8 @@
                       <form action="{{route('Department.storeDepartment')}}" method="POST" name="createDepartment" id="createDepartment">
                       {{ csrf_field() }}{{ method_field('POST') }}
                         {{Form::label('departmentName','Department Name : ')}}
-                              {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : '))}}<br><br><hr><br>
-                              <button type="submit" class="btn btn-primary">Create</button>
+                              {{Form::text('departmentName',NULL,array('placeholder'=>'Enter Department Name : ','class'=>'form-control'))}}<br><br><hr><br>
+                              <button type="submit" class="btn btn-primary form-control">Create</button>
                               {{Form::close()}}
                     </div>
                 </div>
@@ -376,7 +387,7 @@
                       Edit Semesters
 
                    @if(count(\App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-                    <table>
+                    <table class="table">
                       <thead>
                       <tr>
                         <th>Semester Name</th>
@@ -389,8 +400,8 @@
                             {{ csrf_field() }}{{ method_field('POST') }}
 
                             {{Form::hidden('semesterId',$semester->semesterId)}}
-                            <tr><td>{{Form::text('semesterName',$semester->semesterName,array('placeholder'=>'Enter Semester Name : '))}}</td>
-                              <td><button type="submit" class="btn btn-primary">Update</button></td></tr>
+                            <tr><td>{{Form::text('semesterName',$semester->semesterName,array('placeholder'=>'Enter Semester Name : ','class'=>'form-control'))}}</td>
+                              <td><button type="submit" class="btn btn-primary form-control">Update</button></td></tr>
                           {{Form::close()}}
                         @endforeach
                       </body>
@@ -414,8 +425,8 @@
                         <form action="{{route('semester.storesemester')}}" method="POST" name="createSemester" id="createSemester">
                         {{ csrf_field() }}{{ method_field('POST') }}
                               {{Form::label('semesterName','Semester Name : ')}}
-                              {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name'))}}<br><br><hr><br>
-                              <button type="submit" class="btn btn-primary">Create</button>
+                              {{Form::text('semesterName',NULL,array('placeholder'=>'Enter Semester Name','class'=>'form-control'))}}<br><br><hr><br>
+                              <button type="submit" class="btn btn-primary form-control">Create</button>
                               {{Form::close()}}
                     </div>
                 </div>
@@ -432,10 +443,9 @@ Day creation and updation
          <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
              <div class="p-6 text-gray-900">
                Edit Day Name
-               <table class="daysTable" id="daysTable">
+               <table class="daysTable table" id="daysTable">
                <thead>
                  <tr>
-                   <th>Day ID</th>
                    <th>Day Name </th>
                    <th>Update</th>
                  </tr>
@@ -445,9 +455,9 @@ Day creation and updation
                  <tr>
                  <form action="{{route('admin.updateDayName',['day'=>$day->dayId])}}" method="POST" name="updateDayDetails" id="updateDayDetails">
                    {{ csrf_field() }}{{ method_field('POST') }}
-                   <td>{{$day->dayId}}</td>{{Form::hidden('dayId',$day->dayId,array('id'=>'dayId'))}}
-                 <td>{{Form::text('dayName',$day->dayName,array('placeholder'=>'Enter Day Name','id'=>'dayName'))}} </td>
-                 <td><button type="submit" class="btn btn-primary">Update</button>
+                  {{Form::hidden('dayId',$day->dayId,array('id'=>'dayId'))}}
+                 <td>{{Form::text('dayName',$day->dayName,array('placeholder'=>'Enter Day Name','class'=>'form-control','id'=>'dayName'))}} </td>
+                 <td><button type="submit" class="btn btn-primary form-control">Update</button>
                    {{Form::close()}}</td>
                </tr>
            @endforeach
@@ -471,8 +481,8 @@ Day creation and updation
                  Add Day
                    <div>Day Name : <form action="{{route('admin.addDayName')}}" method="POST" name="createDay" id="createDay">
                      {{ csrf_field() }}{{ method_field('POST') }}
-                   {{Form::text('dayName',NULL,array('placeholder'=>'Enter day name'))}}<br><br><hr><br>
-                   <button type="submit" class="btn btn-primary">Submit</button>
+                   {{Form::text('dayName',NULL,array('placeholder'=>'Enter day name','class'=>'form-control'))}}<br><br><hr><br>
+                   <button type="submit" class="btn btn-primary form-control">Submit</button>
                      {{Form::close()}}
                    </div>
                </div>
@@ -495,7 +505,7 @@ Hour creation
              Edit Hour Name
 
           @if(count($hours=(\App\Models\hours::all()))>0)
-               <table>
+               <table class="table">
              <thead>
 
                <tr>
@@ -523,12 +533,12 @@ Hour creation
                           <form action="{{route('admin.updateHourName',['hour'=>$hour->hourId])}}" method="POST" name="updateHourDetails" id="updateHourDetails">
                           {{ csrf_field() }}{{ method_field('POST') }}
                           {{Form::label('hourName',"Hour Name")}}{{Form::hidden('hourId',$hour->hourId)}}
-                          {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name','id'=>'hourName'))}}
-                          {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime,array('id'=>'hourStartingTime'))}}
-                           <button type="submit" class="btn btn-primary">Save</button>{{Form::close()}}
+                          {{Form::text('hourName',$hour->hourName,array('placeholder'=>'Hour Name','class'=>'form-control','id'=>'hourName'))}}
+                          {{Form::label('startingTime','Starting Time')}}{{Form::time('hourStartingTime',$hour->hourStartingTime,array('class'=>'form-control','id'=>'hourStartingTime'))}}
+                           <button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}
                         <form action="{{route('admin.deleteHour',['hour'=>$hour->hourId])}}" method="POST" name="deleteHour" id="deleteHour">
                           {{ csrf_field() }}{{ method_field('POST') }}{{Form::hidden('hourId',$hour->hourId)}}
-                       <button type="submit" class="btn btn-primary">Delete</button>
+                       <button type="submit" class="btn btn-primary form-control">Delete</button>
                               {{Form::close()}}
 
                         </div>
@@ -565,9 +575,9 @@ Hour creation
              <div class="p-6 text-gray-900">
                Add Hour
                  <div><form action="{{route('admin.addHourName')}}" method="POST" name="createHour" id="createHour">
-                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('hourName',NULL,array('placeholder'=>'Enter first name'))}}<br><br>
-                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStartingTime',NULL)}}<br><br>
-                 <button type="submit" class="btn btn-primary">Add</button>{{Form::close()}}
+                   {{ csrf_field() }}{{ method_field('POST') }}{{Form::label('Hour Name : ','Hour Name : ')}} {{Form::text('hourName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control',))}}<br><br>
+                 {{Form::label('Pick Hour Starting Time : ','Pick Hour Starting Time : ')}}{{Form::time('hourStartingTime',NULL,array('class'=>'form-control'))}}<br><br>
+                 <button type="submit" class="btn btn-primary form-control">Add</button>{{Form::close()}}
                 </div>
              </div>
          </div>
@@ -583,8 +593,8 @@ Hour creation
                <form action="{{route('dailyTeacherAllocation.createDailyAttendanceForAllTeachers')}}" method="POST" name="createDailyAttendance" id="createDailyAttendance">
                {{ csrf_field() }}{{ method_field('POST') }}
                 {{Form::label('Select date to generate attendance : ') }}
-                {{Form::date('dateSelected') }}<br><br><hr><br>
-                <button type="submit" class="btn btn-primary">Generate</button>{{Form::close()}}
+                {{Form::date('dateSelected',NULL,array('class'=>'form-control')) }}<br><br><hr><br>
+                <button type="submit" class="btn btn-primary form-control">Generate</button>{{Form::close()}}
 
              </div>
          </div>
@@ -598,7 +608,7 @@ Hour creation
               <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                   <div class="p-6 text-gray-900">
                     View Status
-                    <table class="statusTable" id="statusTable">
+                    <table class="statusTable table" id="statusTable">
                       <thead><tr>
                         <th>Status Name</th>
                         <th>View </th>
@@ -624,17 +634,17 @@ Hour creation
                                  <form action="{{route('Status.updateStatus',['Status'=>$status->statusId])}}" method="POST" id="updateStatusDetails">
                                  @csrf
                               {{Form::hidden('statusId',$status->statusId,array('id'=>'statusId'))}}
-                                  {{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name','id'=>'statusName'))}}
-                                   <select name="roleForStatus" id="roleForStatus">
+                                  {{Form::text('statusName',$status->statusName,array('placeholder'=>'Enter Status Name','class'=>'form-control','id'=>'statusName'))}}
+                                   <select name="roleForStatus" id="roleForStatus" class="form-control">
                                    @foreach(($roles=\App\Models\role::all()) as $role)
                                     <option value="{{$role->roleId}}">{{$role->roleName}}</option>
                                      @endforeach
                                    </select>
-                                   <button type="submit" class="btn btn-primary">Update</button>
+                                   <button type="submit" class="btn btn-primary form-control">Update</button>
                                   {{Form::hidden('statusId',$status->statusId)}}
                                    {{Form::close()}}
                                    <form action="{{route('Status.destroyStatus',['Status'=>$status->statusId])}}" method="POST" id="deleteStatusDetails">
-                                   <button type="submit" class="btn btn-primary">Delete</button>
+                                   <button type="submit" class="btn btn-primary form-control">Delete</button>
                                      {{ csrf_field() }}{{ method_field('POST') }}
                                   {{Form::hidden('statusId',$status->statusId,array('id'=>'statusId'))}}
                                    {{Form::close()}}
@@ -667,16 +677,16 @@ Hour creation
                    Add Status
                    <form action="{{route('Status.createStatus')}}" method="POST" name="statusAddAdmin" id="statusAddAdmin">
                      {{ csrf_field() }}{{ method_field('POST') }}
-                     <table>
+                     <table class="table">
                    <thead>
                      <tr>
                        <th>Status Name</th>
-                     <td>{{Form::text('statusName',NULL,array('placeholder'=>'Enter Status Name','id'=>'statusName'))}} </td>
+                     <td>{{Form::text('statusName',NULL,array('placeholder'=>'Enter Status Name','class'=>'form-control','id'=>'statusName'))}} </td>
                      </tr>
                      <tr>
                        <th>Status for role </th>
                      <td>
-                       <select name="roleForStatus" id="roleForStatus">
+                       <select name="roleForStatus" id="roleForStatus" class="form-control">
                        @foreach(($roles=\App\Models\role::all()) as $role)
                         <option value="{{$role->roleId}}">{{$role->roleName}}</option>
                          @endforeach

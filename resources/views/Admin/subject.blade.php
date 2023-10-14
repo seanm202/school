@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -42,7 +47,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>     {{ __('Subjects') }}   @if(Session::has('success'))
+           {{ __('Subjects') }}
+           <br>
+           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>@if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -111,11 +118,11 @@
  <form action="{{route('subject.storeSubject')}}" method="POST"  enctype="multipart/form-data" name="createSubject" id="createSubject">
  @csrf
 
-   <table>
+   <table class="table">
  <thead>
 <tr>
 <th>Grade : </th>
-<td><select name="subjectGrade" id="subjectGrade">
+<td><select name="subjectGrade" id="subjectGrade" class="form-control">
     <option value="0" selected>Select Grade : </option>
 @if(count($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get())>0)
  @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)->get()) as  $grade)
@@ -125,7 +132,7 @@
 </select></td></tr>
    <tr>
 <th>Department : </th>
-<td><select name="departmentId" id="departmentId">
+<td><select name="departmentId" id="departmentId" class="form-control">
     <option value="0" selected>Select Department : </option>
 @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
  @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as  $department)
@@ -136,7 +143,7 @@
 
          <tr>
      <th>Semester : </th>
-   <td><select name="semesterId" id="semesterId">
+   <td><select name="semesterId" id="semesterId" class="form-control">
       <option value="0" selected>Select Semester : </option>
      @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
        @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
@@ -146,16 +153,16 @@
      </select></td></tr>
    <tr>
        <th>Subject Name : </th>
-       <td>{{Form::text('subjectName',NULL,array('placeholder'=>'Enter Subject Name ','id'=>'subjectName'))}}</td></tr>
+       <td>{{Form::text('subjectName',NULL,array('placeholder'=>'Enter Subject Name ','class'=>'form-control','id'=>'subjectName'))}}</td></tr>
        <tr>
          <th>Subject Maximum Marks : </th>
-         <td>{{Form::text('subjectMaxMarks',NULL,array('placeholder'=>'Subject Maximum Marks','id'=>'subjectMaxMarks'))}}</td></tr>
+         <td>{{Form::text('subjectMaxMarks',NULL,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control','id'=>'subjectMaxMarks'))}}</td></tr>
          <tr>
            <th>Subject Text Name : </th>
-           <td>{{Form::text('subjectTextName',NULL,array('placeholder'=>'Textbook Name','id'=>'subjectTextName'))}}</td></tr>
+           <td>{{Form::text('subjectTextName',NULL,array('placeholder'=>'Textbook Name','class'=>'form-control','id'=>'subjectTextName'))}}</td></tr>
            <tr>
              <th>Submit</th>
-             <td><button type="submit" class="btn btn-primary">Save</button>{{Form::close()}}</td></tr>
+             <td><button type="submit" class="btn btn-primary form-control">Save</button>{{Form::close()}}</td></tr>
 
 
 
@@ -186,7 +193,7 @@
 
                         Subjects<br>
               @if(count($subjects = \App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
-                <table>
+                <table class="table">
                   <thead>
                     <tr>
                       <th>Grade : </th>
@@ -240,7 +247,7 @@
                                                                 {{ csrf_field() }}{{ method_field('POST') }}
                                       {{Form::hidden('subjectId',$subject->subjectId)}}
                                          <h2>Subject Name : </h2>
-                                      {{Form::text('subjectName',$subject->subjectName,array('placeholder'=>'Enter Subject Name '))}}<h2>Subject Grade : </h2><select name="subjectGrade">
+                                      {{Form::text('subjectName',$subject->subjectName,array('placeholder'=>'Enter Subject Name '))}}<h2>Subject Grade : </h2><select name="subjectGrade" class="form-control">
                                         @foreach(($grades = \App\Models\grade::where('grades.batchId','=',$currentBatchId)) as  $grade)
                                          @if($grade->gradeId==$subject->gradeId)
                                           <option value="{{$grade->gradeId}}" selected>{{$grade->grade}}</option>
@@ -251,7 +258,7 @@
                                       </select>
                                       <h2>Department : </h2>
                                       <select name="departmentId">
-                                          <option value="0">Select Department : </option>
+                                          <option value="0">Select Department : </option class="form-control">
                                       @if(count($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
                                        @foreach(($departments = \App\Models\Department::where('departments.batchId','=',$currentBatchId)->get()) as  $department)
                                         @if($department->departmentId==$subject->departmentId)
@@ -262,7 +269,7 @@
                                        @endforeach
                                       @endif
                                       </select>
-                                      <h2>Semester : </h2><select name="semesterId">
+                                      <h2>Semester : </h2><select name="semesterId" class="form-control">
                                          <option value="0">Select Semester : </option>
                                         @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
                                           @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
@@ -275,15 +282,15 @@
                                         @endif
                                         </select><br>
                                      <h2>Subject Maximum Marks : </h2>
-                                      {{Form::number('subjectMaxMarks',$subject->subjectMaxMarks,array('placeholder'=>'Subject Maximum Marks'))}}<br>
+                                      {{Form::number('subjectMaxMarks',$subject->subjectMaxMarks,array('placeholder'=>'Subject Maximum Marks','class'=>'form-control'))}}<br>
                                      <h2>Subject Textbook Name : </h2>
-                                     {{Form::text('subjectTextName',$subject->subjectTextName,array('placeholder'=>'Textbook Name'))}}<br>
-                                    <h2>Update Subject : </h2>{<button type="submit" class="btn btn-primary">Save</button><br>
+                                     {{Form::text('subjectTextName',$subject->subjectTextName,array('placeholder'=>'Textbook Name','class'=>'form-control'))}}<br>
+                                    <h2>Update Subject : </h2>{<button type="submit" class="btn btn-primary form-control">Save</button><br>
                                         {{Form::close()}}<br>
                                      <h2>Delete</h2>
                                       <form action="{{route('subject.destroysubject',['subject'=>$subject->subjectId])}}" method="POST" name="deleteSubject" id="deleteSubject">
                                       {{ csrf_field() }}{{ method_field('POST') }}
-           {{Form::hidden('subjectId',$subject->subjectId)}}  <button type="submit" class="btn btn-primary">Delete</button>
+           {{Form::hidden('subjectId',$subject->subjectId)}}  <button type="submit" class="btn btn-primary form-control">Delete</button>
                {{Form::close()}}<br>
             <hr><hr>
                                      <div class="modal-footer">

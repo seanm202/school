@@ -420,7 +420,7 @@ $userId=$request->userId;
     'guardianName.required'=> 'Your Guardian\'s name is Required',
    ]
     ]);
-        $detail = detail::where('detailId', $request->detailId)->first();
+        $detail = detail::where('detailId',$request->detailId)->first();
         $detail->firstname = $request->firstName;
         $detail->lastname = $request->lastName;
         $detail->age = $request->age;

@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -70,33 +75,33 @@
                           {{Form::hidden('userId',$teacherDetail->userId)}}
                            {{Form::hidden('roleId',2)}}
                             {{Form::hidden('detailId',$teacherDetail->detailId)}}
-                         {{Form::text('firstname',$teacherDetail->firstName,array('placeholder'=>'Enter first Name'))}}<br><br><hr><br>
+                         {{Form::text('firstname',$teacherDetail->firstName,array('placeholder'=>'Enter first Name','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('lastname','Last Name')}}
-                         {{Form::text('lastname',$teacherDetail->lastName,array('placeholder'=>'Enter Last Name'))}}<br><br><hr><br>
+                         {{Form::text('lastname',$teacherDetail->lastName,array('placeholder'=>'Enter Last Name','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('age','Age')}}
-                         {{Form::text('age',$teacherDetail->age,array('placeholder'=>'Enter Age'))}}<br><br><hr><br>
+                         {{Form::text('age',$teacherDetail->age,array('placeholder'=>'Enter Age','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('dob','Date of Birth')}} : {{$teacherDetail->dob}}
-                         {{Form::date('dob',$teacherDetail->dob,array('placeholder'=>'Enter Date of Birth'))}}<br><br><hr><br>
+                         {{Form::date('dob',$teacherDetail->dob,array('placeholder'=>'Enter Date of Birth','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('contactNumber','Contact Number')}}
-                         {{Form::text('contactNumber',$teacherDetail->contactNumber,array('placeholder'=>'Enter Contact Number'))}}<br><br><hr><br>
+                         {{Form::text('contactNumber',$teacherDetail->contactNumber,array('placeholder'=>'Enter Contact Number','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('alternateContactNumber','Alternate Contact Number')}}
-                         {{Form::text('alternateContactNumber',$teacherDetail->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}<br><br><hr><br>
+                         {{Form::text('alternateContactNumber',$teacherDetail->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('address','Address')}}
-                         {{Form::text('address',$teacherDetail->address,array('placeholder'=>'Enter Address'))}}<br><br><hr><br>
+                         {{Form::text('address',$teacherDetail->address,array('placeholder'=>'Enter Address','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('bloodGroup','Blood Group')}}
-                         {{Form::text('bloodGroup',$teacherDetail->bloodGroup,array('placeholder'=>'Enter Blood Group'))}}<br><br><hr><br>
+                         {{Form::text('bloodGroup',$teacherDetail->bloodGroup,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('identificationMark','Identification Mark')}}
-                         {{Form::text('identificationMark',$teacherDetail->identificationMark,array('placeholder'=>'Enter Identification Mark'))}}<br><br><hr><br>
+                         {{Form::text('identificationMark',$teacherDetail->identificationMark,array('placeholder'=>'Enter Identification Mark','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('parentNumber','Parent\'s Contact Number')}}
-                         {{Form::text('parentNumber',$teacherDetail->parentNumber,array('placeholder'=>'Enter Parent\'s Contact Number'))}}<br><br><hr><br>
+                         {{Form::text('parentNumber',$teacherDetail->parentNumber,array('placeholder'=>'Enter Parent\'s Contact Number','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('homePhoneNumber','Home Phone Number')}}
-                         {{Form::text('homePhoneNumber',$teacherDetail->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number'))}}<br><br><hr><br>
+                         {{Form::text('homePhoneNumber',$teacherDetail->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('fatherSpouseName',"Father\'sSpouse\'s Name")}}
-                         {{Form::text('fatherSpouseName',$teacherDetail->fatherSpouseName,array('placeholder'=>"Enter Father\'s/Spouse\'s Name"))}}<br><br><hr><br>
+                         {{Form::text('fatherSpouseName',$teacherDetail->fatherSpouseName,array('placeholder'=>"Enter Father\'s/Spouse\'s Name",'class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('motherName','Enter Mothers\'s Name')}}
-                         {{Form::text('motherName',$teacherDetail->motherName,array('placeholder'=>"Enter Mother\'s Name"))}}<br><br><hr><br>
+                         {{Form::text('motherName',$teacherDetail->motherName,array('placeholder'=>"Enter Mother\'s Name",'class'=>'form-control'))}}<br><br><hr><br>
                          {{Form::label('guardianName',"Enter Guardian's Name")}}
-                         {{Form::text('guardianName',$teacherDetail->guardianName,array('placeholder'=>"Enter Guardian's Name"))}}<br><br><hr><br>
+                         {{Form::text('guardianName',$teacherDetail->guardianName,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}<br><br><hr><br>
 
                   @endforeach
 

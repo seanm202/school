@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2023 at 07:38 AM
+-- Generation Time: Oct 14, 2023 at 09:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -47,7 +47,10 @@ INSERT INTO `admins` (`adminId`, `userId`, `notifications_Posted`, `adminDetailI
 (2, 46, 0, 28, 0, 1, '2023-09-15 09:18:17', '2023-09-15 09:18:17'),
 (3, 58, 0, 35, 1, 1, '2023-09-17 21:37:28', '2023-09-17 21:37:28'),
 (13, 80, 0, 54, 1, 1, '2023-09-27 11:18:16', '2023-09-27 11:18:16'),
-(14, 58, 0, 34, 0, 1, '2023-09-28 00:18:27', '2023-09-28 00:18:27');
+(14, 58, 0, 34, 0, 1, '2023-09-28 00:18:27', '2023-09-28 00:18:27'),
+(15, 58, 0, 34, 0, 1, '2023-10-02 01:24:03', '2023-10-02 01:24:03'),
+(16, 123, 0, 35, 0, 1, '2023-10-02 23:54:23', '2023-10-02 23:54:23'),
+(17, 123, 0, 35, 0, 1, '2023-10-02 23:54:31', '2023-10-02 23:54:31');
 
 -- --------------------------------------------------------
 
@@ -127,8 +130,8 @@ CREATE TABLE `class_rooms` (
 --
 
 INSERT INTO `class_rooms` (`classroomDetailId`, `grade`, `roomNo`, `section`, `departmentId`, `semester`, `classTeacher`, `description`, `capacity`, `classTimeTableId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(17, '5', '1', '15', 6, 1, '2', '1', 1, 0, 0, 1, '2023-09-28 22:39:51', '2023-09-28 22:47:44'),
-(18, '7', '2', '15', 6, 2, '10', '2', 2, 0, 0, 1, '2023-09-28 22:40:11', '2023-09-28 22:47:39');
+(17, '5', '1', '15', 6, 1, '9', '1', 1, 0, 0, 1, '2023-09-28 22:39:51', '2023-10-02 23:53:31'),
+(19, '7', '09', '17', 6, 4, '1', 'd', 2, 0, 0, 1, '2023-10-03 00:01:19', '2023-10-03 00:01:19');
 
 -- --------------------------------------------------------
 
@@ -258,7 +261,7 @@ CREATE TABLE `days` (
 --
 
 INSERT INTO `days` (`dayId`, `dayName`, `status`, `created_at`, `updated_at`) VALUES
-(23, 'Mondayr', 1, NULL, '2023-09-22 00:27:10'),
+(23, 'Monday', 1, NULL, '2023-10-01 23:50:51'),
 (24, 'Fridaye', 1, '2023-09-08 05:42:20', '2023-09-27 23:23:30'),
 (26, 'd', 0, '2023-09-22 00:40:53', '2023-09-22 00:40:53'),
 (27, 'g', 0, '2023-09-22 03:32:34', '2023-09-22 03:32:34'),
@@ -326,18 +329,18 @@ CREATE TABLE `details` (
 --
 
 INSERT INTO `details` (`detailId`, `firstname`, `lastname`, `age`, `dob`, `contactNumber`, `alternateContactNumber`, `roleId`, `userId`, `address`, `bloodGroup`, `identificationMark`, `parentNumber`, `homePhoneNumber`, `fatherSpouseName`, `motherName`, `guardianName`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(2, 'Sean', 'M', 1, '2023-09-04', 1, 1, 4, 6, 'AB', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-28 00:28:21'),
-(4, 'q', 'q', 12, '2023-08-31', 1, 1, 2, 9, 'a', 'a', 'a', 1, 1, 'ar', 'at', 'ay', 1, 1, '2023-09-07 01:04:27', '2023-09-28 00:27:23'),
-(5, 'Sean', 'M', 1, '2023-09-21', 1, 1, 2, 5, 'A', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-07 22:00:55'),
+(2, 'Sean', 'M', 1, '2023-09-04', 1, 1, 4, 82, 'AB', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-28 00:28:21'),
+(4, 'q', 'q', 12, '2023-08-31', 1, 1, 2, 9, 'a', 'a', 'a', 12, 1, 'ar', 'at', 'ay', 1, 1, '2023-09-07 01:04:27', '2023-09-29 08:52:50'),
+(5, 'Sean', 'M', 1, '2023-09-21', 1, 1, 2, 81, 'A', 'A', 'A', 1, 1, 'A', 'A', 'A', 1, 1, NULL, '2023-09-07 22:00:55'),
 (30, 'g', 'n', 4, '2023-09-14', 8, 6, 4, 14, 'f', 'f', 'f', 0, 0, 'd', 'd', 'd', 1, 17, '2023-09-16 07:27:04', '2023-09-16 07:27:04'),
 (31, 'A', 'd', 4, '2023-09-28', 5, 5, 2, 4, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 17, '2023-09-17 20:58:27', '2023-09-17 20:58:27'),
 (32, 'A', 'd', 4, '2023-09-28', 5, 5, 2, 57, 'h', 'h', 'h', 8, 8, 'l', 'l', 'l', 1, 17, '2023-09-17 20:59:19', '2023-09-17 20:59:19'),
 (33, 'Sharma', 'S', 12, '2023-09-21', 12, 12, 4, 8, 'g', 'g', 'g', 12, 12, 'g', 'g', 'g', 0, 1, '2023-09-17 21:28:05', '2023-09-17 21:28:05'),
-(34, 'war', 'war', 1, '2023-09-21', 1, 1, 3, 58, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:09', '2023-09-28 00:18:27'),
-(35, 'w', 'w', 1, '2023-09-21', 1, 1, 3, 58, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:28', '2023-09-17 21:37:28'),
-(36, 'SSS', 'dd', 1, '2023-09-14', 5, 5, 4, 59, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
-(37, 'SSS', 'dd', 1, '2023-09-14', 5, 5, 4, 14, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:57:45', '2023-09-17 21:57:45'),
-(38, 'SSS', 'dd', 1, '2023-09-14', 5, 5, 4, 63, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
+(34, 'w', 'w', 1, '2023-09-21', 1, 1, 3, 58, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:09', '2023-10-02 01:24:03'),
+(35, 'w', 'w', 3, '2023-09-21', 1, 1, 3, 123, 'www', 'ww', 'ww', 11, 11, 'wwww', 'wwwwwww', 'wwwwwwwwww', 0, 1, '2023-09-17 21:37:28', '2023-10-02 23:54:31'),
+(36, 'SSS1', 'dd', 1, '2023-09-14', 5, 5, 4, 59, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
+(37, 'SSS2', 'dd', 1, '2023-09-14', 5, 5, 4, 12, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:57:45', '2023-09-17 21:57:45'),
+(38, 'SSS3', 'dd', 1, '2023-09-14', 5, 5, 4, 63, 'h', 'h', 'h', 4, 4, 'l', 'fged', 'e', 1, 1, '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
 (39, 'W', 'w', 1, '2023-09-29', 1, 1, 4, 64, 'd', 'e', 'e', 2, 2, 'e', 'r', 'e', 1, 1, '2023-09-21 22:25:36', '2023-09-21 22:25:36'),
 (40, 'www', 'wfrtujhjhg', 7, '2023-09-29', 7, 7, 4, 65, 'u', 'u', 'u', 7, 7, 'u', 'u', 'u', 1, 1, '2023-09-22 00:19:57', '2023-09-22 00:19:57'),
 (41, '2', '2', 2, '2023-09-21', 2, 2, 4, 66, 'h', 'h', 'h', 7, 7, 'k', 'k', 'k', 1, 1, '2023-09-22 03:30:24', '2023-09-22 03:30:24'),
@@ -659,12 +662,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`studentId`, `userId`, `studentDetailsId`, `studentClassroom`, `studentGrade`, `studentSection`, `studentSemester`, `studentDepartmentId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(1, 6, 5, 17, 1, 1, 1, 1, 2, 1, NULL, '2023-09-13 03:56:32'),
-(3, 8, 36, 18, 1, 1, 1, 3, 3, 1, NULL, '2023-09-27 02:27:54'),
+(3, 82, 2, 18, 1, 1, 1, 3, 3, 1, NULL, '2023-09-27 02:27:54'),
 (4, 14, 37, 17, 1, 1, 1, 1, 4, 1, NULL, '2023-09-13 03:56:36'),
-(6, 6, 38, 5, 0, 0, 0, 0, 0, 1, '2023-09-28 00:07:58', '2023-09-28 00:07:58'),
-(7, 6, 39, 6, 0, 0, 0, 0, 0, 1, '2023-09-28 00:28:11', '2023-09-28 00:28:11'),
-(8, 6, 40, 7, 0, 0, 0, 0, 0, 1, '2023-09-28 00:28:21', '2023-09-28 00:28:21'),
 (9, 6, 41, 8, 0, 0, 0, 0, 0, 1, '2023-09-28 00:28:21', '2023-09-28 00:28:21');
 
 -- --------------------------------------------------------
@@ -820,9 +819,9 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`teacherId`, `userId`, `teacherDetailId`, `status`, `batchId`, `created_at`, `updated_at`) VALUES
-(1, 5, 5, 1, 1, NULL, NULL),
+(1, 81, 5, 1, 1, NULL, NULL),
 (2, 4, 31, 1, 1, NULL, NULL),
-(9, 9, 4, 1, 1, '2023-09-26 21:38:45', '2023-09-28 00:24:15'),
+(9, 9, 4, 1, 1, '2023-09-26 21:38:45', '2023-09-29 08:52:50'),
 (10, 79, 53, 1, 1, '2023-09-27 09:22:15', '2023-09-27 09:22:15');
 
 -- --------------------------------------------------------
@@ -851,10 +850,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userId`, `name`, `email`, `email_verified_at`, `password`, `detailsId`, `phone`, `role`, `batchId`, `remember_token`, `created_at`, `updated_at`) VALUES
-(5, 'S', 'seansanthoshmanjaly@gmail.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 3, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
+(5, 'S', 'admin@admin.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 3, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
 (6, 'Sean', 'seanmanjaly@gmail.com', NULL, '$2y$10$B3zB6r7lGoIMaBVSiOSDG.LKIEi4Brjowz0ObwLD.mlzeuXc6hMIS', 3, 777, 0, 1, NULL, '2023-09-05 00:48:00', '2023-09-28 00:28:21'),
 (8, 'Sean', 'seanmanjalys@gmail.com', NULL, '$2y$10$B3zB6r7lGoIMaBVSiOSDG.LKIEi4Brjowz0ObwLD.mlzeuXc6hMIS', 33, 66, 4, 1, NULL, '2023-09-05 00:48:00', '2023-09-17 21:28:05'),
-(9, 'a a', 'a@a.com', '0000-00-00 00:00:00', '$2y$10$Q5FTjwyZ9.UkkHEZcfncIe5frwJp/N0BOdASPUo7tuE71Yb3LJ5yG', 4, 1, 2, 1, '', '2023-09-07 01:04:27', '2023-09-28 00:24:15'),
+(9, 'a a', 'a@a.com', '0000-00-00 00:00:00', '$2y$10$Q5FTjwyZ9.UkkHEZcfncIe5frwJp/N0BOdASPUo7tuE71Yb3LJ5yG', 4, 1, 0, 1, '', '2023-09-07 01:04:27', '2023-09-29 08:52:50'),
 (13, 'g g', 'g@g', '0000-00-00 00:00:00', '$2y$10$9p7vmFyQ42T6JbFo2egj4OoQEki.a5QPdHwjw2v8oMhWhjUx3toNS', 14, 7, 4, 1, '', '2023-09-07 05:08:44', '2023-09-07 05:08:44'),
 (14, 'd d', 'd@d', '0000-00-00 00:00:00', '$2y$10$NKetdoOeHSdJluwJmc5M1.osnyUcO6XcNgPl1ZDW/9AZJ576sh3Py', 37, 1, 4, 0, '', '2023-09-08 01:40:30', '2023-09-08 01:40:30'),
 (37, 'q q', 'q@a', '0000-00-00 00:00:00', '$2y$10$bMheQLoq.vwd2EUcWWQ25.TK4KwGl.YmXZACtk.PJxmrBowt.ZVGi', 23, 1, 4, 0, '', '2023-09-08 01:41:04', '2023-09-08 01:41:04'),
@@ -872,7 +871,7 @@ INSERT INTO `users` (`userId`, `name`, `email`, `email_verified_at`, `password`,
 (54, 'g n', 'g@ggfvbx', '0000-00-00 00:00:00', '$2y$10$1yD1aUvbDdJdGS/V7/AGb..7esWZOGeNPJ/XV5jzcBrcbhXUnNVFK', 30, 3, 4, 17, '', '2023-09-16 07:27:04', '2023-09-16 07:27:04'),
 (55, '', 'a@aui', NULL, '$2y$10$G.Wm2ux6trxXfwfbXdgsLunz1ziuV8jggafmrrjqTu0o9l2reQc7m', 0, 4, 2, 17, '', '2023-09-17 20:58:27', '2023-09-17 20:58:27'),
 (57, '', 'a@auikio', NULL, '$2y$10$8ORvKN/ir89pOyu/JfU6xuCjaZXVfJVVfJJDJF8smhLlCiAdM5pNO', 32, 4, 2, 17, '', '2023-09-17 20:59:19', '2023-09-17 20:59:19'),
-(58, 'Sharma', 'seans@gmail.com', NULL, '$2y$10$K5m03p8Y1kCsNal/v.1cZuN/A5dVZmYfHr6eNHbNabJX58vyIfAjq', 35, 0, 0, 0, '', '2023-09-17 21:26:08', '2023-09-28 00:18:27'),
+(58, 'Sharma', 'seans@gmail.com', NULL, '$2y$10$K5m03p8Y1kCsNal/v.1cZuN/A5dVZmYfHr6eNHbNabJX58vyIfAjq', 35, 0, 0, 0, '', '2023-09-17 21:26:08', '2023-10-02 01:24:03'),
 (59, '', 'd@ghgv', NULL, '$2y$10$qVGDuVaZGx5jWZr25jO80.6Iah7KWrLT3e/cI2DOuyvyiBIJ8bPre', 36, 2, 3, 1, '', '2023-09-17 21:56:56', '2023-09-17 21:56:56'),
 (61, '', 'dsx@rcghgv', NULL, '$2y$10$tzvTBtlmzIgGxNBGBtCEB.bzLM8QkEU3O5/QGhVrkGvdQczoTcqSa', 37, 2, 3, 1, '', '2023-09-17 21:57:45', '2023-09-17 21:57:45'),
 (63, '', 'dxxxsx@rcghgv', NULL, '$2y$10$wifAkY23tI/JTvM1U.HBneuI0WmRAqYgscseoWwWeekJUCcPxU0X6', 38, 2, 3, 1, '', '2023-09-17 21:59:57', '2023-09-17 21:59:57'),
@@ -891,7 +890,9 @@ INSERT INTO `users` (`userId`, `name`, `email`, `email_verified_at`, `password`,
 (77, '', 'w@wfd', NULL, '$2y$10$tBSoUC5UjeFFqmltxbb/P.iqF8NEoCq25UlqDnYGk1IP9hiSLdIiG', 51, 1, 2, 1, NULL, '2023-09-26 21:38:45', '2023-09-26 21:38:45'),
 (78, 's s', 's@1', '0000-00-00 00:00:00', '$2y$10$xTGRAZ5.hqqpr4cFblpT6e3kflL6Pby9APFPzicrVy/n1lOqswDkO', 52, 1, 4, 1, NULL, '2023-09-26 23:36:10', '2023-09-26 23:36:10'),
 (79, '', 's@s11', NULL, '$2y$10$G/PcKyYv3qgFq.ctwVu1muMNoZ6iokpnrKutSKlQ5FPxV/nhAuYyC', 53, 1, 2, 1, NULL, '2023-09-27 09:22:15', '2023-09-27 09:22:15'),
-(80, '', 'e@efv', NULL, '$2y$10$L6aJpX6VjkJ1UAOoM4hYzuwNycoN9nCfEZJf5tPB/hE0rK9tGtPVe', 54, 1, 3, 1, NULL, '2023-09-27 11:18:16', '2023-09-27 11:18:16');
+(80, '', 'e@efv', NULL, '$2y$10$L6aJpX6VjkJ1UAOoM4hYzuwNycoN9nCfEZJf5tPB/hE0rK9tGtPVe', 54, 1, 3, 1, NULL, '2023-09-27 11:18:16', '2023-09-27 11:18:16'),
+(81, 'Teacher', 'teacher@teacher.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 2, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27'),
+(82, 'Student', 'student@student.com', NULL, '$2y$10$OQ/VS7f5Tt6lhnR6uv.iM.0AjU07I1ESVsmCAf31.LFTx54Hk155a', 5, 999999999, 4, 1, NULL, '2023-09-04 10:41:09', '2023-09-07 22:05:27');
 
 --
 -- Indexes for dumped tables
@@ -1077,7 +1078,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `adminId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `adminId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `attendences`
@@ -1095,7 +1096,7 @@ ALTER TABLE `batches`
 -- AUTO_INCREMENT for table `class_rooms`
 --
 ALTER TABLE `class_rooms`
-  MODIFY `classroomDetailId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `classroomDetailId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `constant_controllers`
@@ -1233,7 +1234,7 @@ ALTER TABLE `teachers`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `userId` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

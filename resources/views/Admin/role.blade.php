@@ -1,3 +1,9 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
    <script src="https://malsup.github.io/jquery.form.js"></script>
    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -54,7 +60,10 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>   {{ __('Roles') }}    @if(Session::has('success'))
+            {{ __('Roles') }}
+            <br>
+            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+              @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -111,7 +120,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     Update roles
-                    <table>
+                    <table class="table">
                         <thead>
                           <tr>
                             <th>Role Name</th>
@@ -123,10 +132,10 @@
                         @foreach($roles=App\Models\role::all() as $role)
                             <tr><form action="{{route('role.updateRole',['role'=>$role->roleId])}}" method="POST" name="updateRoleBysAdmin" id="updateRoleByAdmin">
                            {{ csrf_field() }}{{ method_field('POST') }}
-                           <td>{{Form::text('roleName',$role->roleName,array('placeholder'=>'Enter Role Name : ','id'=>'roleName'))}}
+                           <td>{{Form::text('roleName',$role->roleName,array('placeholder'=>'Enter Role Name : ','class'=>'form-control','id'=>'roleName'))}}
                             {{Form::hidden('roleId',$role->roleId,array('id'=>'roleId'))}}
                           </td>
-                            <td><button type="submit" class="btn btn-primary">Update</button>{{ Form::close() }}</td>
+                            <td><button type="submit" class="btn btn-primary form-control">Update</button>{{ Form::close() }}</td>
                           </tr>
                         @endforeach
                         </tbody>

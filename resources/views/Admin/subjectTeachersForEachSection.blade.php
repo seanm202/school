@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -107,7 +112,9 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-  <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>   {{ __('Assign classes') }}   @if(Session::has('success'))
+   {{ __('Assign classes') }}
+  <br>
+  <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button> @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -179,7 +186,7 @@
                       'grades.grade AS grade',
                       'sections.sectionName AS sectionName')->get()
                       )>0)
-                    <table>
+                    <table class="table">
                         <thead>
                           <tr>
                             <th>Grade</th>
@@ -216,7 +223,7 @@
                                        {{Form::label('capacity','Capacity : ')}} {{$classRoom->Capacity}}<br>
                                        {{Form::label('department','Department : ')}}
                                    @if(count($departments=\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get())>0)
-                                        <select name="departmentId" id="departmentId">
+                                        <select name="departmentId" id="departmentId" class="form-control">
                                          <option value="0" selected>Select Department</option>
                                          @foreach($departments=\App\Models\Department::where('departments.batchId','=',$currentBatchId)->get() as $department)
                                            <option value="{{$department->departmentId}}">{{$department->departmentName}}</option>
@@ -227,7 +234,7 @@
                                    @endif<br>
                                        {{Form::label('semester','Semester : ')}}
                                       @if(count($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get())>0)
-                                          <select name="semesterId" id="semesterId">
+                                          <select name="semesterId" id="semesterId" class="form-control">
                                            <option value="0" selected>Select Semester</option>
                                            @foreach(($semesters = \App\Models\semester::where('semesters.batchId','=',$currentBatchId)->get()) as  $semester)
                                            <option value={{$semester->semesterId}}>{{$semester->semesterName}}</option>
@@ -239,7 +246,7 @@
                                        <br>
                                          {{Form::label('subject','Subject : ')}}
                                    @if(count($subjects=\App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get())>0)
-                                         <select name="subjectId" id="subjectId">
+                                         <select name="subjectId" id="subjectId" class="form-control">
                                          <option value="0" selected>Select Subject : </option>
                                          @foreach($subjects=\App\Models\subject::where('subjects.batchId','=',$currentBatchId)->get() as $subject)
                                            <option value="{{$subject->subjectId}}">{{$subject->subjectName}}</option>
@@ -251,7 +258,7 @@
                                    <br>
                                        {{Form::label('teacher','Teacher : ')}}
                                    @if(count($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->get())>0)
-                                        <select name="teacherId" id="teacherId">
+                                        <select name="teacherId" id="teacherId" class="form-control">
                                          <option value="0" selected>Select Teacher</option>
                                          @foreach($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->join('details','details.userId','=','teachers.userId')
                                            ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId')->get()
@@ -263,7 +270,7 @@
                                      <h3 style="color:red;">List is empty</h3>
                                    @endif
                                        <br>{{Form::hidden('classRoomId',$classRoom->classroomDetailId,array('id'=>'classRoomId'))}}
-                                       <br><button type="submit" class="btn btn-primary">Submit</button>
+                                       <br><button type="submit" class="btn btn-primary form-control">Submit</button>
                                          {{Form::close()}}<br>
 
 
@@ -303,7 +310,7 @@
 
                         Subjects<br>
                         @if(count(\App\Models\SubjectTeacherForEachSections::all())>0)
-                          <table>
+                          <table class="table">
                             <thead>
                               <tr>
                                 <th>Department</th>
@@ -391,7 +398,7 @@
                                                  <form action="{{route('SubjectTeacherForEachSections.updateTeacherForClassSubject')}}" enctype="multipart/form-data" method="POST" name="editTeacherForSubject" id="editTeacherForSubject">
                                                  {{ csrf_field() }}{{ method_field('POST') }}
                                                  {{Form::label('teacher','Teacher : ')}}
-                                                 <select name="teacherId" id="teacherId">
+                                                 <select name="teacherId" id="teacherId" class="form-control">
                                                    <option value="0" selected>Select Teacher</option>
                                                    @foreach(($teachers=\App\Models\teacher::where('teachers.batchId','=',$currentBatchId)->join('details','details.userId','=','teachers.userId')
                                                      ->select('details.lastname AS lastName','details.firstname AS firstName','teachers.teacherId AS teacherId','teachers.userId AS teacherUserId')->get())
@@ -401,7 +408,7 @@
                                                  </select><br>
                                                  {{Form::hidden('subjectId',$SubjectTeacherForEachSection->subjectId)}}
                                                  {{Form::hidden('classroomId',$SubjectTeacherForEachSection->classroomId)}}{{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
-                                                 <br><button type="submit" class="btn btn-primary">Update</button>
+                                                 <br><button type="submit" class="btn btn-primary form-control">Update</button>
                                                    {{Form::close()}}<br>
 
 
@@ -419,7 +426,7 @@
                                           @csrf
                                           {{Form::hidden('subjectForSectionId',$SubjectTeacherForEachSection->subjectForSectionId,array('id'=>'subjectForSectionId'))}}
 
-                                        <td><button type="submit" class="btn btn-primary">Delete</button></td>{{Form::close()}}
+                                        <td><button type="submit" class="btn btn-primary form-control">Delete</button></td>{{Form::close()}}
                                         </tr>
                               @endforeach
                             </thead>

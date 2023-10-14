@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -25,7 +30,10 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>  {{ __('Details') }}   @if(Session::has('success'))
+           {{ __('Details') }}
+           <br>
+           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+           @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -87,7 +95,7 @@
                     New Users<br>
                     @if(count($users=\App\Models\User::where('users.batchId','=',$currentBatchId)->where('role','=',1)->get())>0)
                       @foreach(($users=\App\Models\User::where('role','=',1)->get()) as $user)
-                          <table>
+                          <table class="table">
                             <thead>
                               <tr>
                                 <th>First name</th>
@@ -101,7 +109,7 @@
                           <td>{{$user->name}} </td>
                           <td>{{$user->age}} </td>
                           <td>{{$user->email}}</td>
-                          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLongNewUserUserId{{$user->userId}}">
+                          <td><button type="button" class="btn btn-primary form-control form-control" data-toggle="modal" data-target="#exampleModalLongNewUserUserId{{$user->userId}}">
                               Add Details
                             </button></td>
 
@@ -127,29 +135,29 @@
                                   <div class="modal-body">
                                     <form action="{{route('detail.store')}}" method="POST" name="addDetailsToNewUser" id="addDetailsToNewUser">
                                     {{ csrf_field() }}{{ method_field('POST') }}
-                                      <table><tr>
+                                      <table class="table"><tr>
                                         <th>First name</th>{{Form::hidden('userId',$user->userId)}}
-                                      <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name'))}} </td>
+                                      <td>{{Form::text('firstName',NULL,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                       </tr>
                                       <tr>
                                         <th>Last name</th>
-                                      <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name'))}} </td></tr>
+                                      <td>{{Form::text('lastName',NULL,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
                                         <tr>
                                         <th>Age</th>
-                                      <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age'))}}</td></tr>
+                                      <td>{{Form::text('age',NULL,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                         <th>Date of birth</th>
-                                      <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth'))}}</td></tr>
+                                      <td>{{Form::date('dob',NULL,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                           {{Form::hidden('userId',$user->userId)}}
                                           <th>Contact Number</th>
-                                          <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number'))}}</td></tr>
+                                          <td>{{Form::text('contactNumber',NULL,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                             <th>Alternate Contact Number</th>
-                                            <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
+                                            <td>{{Form::text('alternateContactNumber',NULL,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
                                             <tr>
                                         <th>Current Role</th>
-                                      <td><select name="roleId">
+                                      <td><select name="roleId" class="form-control">
                                         @if(count($roles = \App\Models\role::all())>0)
                                           @foreach(($roles = \App\Models\role::all()) as  $role)
                                             @if($role->roleId==1)
@@ -162,31 +170,31 @@
                                         </select></td></tr>
                                       <tr>
                                           <th>Address</th>
-                                          <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address'))}}</td></tr>
+                                          <td>{{Form::text('address',NULL,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                             <th>Blood group</th>
-                                            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group'))}}</td></tr>
+                                            <td>{{Form::text('bloodGroup',NULL,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
                                             <tr>
                                               <th>Identification Mark</th>
-                                              <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter identification mark'))}}</td></tr>
+                                              <td>{{Form::text('identificationMark',NULL,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
                                               <tr>
                                                 <th>Parent's Number</th>
-                                                  <td>{{Form::text('parentNumber',NULL,array('placeholder'=>"Enter parent's number"))}}</td></tr>
+                                                  <td>{{Form::text('parentNumber',NULL,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
                                                   <tr>
                                                     <th>Home Phone Number</th>
-                                                    <td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Enter Home Phone Number'))}}</td></tr>
+                                                    <td>{{Form::text('homePhoneNumber',NULL,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                       <th>Father's/Spouse's Name</th>
-                                                      <td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>"Enter Father's/Spouse's Name"))}}</td></tr>
+                                                      <td>{{Form::text('fatherSpouseName',NULL,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
                                                       <tr>
                                                         <th>Mother's Name</th>
-                                                        <td>{{Form::text('motherName',NULL,array('placeholder'=>"Enter mother's name"))}}</td></tr>
+                                                        <td>{{Form::text('motherName',NULL,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
                                                         <tr>
                                                           <th>Guardian's Name</th>
-                                                          <td>{{Form::text('guardianName',NULL,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
+                                                          <td>{{Form::text('guardianName',NULL,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
 
                                                         </table>
-                                                      </div>  <button type="submit" class="btn btn-primary">Save</button>
+                                                      </div>  <button type="submit" class="btn btn-primary form-control form-control">Save</button>
                                                         <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
@@ -232,7 +240,7 @@
                      </button>
                    </div>
                    <div class="modal-body">
-                                   <table>
+                                   <table class="table">
                                      <thead>
 
 
@@ -241,51 +249,51 @@
                                        {{Form::hidden('detailId',$admin->detailId)}}{{Form::hidden('userId',$admin->userId)}}
                                        <tr>
                                          <th>First name</th>
-                                       <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name'))}} </td>
+                                       <td>{{Form::text('firstName',$admin->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                               </tr>
                                               <tr>
                                          <th>Last name</th>
-                                                  <td>{{Form::text('lastName',$admin->lastname,array('placeholder'=>'Enter last name'))}} </td></tr>
+                                                  <td>{{Form::text('lastName',$admin->lastname,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
                                                   <tr>
                                          <th>Age</th>
-                                       <td>{{Form::text('age',$admin->age,array('placeholder'=>'Enter age'))}}</td></tr>
+                                       <td>{{Form::text('age',$admin->age,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
                                                 <tr>
                                          <th>Date of birth : {{$admin->dob}}</th>
-                                       <td>{{Form::date('dob',$admin->dob,array('placeholder'=>'Enter date of birth'))}}</td></tr>
+                                       <td>{{Form::date('dob',$admin->dob,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
                                                 <tr>
                                       {{Form::hidden('userId',$admin->userId)}}
                                          <th>Contact Number</th>
-                                       <td>{{Form::text('contactNumber',$admin->contactNumber,array('placeholder'=>'Enter contact Number'))}}</td></tr>
+                                       <td>{{Form::text('contactNumber',$admin->contactNumber,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
                                                 <tr>
                                          <th>Alternate Contact Number</th>
-                                       <td>{{Form::text('alternateContactNumber',$admin->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
+                                       <td>{{Form::text('alternateContactNumber',$admin->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
                                                 <tr>
                                          <th>Current Role</th>
                                        <td>Admin</td></tr>
                                         <tr>
                                          <th>Address</th>
-                                       <td>{{Form::text('address',$admin->address,array('placeholder'=>'Enter Address'))}}</td></tr>
+                                       <td>{{Form::text('address',$admin->address,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Blood group</th>
-                                       <td>{{Form::text('bloodGroup',$admin->bloodGroup,array('placeholder'=>'Enter Blood Group'))}}</td></tr>
+                                       <td>{{Form::text('bloodGroup',$admin->bloodGroup,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Identification Mark</th>
-                                       <td>{{Form::text('identificationMark',$admin->identificationMark,array('placeholder'=>'Enter identification mark'))}}</td></tr>
+                                       <td>{{Form::text('identificationMark',$admin->identificationMark,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Parent's Number</th>
-                                       <td>{{Form::text('parentNumber',$admin->parentNumber,array('placeholder'=>"Enter parent's number"))}}</td></tr>
+                                       <td>{{Form::text('parentNumber',$admin->parentNumber,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Home Phone Number</th>
-                                       <td>{{Form::text('homePhoneNumber',$admin->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number'))}}</td></tr>
+                                       <td>{{Form::text('homePhoneNumber',$admin->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Father's/Spouse's Name</th>
-                                       <td>{{Form::text('fatherSpouseName',$admin->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name"))}}</td></tr>
+                                       <td>{{Form::text('fatherSpouseName',$admin->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Mother's Name</th>
-                                       <td>{{Form::text('motherName',$admin->motherName,array('placeholder'=>"Enter mother's name"))}}</td></tr>
+                                       <td>{{Form::text('motherName',$admin->motherName,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
                                         <tr>
                                          <th>Guardian's Name</th>
-                                       <td>{{Form::text('guardianName',$admin->guardianName,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
+                                       <td>{{Form::text('guardianName',$admin->guardianName,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
                                         <tr>
                                           </tr>
                                         </thead>
@@ -293,12 +301,12 @@
                                         </table></div>
                                         <div class="modal-footer">
                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                           <button type="submit" class="btn btn-primary">Submit</button>{{Form::close()}}
+                                           <button type="submit" class="btn btn-primary form-control">Submit</button>{{Form::close()}}
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                       <table>
+                       <table class="table">
                          <thead>
                            <tr>
                              <th>First name</th>
@@ -312,7 +320,7 @@
                            <td>{{$admin->firstname}} </td>
                            <td>{{$admin->lastname}} </td>
                            <td>{{$admin->age}}</td>
-                           <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLongAdminAdminUserId{{$admin->userId}}">
+                           <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongAdminAdminUserId{{$admin->userId}}">
                                View/Edit Details
                              </button></td>
 
@@ -368,54 +376,54 @@
                                                   {{Form::hidden('userId',$teacher->userId,array('id'=>'userId'))}}
                                                   <tr>
                                                     <th>First name</th>
-                                                  <td>{{Form::text('firstName',$teacher->firstname,array('placeholder'=>'Enter first name'))}} </td>
+                                                  <td>{{Form::text('firstName',$teacher->firstname,array('placeholder'=>'Enter first name','class'=>'form-control'))}} </td>
                                                 </tr>
                                                 <tr>
                                                     <th>Last name</th>
-                                                  <td>{{Form::text('lastName',$teacher->lastname,array('placeholder'=>'Enter last name'))}} </td></tr>
+                                                  <td>{{Form::text('lastName',$teacher->lastname,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
                                                   <tr>
                                                     <th>Age</th>
-                                                  <td>{{Form::text('age',$teacher->age,array('placeholder'=>'Enter age'))}}</td></tr>
+                                                  <td>{{Form::text('age',$teacher->age,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
                                                   <tr>
                                                     <th>Date of birth : {{$teacher->dob}}</th>
-                                                  <td>{{Form::date('dob',$teacher->dob,array('placeholder'=>'Enter date of birth'))}}</td></tr>
+                                                  <td>{{Form::date('dob',$teacher->dob,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
                                                   <tr>
                                                       {{Form::hidden('userId',$teacher->userId)}}
                                                     <th>Contact Number</th>
-                                                  <td>{{Form::text('contactNumber',$teacher->contactNumber,array('placeholder'=>'Enter contact Number'))}}</td></tr>
+                                                  <td>{{Form::text('contactNumber',$teacher->contactNumber,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
                                                   <tr>
                                                     <th>Alternate Contact Number</th>
-                                                  <td>{{Form::text('alternateContactNumber',$teacher->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
+                                                  <td>{{Form::text('alternateContactNumber',$teacher->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
                                                   <tr>
                                                     <th>Current Role</th>
                                                   <td>Teacher</td></tr>
                                                     <tr>
                                                     <th>Address</th>
-                                                  <td>{{Form::text('address',$teacher->address,array('placeholder'=>'Enter Address'))}}</td></tr>
+                                                  <td>{{Form::text('address',$teacher->address,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                     <th>Blood group</th>
-                                                  <td>{{Form::text('bloodGroup',$teacher->bloodGroup,array('placeholder'=>'Enter Blood Group'))}}</td></tr>
+                                                  <td>{{Form::text('bloodGroup',$teacher->bloodGroup,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                     <th>Identification Mark</th>
-                                                  <td>{{Form::text('identificationMark',$teacher->identificationMark,array('placeholder'=>'Enter identification mark'))}}</td></tr>
+                                                  <td>{{Form::text('identificationMark',$teacher->identificationMark,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                     <th>Parent's Number</th>
-                                                  <td>{{Form::text('parentNumber',$teacher->parentNumber,array('placeholder'=>"Enter parent's number"))}}</td></tr>
+                                                  <td>{{Form::text('parentNumber',$teacher->parentNumber,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                     <th>Home Phone Number</th>
-                                                  <td>{{Form::text('homePhoneNumber',$teacher->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number'))}}</td></tr>
+                                                  <td>{{Form::text('homePhoneNumber',$teacher->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                     <th>Father's/Spouse's Name</th>
-                                                  <td>{{Form::text('fatherSpouseName',$teacher->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name"))}}</td></tr>
+                                                  <td>{{Form::text('fatherSpouseName',$teacher->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
                                                     <tr>
                                                         <th>Mother's Name</th>
-                                                        <td>{{Form::text('motherName',$teacher->motherName,array('placeholder'=>"Enter mother's name"))}}</td></tr>
+                                                        <td>{{Form::text('motherName',$teacher->motherName,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
                                                         <tr>
                                                           <th>Guardian's Name</th>
-                                                          <td>{{Form::text('guardianName',$teacher->guardianName,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
+                                                          <td>{{Form::text('guardianName',$teacher->guardianName,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
                                                           <tr>
                                                           </tr>
-                                                        </table>   <button type="submit" class="btn btn-primary">Submit</button>{{Form::close()}}</div>
+                                                        </table>   <button type="submit" class="btn btn-primary form-control">Submit</button>{{Form::close()}}</div>
                                                         <div class="modal-footer">
                                                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
@@ -423,7 +431,7 @@
                                                       </div>
                                                     </div>
                                                   </div>
-                       <table>
+                       <table class="table">
                          <thead>
                            <tr>
                              <th>First name</th>
@@ -437,7 +445,7 @@
                            <td>{{$teacher->firstname}} </td>
                            <td>{{$teacher->lastname}} </td>
                            <td>{{$teacher->age}}</td>
-                           <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLongTeacherTeacherUserId{{$teacher->userId}}">
+                           <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongTeacherTeacherUserId{{$teacher->userId}}">
                                View/Edit Details
                              </button></td>
 
@@ -478,7 +486,7 @@
                                    Department<br>
                                    <div style="display:flex;padding:30px;">
                                    @foreach($departments=\App\Models\department::all() as $department)
-                                    <button class="button-value" onclick="myDepartment({{$department->departmentId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #4CAF50;">{{$department->departmentName}}</button>
+                                    <button class="button-value form-control" onclick="myDepartment({{$department->departmentId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #4CAF50;">{{$department->departmentName}}</button>
                                    @endforeach
                                    </div>
                                    <hr>
@@ -486,7 +494,7 @@
                                    Semester<br>
                                      <div style="display:flex;padding:30px;">
                                      @foreach($semesters=\App\Models\semester::all() as $semester)
-                                      <button class="button-value" onclick="mySemester({{$semester->semesterId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #3A4BDC;">{{$semester->semesterName}}</button>
+                                      <button class="button-value form-control" onclick="mySemester({{$semester->semesterId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #3A4BDC;">{{$semester->semesterName}}</button>
                                      @endforeach
                                      </div>
                                      <hr>
@@ -494,7 +502,7 @@
                                      Grade<br>
                                        <div style="display:flex;padding:30px;">
                                        @foreach($grades=\App\Models\grade::all() as $grade)
-                                        <button class="button-value" onclick="myGrade({{$grade->gradeId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #EA3D1A;">{{$grade->grade}}</button>
+                                        <button class="button-value form-control" onclick="myGrade({{$grade->gradeId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #EA3D1A;">{{$grade->grade}}</button>
                                        @endforeach
                                        </div>
                                        <hr>
@@ -502,7 +510,7 @@
                                        Section<br>
                                          <div style="display:flex;padding:30px;">
                                          @foreach($sections=\App\Models\section::all() as $section)
-                                          <button class="button-value" onclick="mySection({{$section->sectionId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #130401;">{{$section->sectionName}}</button>
+                                          <button class="button-value form-control" onclick="mySection({{$section->sectionId}})" style="background-color: #1A1515;color:white;border-radius: 8px;border: 2px solid #130401;">{{$section->sectionName}}</button>
                                          @endforeach
                                          </div>
                                   </div>
@@ -520,7 +528,7 @@
                           <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900">
                       View/Edit details
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#showFilters">
+                      <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#showFilters">
                         Filter
                       </button>
 
@@ -602,57 +610,57 @@
                       <form action="{{route('detail.updateStudentDetails')}}" method="POST" name="createOrUpdateStudentDetails" id="createOrUpdateStudentDetails">
                       {{ csrf_field() }}{{ method_field('POST') }}
 
-                                    <table>
+                                    <table class="table">
                                       <thead>
 
                                         <tr>
                                           <th>First name</th>
-                                        <td>{{Form::text('firstName',$student->firstName,array('placeholder'=>'Enter first name','id'=>'firstName'))}}
+                                        <td>{{Form::text('firstName',$student->firstName,array('placeholder'=>'Enter first name','class'=>'form-control','id'=>'firstName'))}}
                                         {{Form::hidden('detailId',$student->detailId)}} </td>{{Form::hidden('userId',$student->userId,array('id'=>'userId'))}}
                                         </tr>
                                         <tr>
                                           <th>Last name</th>
-                                        <td>{{Form::text('lastName',$student->lastName,array('placeholder'=>'Enter last name'))}} </td></tr>
+                                        <td>{{Form::text('lastName',$student->lastName,array('placeholder'=>'Enter last name','class'=>'form-control'))}} </td></tr>
                                           <tr>
                                           <th>Age</th>
-                                        <td>{{Form::text('age',$student->age,array('placeholder'=>'Enter age'))}}</td></tr>
+                                        <td>{{Form::text('age',$student->age,array('placeholder'=>'Enter age','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Date of birth : {{$student->dob}}</th>
-                                        <td>{{Form::date('dob',$student->dob,array('placeholder'=>'Enter date of birth'))}}</td></tr>
+                                        <td>{{Form::date('dob',$student->dob,array('placeholder'=>'Enter date of birth','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                             {{Form::hidden('userId',$student->userId)}}
                                           <th>Contact Number</th>
-                                        <td>{{Form::text('contactNumber',$student->contactNumber,array('placeholder'=>'Enter contact Number'))}}</td></tr>
+                                        <td>{{Form::text('contactNumber',$student->contactNumber,array('placeholder'=>'Enter contact Number','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Alternate Contact Number</th>
-                                        <td>{{Form::text('alternateContactNumber',$student->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number'))}}</td></tr>
+                                        <td>{{Form::text('alternateContactNumber',$student->alternateContactNumber,array('placeholder'=>'Enter Alternate Contact Number','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Current Role</th>
                                         <td>Student</td></tr>
                                           <tr>
                                           <th>Address</th>
-                                        <td>{{Form::text('address',$student->address,array('placeholder'=>'Enter Address'))}}</td></tr>
+                                        <td>{{Form::text('address',$student->address,array('placeholder'=>'Enter Address','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Blood group</th>
-                                        <td>{{Form::text('bloodGroup',$student->bloodGroup,array('placeholder'=>'Enter Blood Group'))}}</td></tr>
+                                        <td>{{Form::text('bloodGroup',$student->bloodGroup,array('placeholder'=>'Enter Blood Group','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Identification Mark</th>
-                                        <td>{{Form::text('identificationMark',$student->identificationMark,array('placeholder'=>'Enter identification mark'))}}</td></tr>
+                                        <td>{{Form::text('identificationMark',$student->identificationMark,array('placeholder'=>'Enter identification mark','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Parent's Number</th>
-                                        <td>{{Form::text('parentNumber',$student->parentNumber,array('placeholder'=>"Enter parent's number"))}}</td></tr>
+                                        <td>{{Form::text('parentNumber',$student->parentNumber,array('placeholder'=>"Enter parent's number",'class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Home Phone Number</th>
-                                        <td>{{Form::text('homePhoneNumber',$student->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number'))}}</td></tr>
+                                        <td>{{Form::text('homePhoneNumber',$student->homePhoneNumber,array('placeholder'=>'Enter Home Phone Number','class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Father's/Spouse's Name</th>
-                                        <td>{{Form::text('fatherSpouseName',$student->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name"))}}</td></tr>
+                                        <td>{{Form::text('fatherSpouseName',$student->fatherSpouseName,array('placeholder'=>"Enter Father's/Spouse's Name",'class'=>'form-control'))}}</td></tr>
                                           <tr>
                                           <th>Mother's Name</th>
-                                            <td>{{Form::text('motherName',$student->motherName,array('placeholder'=>"Enter mother's name"))}}</td></tr>
+                                            <td>{{Form::text('motherName',$student->motherName,array('placeholder'=>"Enter mother's name",'class'=>'form-control'))}}</td></tr>
                                             <tr>
                                               <th>Guardian's Name</th>
-                                              <td>{{Form::text('guardianName',$student->guardianName,array('placeholder'=>"Enter Guardian's Name"))}}</td></tr>
+                                              <td>{{Form::text('guardianName',$student->guardianName,array('placeholder'=>"Enter Guardian's Name",'class'=>'form-control'))}}</td></tr>
                                               <tr>
                                               </tr>
                                             </table>
@@ -660,14 +668,14 @@
                                           </div>
                                             <div class="modal-footer">
                                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                               <button type="submit" class="btn btn-primary">Submit</button>
+                                               <button type="submit" class="btn btn-primary form-control">Submit</button>
                                  {{Form::close()}}
                                             </div>
                                           </div>
                                         </div>
                                       </div>
                           {{Form::hidden('detailId',$student->detailId)}}
-                        <table class="department{{$student->departmentId}}department semester{{$student->semesterId}}semester section{{$student->sectionId}}section grade{{$student->gradeId}}grade">
+                        <table class="table department{{$student->departmentId}}department semester{{$student->semesterId}}semester section{{$student->sectionId}}section grade{{$student->gradeId}}grade">
                           <thead>
                             <tr>
                               <th>First name</th>
@@ -681,7 +689,7 @@
                             <td>{{$student->firstName}} </td>
                             <td>{{$student->lastName}} </td>
                             <td>{{$student->age}}</td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLongStudentStudentUserId{{$student->userId}}">
+                            <td><button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#exampleModalLongStudentStudentUserId{{$student->userId}}">
                                 View/Edit Details
                                 </button></td>
 

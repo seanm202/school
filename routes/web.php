@@ -263,6 +263,7 @@ Route::any('/StudentMarks', function () {
 Route::any('/StudentDetails', function () {
     return view('/Student/details');
 })->middleware(['auth', 'verified'])->name('StudentDetails');
+
 ////////////Logout/////////////
 
 require __DIR__.'/auth.php';

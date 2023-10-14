@@ -135,7 +135,7 @@ class ClassRoomController extends Controller
     public function updateClassroomTeacher(Request $request)
     {
        //Update A Classroom
-        $classRoom= classRoom::where('classroomDetailId','=',$request->classroomId)->first();
+        $classRoom= classRoom::where('classroomDetailId',$request->classroomId)->first();
         $classRoom->classTeacher=$request->teacherId;
         $classRoom->save();
        //return redirect()->route('AdminStudent');

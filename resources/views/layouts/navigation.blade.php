@@ -1,3 +1,12 @@
+<style>
+
+@media only screen and (max-width: 600px) {
+  .topNavigation{
+  display:hide;
+  }
+}
+
+</style>
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,126 +37,126 @@
 
                 <!-- Navigation Links -->
                 @if ( Auth::user()->role == 3)
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('Admindashboard')" :active="request()->routeIs('Admindashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('Admin')" :active="request()->routeIs('Admin')">
                         {{ __('Admin') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminAttendance')" :active="request()->routeIs('AdminAttendance')">
                         {{ __('Attendance') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('getAdminClassRoomDetails')" :active="request()->routeIs('getAdminClassRoomDetails')">
                         {{ __('Classroom') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('getAdminAllDetails')" :active="request()->routeIs('getAdminAllDetails')">
                         {{ __('Details') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminGrade')" :active="request()->routeIs('AdminGrade')">
                         {{ __('Grade') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminRole')" :active="request()->routeIs('AdminRole')">
                         {{ __('User Roles') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminSection')" :active="request()->routeIs('AdminSection')">
                         {{ __('Section') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminStudent')" :active="request()->routeIs('AdminStudent')">
                         {{ __('Student') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminSubjectTeachersForEachSection')" :active="request()->routeIs('AdminSubjectTeachersForEachSection')">
                         {{ __('Subject Teachers') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminSubject')" :active="request()->routeIs('AdminSubject')">
                         {{ __('Subject') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('AdminTeacher')" :active="request()->routeIs('AdminTeacher')">
                         {{ __('Teacher') }}
                     </x-nav-link>
                 </div>
                 @endif
                 @if ( Auth::user()->role == 2)
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('Teacherdashboard')" :active="request()->routeIs('Teacherdashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherStudent')" :active="request()->routeIs('TeacherStudent')">
                         {{ __('Student') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherAttendance')" :active="request()->routeIs('TeacherAttendance')">
                         {{ __('Attendance') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('TeacherDetails')" :active="request()->routeIs('TeacherDetails')">
                         {{ __('Details') }}
                     </x-nav-link>
                 </div>
                 @endif
                 @if ( Auth::user()->role == 4)
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentDashboard')" :active="request()->routeIs('StudentDashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentTeachersDetails')" :active="request()->routeIs('StudentTeachersDetails')">
                         {{ __('Contact Us') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentAttendance')" :active="request()->routeIs('StudentAttendance')">
                         {{ __('Attendance') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentMarks')" :active="request()->routeIs('StudentMarks')">
                         {{ __('Marks') }}
                     </x-nav-link>
                 </div>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden topNavigation space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('StudentDetails')" :active="request()->routeIs('StudentDetails')">
                         {{ __('Details') }}
                     </x-nav-link>

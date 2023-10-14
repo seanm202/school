@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>MySchoolOnline</title>
 
         <!-- Fonts -->
         <link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -25,12 +25,11 @@
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
-                        <a href="{{ url('/dashboard') }}"  style="color:white;" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                        <a href="{{ url('/dashboard') }}"  style="color:black;" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a><br><hr>
                     @else
-                        <a href="{{ route('login') }}"  style="color:white;" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
+                        <a href="{{ route('login') }}"  style="color:black;" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a><br><hr>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" style="color:white;"  class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                            <a href="{{ route('register') }}" style="color:black;"  class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
                         @endif
                     @endauth
                 </div>

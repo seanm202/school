@@ -1,3 +1,8 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
   <script src="https://malsup.github.io/jquery.form.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -27,7 +32,10 @@
   <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>  {{ __('Dashboard') }}   @if(Session::has('success'))
+           {{ __('Dashboard') }}
+           <br>
+           <button class="btn btn-primary" id="menu-toggle" style="position:fixed;background-color: white;color:black;">Menu</button>
+           a @if(Session::has('success'))
         <div class="alert alert-success" style="position: fixed;">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             {{ Session::get('success') }}
@@ -100,13 +108,13 @@
                         ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                           <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                               {{ csrf_field() }}{{ method_field('POST') }}
-                              {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('id'=>'inOrOut'))}}
+                              {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
                               <br>
-                              {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('id'=>'inOrOut','checked'=>'checked'))}}
+                              {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('class'=>'form-control','id'=>'inOrOut','checked'=>'checked'))}}
                               {{Form::hidden('userRole',3)}}
                               {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
                               <br>
-                              <button type="submit" class="btn btn-primary">Submit</button>
+                              <button type="submit" class="btn btn-primary form-control">Submit</button>
                               {{ Form::close() }}
                       @endforeach
                 @elseif(($att = \App\Models\attendence::where('attendences.batchId','=',$currentBatchId)->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->first())->dailyReg==0)
@@ -114,18 +122,18 @@
                           ->where('userId','=',Auth()->user()->userId)->where('todaysDate','=',date('Y-m-d'))->get()) as $attendance)
                         <form action="{{route('attendence.markTodaysAttendance',['attendence'=>$attendance->attendanceDataId]) }}" method="POST" enctype="multipart/form-data" id="markAttendance">
                                 {{ csrf_field() }}{{ method_field('POST') }}
-                                {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('id'=>'inOrOut'))}}
+                                {{Form::label('inOrOut', 'Present')}}{{Form::radio('inOrOut', 1,array('class'=>'form-control','id'=>'inOrOut'))}}
                                 <br>
                                 {{Form::hidden('userRole',3)}}
                                 {{Form::hidden('attendanceDataId',$attendance->attendanceDataId)}}
-                                {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('id'=>'inOrOut','checked'=>'checked'))}}
+                                {{Form::label('inOrOut', 'Absent')}}{{Form::radio('inOrOut', 0,array('class'=>'form-control','id'=>'inOrOut','checked'=>'checked'))}}
                                 <br>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary form-control">Submit</button>
                                 {{ Form::close() }}
                       @endforeach
                   @else
                         {{ Form::open() }}
-                        {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" checked="checked;" disabled="false"/>
+                        {{ Form::label('attendance', 'Attendance Marked ? ');}}<input type="checkbox" name="loggedInOrOut" class="form-control" checked="checked;" disabled="false"/>
                         {{ Form::close() }}
                   @endif
                     </div>
